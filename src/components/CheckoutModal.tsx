@@ -276,6 +276,21 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
             {/* QRIS Card with Official Indonesian Banking Look */}
             <div className="bg-white rounded-3xl border-2 border-neutral-300 p-5 shadow-lg flex flex-col items-center text-center relative overflow-hidden">
+              {/* Alipay Top Banner */}
+              <div className="w-full bg-[#1677FF] text-white py-2 px-4 rounded-xl flex items-center justify-between shadow-xs mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#1677FF] font-black text-[11px]">
+                    支
+                  </div>
+                  <span className="text-sm font-black tracking-wider uppercase">
+                    Alipay
+                  </span>
+                </div>
+                <span className="text-[10px] font-bold bg-white/20 px-2 py-0.5 rounded-md">
+                  QRIS / E-Wallet
+                </span>
+              </div>
+
               <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-3">
                 <div className="flex items-center gap-2">
                   <div className="bg-red-600 text-white text-[11px] font-black px-2 py-0.5 rounded tracking-tighter">
@@ -291,6 +306,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
 
               <div className="mb-2">
+                <div className="text-xs font-black text-[#1677FF] uppercase tracking-wider mb-0.5">
+                  Alipay / QRIS Payment
+                </div>
                 <h4 className="text-sm font-black text-neutral-900 uppercase tracking-tight">
                   BUYBITS ID OFFICIAL
                 </h4>
@@ -307,7 +325,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   className="w-56 sm:w-64 h-auto mx-auto rounded-xl shadow-md border border-neutral-100 object-contain"
                 />
                 <div className="text-[10px] font-bold text-neutral-500 mt-2">
-                  Scan pakai BCA, GoPay, OVO, Dana, ShopeePay, Mandiri, BRI & semua Bank/E-Wallet
+                  Scan pakai Alipay, BCA, GoPay, OVO, Dana, ShopeePay, Mandiri, BRI & semua Bank/E-Wallet
                 </div>
               </div>
 
