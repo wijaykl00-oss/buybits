@@ -16,6 +16,8 @@ import {
 import { CartItem, Order, User } from '../types';
 import { convertUsdToIdr, formatIdr, formatUsd, USD_TO_IDR_RATE } from '../data/products';
 
+const qrisPng = '/foto/qris.png';
+
 interface CheckoutModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -34,9 +36,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [step, setStep] = useState<'form' | 'payment'>('form');
   const [customerName, setCustomerName] = useState(currentUser?.name || '');
   const [customerEmail, setCustomerEmail] = useState(currentUser?.email || '');
-  const [customerWhatsApp, setCustomerWhatsApp] = useState(currentUser?.phone || '');
-  const [paymentMethod, setPaymentMethod] = useState<'qris' | 'bca_va' | 'mandiri_va' | 'dana'>('qris');
-  
+
   // Unique verification code (3 digits)
   const [uniqueCode] = useState(() => Math.floor(100 + Math.random() * 899));
   const [copiedAmount, setCopiedAmount] = useState(false);
@@ -47,7 +47,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     if (currentUser) {
       if (!customerName) setCustomerName(currentUser.name);
       if (!customerEmail) setCustomerEmail(currentUser.email);
-      if (!customerWhatsApp && currentUser.phone) setCustomerWhatsApp(currentUser.phone);
     }
   }, [currentUser]);
 
@@ -75,7 +74,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
   const handleProceedToPayment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerEmail || !customerWhatsApp) return;
+    if (!customerEmail) return;
     setStep('payment');
   };
 
@@ -94,18 +93,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           hour: '2-digit',
           minute: '2-digit',
         }),
-        customerName: customerName.trim() || 'Pelanggan AI Store',
+        customerName: customerName.trim() || 'Pelanggan Buybits',
         customerEmail: customerEmail.trim(),
-        customerWhatsApp: customerWhatsApp.trim(),
         items: [...items],
         totalUsd,
         totalIdr: baseTotalIdr,
         exchangeRate: USD_TO_IDR_RATE,
         uniqueCode,
         finalTotalIdr,
-        paymentMethod: paymentMethod === 'qris' ? 'QRIS Otomatis' : 'Transfer Bank / E-Wallet',
+        paymentMethod: 'QRIS Otomatis',
         status: 'PAID',
-        credentials: items.map((item, index) => ({
+        credentials: items.map((item) => ({
           serviceName: item.product.name,
           accountEmail: `vip-${item.product.brand}-${Date.now().toString().slice(-4)}@aistore-premium.com`,
           accountPassword: `Pass#${Math.random().toString(36).slice(-8)}!`,
@@ -154,7 +152,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         </button>
 
         {step === 'form' ? (
-          /* STEP 1: Customer Details & Payment Method Selection */
+          /* STEP 1: Customer Details (Name & Email) & QRIS Payment Only */
           <div>
             <div className="mb-5">
               <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
@@ -164,7 +162,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 Data Pemesanan & Pengiriman
               </h3>
               <p className="text-xs text-neutral-500 mt-0.5">
-                Kredensial akun (Email & Password) akan otomatis dikirimkan ke Email & WhatsApp berikut.
+                Kredensial akun (Email & Password) akan otomatis dikirimkan ke Email berikut.
               </p>
             </div>
 
@@ -184,122 +182,43 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
-                      Alamat Email (Penerima Akun)
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="email@anda.com"
-                      value={customerEmail}
-                      onChange={(e) => setCustomerEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-hidden font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
-                      No. WhatsApp (Notifikasi Instan)
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="081234567890"
-                      value={customerWhatsApp}
-                      onChange={(e) => setCustomerWhatsApp(e.target.value)}
-                      className="w-full px-3.5 py-2.5 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-hidden font-medium"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
+                    Alamat Email (Penerima Akun)
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="email@anda.com"
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-hidden font-medium"
+                  />
                 </div>
               </div>
 
-              {/* Payment Method Selector */}
+              {/* Payment Method Selector (QRIS Only) */}
               <div>
-                <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-2">
-                  Pilih Metode Pembayaran
+                <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1.5">
+                  Metode Pembayaran
                 </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod('qris')}
-                    className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
-                      paymentMethod === 'qris'
-                        ? 'border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-500/20'
-                        : 'border-neutral-200 hover:bg-neutral-50'
-                    }`}
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-white border border-neutral-200 flex items-center justify-center mx-auto mb-1.5 shadow-2xs">
-                      <QrCode className="w-4 h-4 text-indigo-600" />
+                <div className="p-3.5 rounded-2xl border border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-500/20 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
+                      <QrCode className="w-5 h-5 text-indigo-600" />
                     </div>
-                    <span className="block text-xs font-black text-neutral-900">
-                      QRIS Realtime
-                    </span>
-                    <span className="text-[10px] text-emerald-600 font-bold">
-                      Otomatis
-                    </span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod('bca_va')}
-                    className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
-                      paymentMethod === 'bca_va'
-                        ? 'border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-500/20'
-                        : 'border-neutral-200 hover:bg-neutral-50'
-                    }`}
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center mx-auto mb-1.5 text-[10px] font-black">
-                      BCA
+                    <div>
+                      <span className="block text-xs font-black text-neutral-900 uppercase">
+                        QRIS Realtime Otomatis
+                      </span>
+                      <span className="text-[11px] text-neutral-500 font-medium">
+                        Mendukung semua Bank (BCA, Mandiri, BRI, BNI) & E-Wallet (GoPay, OVO, Dana, ShopeePay)
+                      </span>
                     </div>
-                    <span className="block text-xs font-black text-neutral-900">
-                      BCA VA
-                    </span>
-                    <span className="text-[10px] text-neutral-500 font-semibold">
-                      Transfer
-                    </span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod('mandiri_va')}
-                    className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
-                      paymentMethod === 'mandiri_va'
-                        ? 'border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-500/20'
-                        : 'border-neutral-200 hover:bg-neutral-50'
-                    }`}
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center mx-auto mb-1.5 text-[10px] font-black">
-                      MDR
-                    </div>
-                    <span className="block text-xs font-black text-neutral-900">
-                      Mandiri VA
-                    </span>
-                    <span className="text-[10px] text-neutral-500 font-semibold">
-                      Transfer
-                    </span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod('dana')}
-                    className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
-                      paymentMethod === 'dana'
-                        ? 'border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-500/20'
-                        : 'border-neutral-200 hover:bg-neutral-50'
-                    }`}
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-sky-500 text-white flex items-center justify-center mx-auto mb-1.5 text-[10px] font-black">
-                      DANA
-                    </div>
-                    <span className="block text-xs font-black text-neutral-900">
-                      E-Wallet
-                    </span>
-                    <span className="text-[10px] text-neutral-500 font-semibold">
-                      Dana / OVO
-                    </span>
-                  </button>
+                  </div>
+                  <span className="text-[10px] bg-emerald-500 text-white font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                    Otomatis
+                  </span>
                 </div>
               </div>
 
@@ -339,7 +258,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             </form>
           </div>
         ) : (
-          /* STEP 2: Real-time Dynamic QRIS Payment Screen */
+          /* STEP 2: Real-time Dynamic QRIS Payment Screen with qris.png Image */
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <button
@@ -357,7 +276,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
             {/* QRIS Card with Official Indonesian Banking Look */}
             <div className="bg-white rounded-3xl border-2 border-neutral-300 p-5 shadow-lg flex flex-col items-center text-center relative overflow-hidden">
-              <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-4">
+              <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-3">
                 <div className="flex items-center gap-2">
                   <div className="bg-red-600 text-white text-[11px] font-black px-2 py-0.5 rounded tracking-tighter">
                     QRIS
@@ -373,101 +292,22 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
               <div className="mb-2">
                 <h4 className="text-sm font-black text-neutral-900 uppercase tracking-tight">
-                  AISTORE ID OFFICIAL
+                  BUYBITS ID OFFICIAL
                 </h4>
                 <p className="text-[11px] text-neutral-500">
                   NMID: ID1024889201992 • Instant Verification
                 </p>
               </div>
 
-              {/* QRIS Graphic */}
-              <div className="bg-white p-3 rounded-2xl border border-neutral-200 shadow-xs my-2 relative">
-                {/* SVG Simulated Dynamic QR Code */}
-                <svg
-                  viewBox="0 0 200 200"
-                  className="w-48 h-48 sm:w-56 sm:h-56 mx-auto"
-                >
-                  {/* Outer corner squares */}
-                  <rect x="10" y="10" width="50" height="50" fill="#1c1d22" rx="4" />
-                  <rect x="20" y="20" width="30" height="30" fill="white" rx="2" />
-                  <rect x="27" y="27" width="16" height="16" fill="#1c1d22" />
-
-                  <rect x="140" y="10" width="50" height="50" fill="#1c1d22" rx="4" />
-                  <rect x="150" y="20" width="30" height="30" fill="white" rx="2" />
-                  <rect x="157" y="27" width="16" height="16" fill="#1c1d22" />
-
-                  <rect x="10" y="140" width="50" height="50" fill="#1c1d22" rx="4" />
-                  <rect x="20" y="150" width="30" height="30" fill="white" rx="2" />
-                  <rect x="27" y="157" width="16" height="16" fill="#1c1d22" />
-
-                  {/* QR Pattern dots */}
-                  <g fill="#1c1d22">
-                    <rect x="70" y="15" width="8" height="8" />
-                    <rect x="85" y="15" width="8" height="8" />
-                    <rect x="100" y="15" width="8" height="8" />
-                    <rect x="115" y="15" width="8" height="8" />
-                    <rect x="70" y="30" width="8" height="8" />
-                    <rect x="92" y="30" width="8" height="8" />
-                    <rect x="115" y="30" width="8" height="8" />
-                    <rect x="78" y="45" width="8" height="8" />
-                    <rect x="105" y="45" width="8" height="8" />
-
-                    <rect x="15" y="70" width="8" height="8" />
-                    <rect x="30" y="70" width="8" height="8" />
-                    <rect x="45" y="70" width="8" height="8" />
-                    <rect x="60" y="70" width="8" height="8" />
-                    <rect x="75" y="70" width="8" height="8" />
-                    <rect x="90" y="70" width="8" height="8" />
-                    <rect x="105" y="70" width="8" height="8" />
-                    <rect x="120" y="70" width="8" height="8" />
-                    <rect x="135" y="70" width="8" height="8" />
-                    <rect x="150" y="70" width="8" height="8" />
-                    <rect x="165" y="70" width="8" height="8" />
-                    <rect x="180" y="70" width="8" height="8" />
-
-                    <rect x="25" y="90" width="8" height="8" />
-                    <rect x="45" y="90" width="8" height="8" />
-                    <rect x="65" y="90" width="8" height="8" />
-                    <rect x="135" y="90" width="8" height="8" />
-                    <rect x="155" y="90" width="8" height="8" />
-                    <rect x="175" y="90" width="8" height="8" />
-
-                    <rect x="15" y="110" width="8" height="8" />
-                    <rect x="35" y="110" width="8" height="8" />
-                    <rect x="75" y="110" width="8" height="8" />
-                    <rect x="115" y="110" width="8" height="8" />
-                    <rect x="145" y="110" width="8" height="8" />
-                    <rect x="165" y="110" width="8" height="8" />
-
-                    <rect x="70" y="145" width="8" height="8" />
-                    <rect x="90" y="145" width="8" height="8" />
-                    <rect x="110" y="145" width="8" height="8" />
-                    <rect x="130" y="145" width="8" height="8" />
-                    <rect x="150" y="145" width="8" height="8" />
-                    <rect x="170" y="145" width="8" height="8" />
-                    <rect x="80" y="165" width="8" height="8" />
-                    <rect x="100" y="165" width="8" height="8" />
-                    <rect x="140" y="165" width="8" height="8" />
-                    <rect x="160" y="165" width="8" height="8" />
-                    <rect x="180" y="165" width="8" height="8" />
-                  </g>
-
-                  {/* Center AI Store Logo Badge */}
-                  <circle cx="100" cy="100" r="18" fill="#4f46e5" />
-                  <text
-                    x="100"
-                    y="104"
-                    fill="white"
-                    fontSize="10"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    AI
-                  </text>
-                </svg>
-
-                <div className="text-[10px] font-bold text-neutral-500 mt-1">
-                  Scan pakai BCA, GoPay, OVO, Dana, ShopeePay, Mandiri, BRI
+              {/* Real QRIS Image from foto/qris.png */}
+              <div className="bg-white p-3 rounded-2xl border border-neutral-200 shadow-xs my-2 relative max-w-xs">
+                <img
+                  src={qrisPng}
+                  alt="QRIS Code Buybits"
+                  className="w-56 sm:w-64 h-auto mx-auto rounded-xl shadow-md border border-neutral-100 object-contain"
+                />
+                <div className="text-[10px] font-bold text-neutral-500 mt-2">
+                  Scan pakai BCA, GoPay, OVO, Dana, ShopeePay, Mandiri, BRI & semua Bank/E-Wallet
                 </div>
               </div>
 

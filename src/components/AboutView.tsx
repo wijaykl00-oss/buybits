@@ -44,7 +44,7 @@ export const AboutView: React.FC = () => {
           <span>Platform Penyedia Akun AI #1 di Indonesia</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-neutral-900 uppercase tracking-tight">
-          TENTANG AISTORE.ID
+          TENTANG BUYBITS.ID
         </h1>
         <p className="text-xs sm:text-sm text-neutral-600 max-w-2xl mx-auto leading-relaxed">
           Kami adalah penyedia layanan langganan akun kecerdasan buatan (Artificial Intelligence) terlengkap dan terpercaya dengan sistem otomatisasi pengiriman instan.

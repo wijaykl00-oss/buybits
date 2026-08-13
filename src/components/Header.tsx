@@ -64,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
               <div>
                 <span className="text-lg font-black tracking-tight text-neutral-900 flex items-center gap-1.5">
-                  AISTORE<span className="text-indigo-600">.ID</span>
+                  BUYBITS<span className="text-indigo-600">.ID</span>
                 </span>
                 <span className="text-[10px] block font-semibold text-neutral-500 tracking-wider uppercase">
                   Official AI Accounts
@@ -195,7 +195,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-800 text-xs font-bold transition-colors cursor-pointer"
               >
                 <UserIcon className="w-3.5 h-3.5 text-neutral-600" />
-                <span>Masuk / Ulasan</span>
+                <span>Masuk</span>
               </button>
             )}
 

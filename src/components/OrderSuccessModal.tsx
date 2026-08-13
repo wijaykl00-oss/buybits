@@ -188,7 +188,7 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 flex items-center gap-2.5 text-xs text-emerald-900 mb-4">
           <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
           <span>
-            Salinan kredensial juga telah otomatis dikirim ke WhatsApp <b>{order.customerWhatsApp}</b> dan Email <b>{order.customerEmail}</b>.
+            Salinan kredensial juga telah otomatis dikirim ke Email <b>{order.customerEmail}</b>.
           </span>
         </div>
 

@@ -60,7 +60,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
   const isLiveBatch = selectedBatchTab === cycleInfo.currentBatch;
 
   return (
-    <section id="flash-sale-section" className="py-8 sm:py-12 bg-[#faf9f5] border-y border-neutral-200">
+    <section id="flash-sale-section" className="py-8 sm:py-12 bg-[#222222] border-y border-neutral-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Flash Sale Banner Header */}
         <div className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl mb-8 relative overflow-hidden">

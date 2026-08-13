@@ -20,6 +20,7 @@ export type BrandType =
   | 'leonardo'
   | 'deepseek'
   | 'openai';
+  
 
 export type CategoryType =
   | 'ALL'
@@ -47,6 +48,9 @@ export interface Product {
   brand: BrandType;
   inFlashSaleBatch?: 1 | 2 | null;
   flashSaleStockPercent?: number;
+  flashSalePriceUsd?: number;
+  flashSaleAlmostGoneCount?: number;
+  flashSaleLeftCount?: number;
   features: string[];
   specs: { [key: string]: string };
   warrantyText: string;
@@ -76,7 +80,7 @@ export interface Order {
   createdAt: string;
   customerName: string;
   customerEmail: string;
-  customerWhatsApp: string;
+  customerWhatsApp?: string;
   items: CartItem[];
   totalUsd: number;
   totalIdr: number;

@@ -27,7 +27,7 @@ import { AuthModal } from './components/AuthModal';
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('aistore_products');
+    const saved = localStorage.getItem('aistore_products_v3');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -88,7 +88,7 @@ export default function App() {
 
   // Save products when reviews are added
   useEffect(() => {
-    localStorage.setItem('aistore_products', JSON.stringify(products));
+    localStorage.setItem('aistore_products_v3', JSON.stringify(products));
   }, [products]);
 
   // Periodically check 12h flash sale rotation
@@ -445,7 +445,7 @@ export default function App() {
                   <Sparkles className="w-4 h-4" />
                 </div>
                 <span className="text-lg font-black tracking-tight">
-                  AISTORE<span className="text-indigo-400">.ID</span>
+                  BUYBITS<span className="text-indigo-400">.ID</span>
                 </span>
               </div>
               <p className="text-xs text-neutral-400 leading-relaxed">
@@ -536,7 +536,7 @@ export default function App() {
           </div>
 
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3">
-            <p>© {new Date().getFullYear()} AISTORE.ID. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} BUYBITS.ID. All rights reserved.</p>
             <p>
               Kurs Referensi: $1 = Rp 16.250 • QRIS Standar Bank Indonesia
             </p>
