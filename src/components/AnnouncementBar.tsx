@@ -22,30 +22,6 @@ export const AnnouncementBar: React.FC = () => {
 
   return (
     <div className="w-full bg-[#1c1d22] text-white overflow-hidden border-b border-neutral-800">
-      {/* Dynamic Animated Ticker for Mobile & Desktop */}
-      <div className="py-2.5 bg-gradient-to-r from-neutral-900 via-indigo-950/80 to-neutral-900 border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-semibold text-indigo-300">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-white font-bold uppercase tracking-wider text-[11px]">
-              PEMBERITAHUAN RESMI
-            </span>
-          </div>
-
-          <div className="hidden md:flex items-center gap-6 text-[12px] font-medium text-neutral-300">
-            <span>✨ Flash Sale Diskon 80% Berotasi Otomatis Setiap 12 Jam</span>
-            <span className="text-neutral-600">•</span>
-            <span>⚡ Pembayaran QRIS Otomatis Terdeteksi Real-Time</span>
-            <span className="text-neutral-600">•</span>
-            <span>⭐ Ulasan 100% Terverifikasi Pembeli Indonesia</span>
-          </div>
-
-          <div className="text-[11px] font-bold text-amber-300 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
-            Server Status: ONLINE (100%)
-          </div>
-        </div>
-      </div>
-
       {/* Main Highlights Grid */}
       <div className="max-w-7xl mx-auto px-4 py-4 sm:py-5">
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">

@@ -77,10 +77,6 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
               <h2 className="text-2xl sm:text-4xl font-black tracking-tight uppercase leading-none">
                 MEGA FLASH SALE 80% OFF
               </h2>
-              <p className="text-sm text-rose-100 font-medium leading-relaxed">
-                26 produk pertama aktif selama 12 jam, kemudian 26 produk berikutnya berotasi otomatis. 
-                Semua akun 100% Private, Legal & Bergaransi Penuh.
-              </p>
             </div>
 
             {/* Countdown Box */}

@@ -2,7 +2,7 @@ import React from 'react';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Plus, Minus } from 'lucide-react';
 import { CartItem } from '../types';
 import { BrandLogo } from './BrandLogo';
-import { formatUsd, formatIdr, convertUsdToIdr } from '../data/products';
+import { formatUsd, formatIdr, formatUsdAsIdr, convertUsdToIdr } from '../data/products';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -87,7 +87,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               items.map((item) => {
                 const itemPrice =
                   currencyMode === 'IDR'
-                    ? formatIdr(convertUsdToIdr(item.finalPriceUsd))
+                    ? formatUsdAsIdr(item.finalPriceUsd)
                     : formatUsd(item.finalPriceUsd);
 
                 return (

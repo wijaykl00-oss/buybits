@@ -1893,20 +1893,25 @@ export const ALL_PRODUCTS: Product[] = [
 
 export const USD_TO_IDR_RATE = 16250;
 
-export function formatUsd(amount: number): string {
-  return `$${amount.toLocaleString('en-US', {
+export function convertUsdToIdr(amountUsd: number): number {
+  return Math.round(amountUsd * USD_TO_IDR_RATE);
+}
+
+export function formatUsd(amountUsd: number): string {
+  return `$${amountUsd.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
 }
 
-export function formatIdr(amountUsd: number): string {
-  const idr = Math.round(amountUsd * USD_TO_IDR_RATE);
-  return `Rp ${idr.toLocaleString('id-ID')}`;
+/** Format an IDR amount (already in Rupiah) as "Rp xxx.xxx" */
+export function formatIdr(amountIdr: number): string {
+  return `Rp ${Math.round(amountIdr).toLocaleString('id-ID')}`;
 }
 
-export function convertUsdToIdr(amountUsd: number): number {
-  return Math.round(amountUsd * USD_TO_IDR_RATE);
+/** Convert USD to IDR and format */
+export function formatUsdAsIdr(amountUsd: number): string {
+  return formatIdr(convertUsdToIdr(amountUsd));
 }
 
 export function getFlashSaleCycleInfo() {
