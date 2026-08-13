@@ -1,0 +1,1676 @@
+import { Product } from '../types';
+import { INDONESIAN_REVIEWS_POOL } from './reviews';
+
+export const ALL_PRODUCTS: Product[] = [
+  // 1
+  {
+    id: 'claude-pro-1-month',
+    name: 'CLAUDE PRO',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 MONTH',
+    description: 'The smartest AI assistant for research, coding, and writing.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 466,
+    priceUsd: 20.00,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 88,
+    features: [
+      'Claude 3.7 Sonnet & Opus full access',
+      '5x more usage limit than free tier',
+      'Extended context window (200k tokens)',
+      'Direct Artifacts & code execution',
+      'Priority access during peak traffic',
+      'Private account (Email & Password)'
+    ],
+    specs: {
+      'Model': 'Claude 3.7 Sonnet / Opus',
+      'Context Window': '200,000 tokens',
+      'Tipe Akun': 'Private 100% (No Sharing)',
+      'Durasi': '30 Hari Penuh',
+      'Garansi': '30 Hari Full Replace'
+    },
+    warrantyText: 'Garansi 30 Hari penuh replace baru jika terjadi kendala.',
+    deliveryTime: 'Instant 1-3 Menit otomatis ke Email/WA',
+    reviews: [INDONESIAN_REVIEWS_POOL[0], INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 2
+  {
+    id: 'claude-pro-1-year',
+    name: 'CLAUDE PRO',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 YEAR',
+    description: 'The smartest AI assistant for research, coding, and writing.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 272,
+    priceUsd: 204.00,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 74,
+    features: [
+      '12 Bulan Langganan Claude Pro Resmi',
+      'Hemat 15% dibanding bulanan',
+      'Akses Sonnet 3.7 & Claude Artifacts',
+      'Full Garansi 365 Hari Replace',
+      'Email pribadi atau dari kami'
+    ],
+    specs: {
+      'Model': 'Claude 3.7 Sonnet / 3.5 Opus',
+      'Durasi': '365 Hari (1 Tahun)',
+      'Akun': 'Private Personal Account',
+      'Garansi': '365 Hari Full Warranty'
+    },
+    warrantyText: 'Full Garansi 1 Tahun 365 Hari penggantian akun baru.',
+    deliveryTime: 'Instant 1-5 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[1], INDONESIAN_REVIEWS_POOL[3]]
+  },
+  // 3
+  {
+    id: 'claude-max-5x-1-month',
+    name: 'CLAUDE MAX 5X',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 MONTH',
+    description: '5x the capacity of Claude Pro for intensive users.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 281,
+    priceUsd: 100.00,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 91,
+    features: [
+      '500 pesan per 5 jam (5x lipat Pro standard)',
+      'Tanpa batas rate limit untuk power users',
+      'Claude 3.7 Sonnet Extended Thinking mode',
+      'Private account dedicated IP support'
+    ],
+    specs: {
+      'Kapasitas': '5x Limits Claude Pro',
+      'Model': 'Claude 3.7 Sonnet High-Tier',
+      'Durasi': '30 Hari',
+      'Garansi': '30 Hari Penuh'
+    },
+    warrantyText: 'Garansi 30 Hari penuh penggantian instan.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[2], INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 4
+  {
+    id: 'claude-max-5x-1-year',
+    name: 'CLAUDE MAX 5X',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 YEAR',
+    description: '5x the capacity of Claude Pro for intensive users.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 336,
+    priceUsd: 1080.00,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 65,
+    features: [
+      'Annual 5X Claude High Capacity Account',
+      'Cocok untuk Agensi, Developer & Peneliti',
+      'Dedicated Customer Support VIP 24/7'
+    ],
+    specs: {
+      'Durasi': '12 Bulan',
+      'Kapasitas': '5x Claude Pro',
+      'Garansi': '1 Tahun Full'
+    },
+    warrantyText: 'Garansi 1 Tahun penuh replace & VIP support.',
+    deliveryTime: 'Instant 1-5 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[3]]
+  },
+  // 5
+  {
+    id: 'claude-max-20x-1-month',
+    name: 'CLAUDE MAX 20X',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 MONTH',
+    description: 'Power-user class — 20x the capacity of Claude Pro.',
+    isPrivate: true,
+    rating: 5.0,
+    soldCount: 453,
+    priceUsd: 200.00,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 82,
+    features: [
+      '20x Unlimited Claude Usage Capacity',
+      'Enterprise speed server cluster',
+      'Mendukung coding script puluhan ribu baris',
+      'Akses fitur eksperimental Anthropic lebih awal'
+    ],
+    specs: {
+      'Kapasitas': '20x Pro tier',
+      'Durasi': '30 Hari',
+      'Akun': 'Enterprise Dedicated'
+    },
+    warrantyText: 'Garansi 30 Hari penuh.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[2], INDONESIAN_REVIEWS_POOL[4]]
+  },
+  // 6
+  {
+    id: 'claude-max-20x-1-year',
+    name: 'CLAUDE MAX 20X',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 YEAR',
+    description: 'Power-user class — 20x the capacity of Claude Pro.',
+    isPrivate: true,
+    rating: 5.0,
+    soldCount: 454,
+    priceUsd: 2160.00,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 78,
+    features: [
+      'Paket Tahunan Ultimate Claude 20X',
+      'Hemat jutaan rupiah untuk tim profesional',
+      'Garansi 365 Hari tanpa downtime'
+    ],
+    specs: {
+      'Durasi': '1 Tahun (365 Hari)',
+      'Tipe': '20X Tier Enterprise'
+    },
+    warrantyText: 'Garansi 365 Hari Penggantian Baru.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 7
+  {
+    id: 'google-ai-pro-12-month',
+    name: 'GOOGLE AI PRO',
+    category: 'AI ASSISTANT',
+    durationBadge: '12 MONTH',
+    description: 'Gemini 3 Pro with full Google ecosystem integration.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 255,
+    priceUsd: 216.00,
+    priceUnit: '/12 mo',
+    brand: 'google',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 86,
+    features: [
+      'Gemini 3 Pro Advanced with 2M token context',
+      'Google Workspace integration (Docs, Gmail, Sheets)',
+      '2TB Cloud Storage Google One included',
+      'Full 12 Bulan Garansi Resmi'
+    ],
+    specs: {
+      'Model': 'Gemini 3 Pro / Ultra',
+      'Storage': '2TB Google One',
+      'Durasi': '12 Bulan'
+    },
+    warrantyText: 'Garansi 12 Bulan penuh.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[1], INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 8
+  {
+    id: 'google-ai-pro-18-month',
+    name: 'GOOGLE AI PRO',
+    category: 'AI ASSISTANT',
+    durationBadge: '18 MONTH',
+    description: 'Gemini 3 Pro with full Google ecosystem integration.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 118,
+    priceUsd: 309.00,
+    priceUnit: '/12 mo',
+    brand: 'google',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 60,
+    features: [
+      '18 Bulan Aktif Gemini Pro AI',
+      'Ekosistem Google lengkap + Drive 2TB',
+      'Akses model audio, video, teks Gemini 3 Pro'
+    ],
+    specs: {
+      'Durasi': '18 Bulan',
+      'Garansi': '18 Bulan'
+    },
+    warrantyText: 'Garansi 18 Bulan.',
+    deliveryTime: 'Instant 1-5 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[7]]
+  },
+  // 9
+  {
+    id: 'google-ai-ultra-1-month',
+    name: 'GOOGLE AI ULTRA',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 MONTH',
+    description: 'Top Gemini limits + Veo, Deep Think, and agentic tools.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 258,
+    priceUsd: 100.00,
+    priceUnit: '/mo',
+    brand: 'google',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 94,
+    features: [
+      'Gemini Ultra Tier tertinggi',
+      'Veo 2 AI Video Generation 4K',
+      'Deep Think reasoning model',
+      'Agentic workflow execution'
+    ],
+    specs: {
+      'Model': 'Gemini 3 Ultra + Veo 2',
+      'Durasi': '30 Hari',
+      'Akun': 'Private Dedicated'
+    },
+    warrantyText: 'Garansi 30 Hari penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[4]]
+  },
+  // 10
+  {
+    id: 'google-ai-ultra-1-year',
+    name: 'GOOGLE AI ULTRA',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 YEAR',
+    description: 'Top Gemini limits + Veo, Deep Think, and agentic tools.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 409,
+    priceUsd: 1079.00,
+    priceUnit: '/mo',
+    brand: 'google',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 72,
+    features: [
+      'Paket 1 Tahun Google AI Ultra',
+      'Unlimited video generator Veo',
+      'Akses Deep Research & Google Ecosystem VIP'
+    ],
+    specs: {
+      'Durasi': '1 Tahun',
+      'Garansi': '1 Tahun Full'
+    },
+    warrantyText: 'Garansi 1 Tahun 365 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 11
+  {
+    id: 'chatgpt-plus-1-month',
+    name: 'CHATGPT PLUS',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 MONTH',
+    description: 'GPT-5.5 access with high limits, Sora, and Agent Mode.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 436,
+    priceUsd: 20.00,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 89,
+    features: [
+      'GPT-5.5 & GPT-4o high limit usage',
+      'Sora AI Video generator access',
+      'Advanced Voice Mode with realistic speech',
+      'DALL-E 3 & Custom GPTs store',
+      'Private account (Email & Password milik anda)'
+    ],
+    specs: {
+      'Model': 'GPT-5.5 / GPT-4o / o3',
+      'Voice': 'Advanced Voice Mode',
+      'Durasi': '30 Hari',
+      'Garansi': '30 Hari Penuh'
+    },
+    warrantyText: 'Garansi 30 Hari penuh ganti baru.',
+    deliveryTime: 'Instant 1-2 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[4], INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 12
+  {
+    id: 'chatgpt-plus-1-year',
+    name: 'CHATGPT PLUS',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 YEAR',
+    description: 'GPT-5.5 access with high limits, Sora, and Agent Mode.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 144,
+    priceUsd: 216.00,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 80,
+    features: [
+      '12 Bulan ChatGPT Plus Legal Resmi',
+      'Garansi 365 hari penuh tanpa banned',
+      'Dapat email original fresh'
+    ],
+    specs: {
+      'Durasi': '12 Bulan',
+      'Tipe': 'Personal Private'
+    },
+    warrantyText: 'Garansi 1 Tahun penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[2]]
+  },
+  // 13
+  {
+    id: 'chatgpt-pro-1-month',
+    name: 'CHATGPT PRO',
+    category: 'AI ASSISTANT',
+    durationBadge: '1 MONTH',
+    description: 'GPT-5.5 Pro for the most complex professional work.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 302,
+    priceUsd: 200.00,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 93,
+    features: [
+      'Unlimited o3-mini & GPT-5.5 High Reasoning',
+      'Dedicated compute infrastructure',
+      'Operator autonomous browser agent',
+      'Unlimited image & file processing'
+    ],
+    specs: {
+      'Model': 'o3-high / GPT-5.5 Pro',
+      'Durasi': '30 Hari',
+      'Compute': 'Pro Dedicated Server'
+    },
+    warrantyText: 'Garansi 30 Hari resmi.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[0], INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 14
+  {
+    id: 'kiro-ai-pro-1000',
+    name: 'KIRO AI',
+    category: 'DEVELOPER',
+    durationBadge: 'PRO — 1.000 CREDITS',
+    description: 'Spec-driven AI IDE powered by Opus 4.8 from AWS.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 480,
+    priceUsd: 20.00,
+    priceUnit: '/mo',
+    brand: 'kiro',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 96,
+    features: [
+      '1,000 High-Speed Opus 4.8 Credits',
+      'Automated spec generation & code tests',
+      'AWS cloud development container hook',
+      'Full codebase indexing & live debug'
+    ],
+    specs: {
+      'Credits': '1,000 Opus Credits',
+      'Engine': 'Opus 4.8 / Claude Engine',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari replace kredit.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[2]]
+  },
+  // 15
+  {
+    id: 'kiro-ai-pro-plus-2000',
+    name: 'KIRO AI',
+    category: 'DEVELOPER',
+    durationBadge: 'PRO+ — 2.000 CREDITS',
+    description: 'Spec-driven AI IDE powered by Opus 4.8 from AWS.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 430,
+    priceUsd: 40.00,
+    priceUnit: '/mo',
+    brand: 'kiro',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 85,
+    features: [
+      '2,000 High-Speed Opus 4.8 Credits',
+      'Multi-repo support & CI/CD agent',
+      'Fast terminal agent'
+    ],
+    specs: {
+      'Credits': '2,000 Credits',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 16
+  {
+    id: 'kiro-ai-power-10000',
+    name: 'KIRO AI',
+    category: 'DEVELOPER',
+    durationBadge: 'POWER — 10.000 CREDITS',
+    description: 'Spec-driven AI IDE powered by Opus 4.8 from AWS.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 243,
+    priceUsd: 200.00,
+    priceUnit: '/mo',
+    brand: 'kiro',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 70,
+    features: [
+      '10,000 Credits untuk software studio',
+      'Priority fast queue AWS cluster',
+      'Full architecture generation'
+    ],
+    specs: {
+      'Credits': '10,000 Credits',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[3]]
+  },
+  // 17
+  {
+    id: 'cursor-pro',
+    name: 'CURSOR',
+    category: 'DEVELOPER',
+    durationBadge: 'PRO',
+    description: 'The fastest AI code editor with smart Agent & tab completion.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 244,
+    priceUsd: 20.00,
+    priceUnit: '/mo',
+    brand: 'cursor',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 92,
+    features: [
+      '500 Fast Premium Claude 3.7 / GPT-4o requests/mo',
+      'Unlimited slow requests',
+      'Cursor Tab instant multi-line completion',
+      'Composer agent with full codebase edits',
+      'Private account (Bukan share)'
+    ],
+    specs: {
+      'Tipe': 'Cursor Pro Official',
+      'Fast Requests': '500 / month',
+      'Durasi': '30 Hari',
+      'Garansi': '30 Hari Replace'
+    },
+    warrantyText: 'Garansi 30 Hari penuh.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[2], INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 18
+  {
+    id: 'cursor-pro-plus',
+    name: 'CURSOR',
+    category: 'DEVELOPER',
+    durationBadge: 'PRO+',
+    description: 'The fastest AI code editor with smart Agent & tab completion.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 207,
+    priceUsd: 60.00,
+    priceUnit: '/mo',
+    brand: 'cursor',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 88,
+    features: [
+      '1,500 Fast Premium requests per month',
+      'Ultra low latency tab autocomplete',
+      'Multi-file refactoring agent'
+    ],
+    specs: {
+      'Fast Requests': '1,500 / mo',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 19
+  {
+    id: 'cursor-ultra',
+    name: 'CURSOR',
+    category: 'DEVELOPER',
+    durationBadge: 'ULTRA',
+    description: 'The fastest AI code editor with smart Agent & tab completion.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 425,
+    priceUsd: 200.00,
+    priceUnit: '/mo',
+    brand: 'cursor',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 77,
+    features: [
+      'Unlimited Fast Premium Requests',
+      'Priority compute server routing',
+      'Maximum context window support'
+    ],
+    specs: {
+      'Fast Requests': 'Unlimited',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-2 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[2], INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 20
+  {
+    id: 'qoder-pro',
+    name: 'QODER',
+    category: 'DEVELOPER',
+    durationBadge: 'PRO',
+    description: 'Agentic coding platform with Quest Mode & Repo Wiki.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 393,
+    priceUsd: 20.00,
+    priceUnit: '/mo',
+    brand: 'qoder',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 84,
+    features: [
+      'Qoder Quest Mode autonomy',
+      'Repo Wiki auto-generation',
+      'Full git integration & test runner'
+    ],
+    specs: {
+      'Tier': 'Qoder Pro',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[3]]
+  },
+  // 21
+  {
+    id: 'qoder-pro-plus',
+    name: 'QODER',
+    category: 'DEVELOPER',
+    durationBadge: 'PRO+',
+    description: 'Agentic coding platform with Quest Mode & Repo Wiki.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 428,
+    priceUsd: 60.00,
+    priceUnit: '/mo',
+    brand: 'qoder',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 79,
+    features: [
+      'Qoder Pro+ 3x Agent Concurrency',
+      'Large Enterprise Repositories index',
+      'Automated Bug hunting bot'
+    ],
+    specs: {
+      'Tier': 'Qoder Pro+',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[6]]
+  },
+  // 22
+  {
+    id: 'qoder-ultra',
+    name: 'QODER',
+    category: 'DEVELOPER',
+    durationBadge: 'ULTRA',
+    description: 'Agentic coding platform with Quest Mode & Repo Wiki.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 132,
+    priceUsd: 200.00,
+    priceUnit: '/mo',
+    brand: 'qoder',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 62,
+    features: [
+      'Unlimited Quest Mode execution',
+      'Private cloud sandbox runner',
+      'Priority agent execution'
+    ],
+    specs: {
+      'Tier': 'Qoder Ultra',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[7]]
+  },
+  // 23
+  {
+    id: 'api-key-openai-5000',
+    name: 'API KEY OPENAI',
+    category: 'API',
+    durationBadge: '5.000 REQUESTS',
+    description: 'Pay per request — save with cached input & OpenAI Batch API.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 130,
+    priceUsd: 12.00,
+    priceUnit: '/pack',
+    brand: 'openai',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 91,
+    features: [
+      '5,000 API Requests Saldo Aktif',
+      'Mendukung GPT-4o, GPT-4o mini, Embeddings, DALL-E',
+      'Tanpa masa kadaluarsa (No Expiration)',
+      'High Rate Limit Tier 2/3'
+    ],
+    specs: {
+      'Requests': '5,000 Requests',
+      'Format': 'API Secret Key (sk-...)',
+      'Masa Aktif': 'Selamanya (Sampai habis)'
+    },
+    warrantyText: 'Garansi saldo utuh sampai habis.',
+    deliveryTime: 'Instant 1 Detik di Layar',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 24
+  {
+    id: 'api-key-openai-10000',
+    name: 'API KEY OPENAI',
+    category: 'API',
+    durationBadge: '10.000 REQUESTS',
+    description: 'Pay per request — save with cached input & OpenAI Batch API.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 445,
+    priceUsd: 23.00,
+    priceUnit: '/pack',
+    brand: 'openai',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 95,
+    features: [
+      '10,000 API Requests Saldo Penuh',
+      'Akses GPT-5.5, GPT-4o, Whisper & TTS',
+      'Dapat langsung dicopy dan dipasang di Next.js, Python, n8n'
+    ],
+    specs: {
+      'Requests': '10,000 Requests',
+      'Format': 'API Key sk-...',
+      'Garansi': 'Full Saldo Replace'
+    },
+    warrantyText: 'Garansi saldo utuh 100%.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[5], INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 25
+  {
+    id: 'leonardo-ai-pro-artisan-1-month',
+    name: 'LEONARDO AI PRO',
+    category: 'AI IMAGE',
+    durationBadge: 'ARTISAN — 1 MONTH',
+    description: 'Pro-class image generation + Seedance 2.0 access.',
+    isPrivate: true,
+    rating: 4.7,
+    soldCount: 134,
+    priceUsd: 30.00,
+    priceUnit: '/mo',
+    brand: 'leonardo',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 83,
+    features: [
+      '8,500 Fast Tokens per bulan',
+      'Seedance 2.0 Motion Video AI',
+      'PhotoReal v2 & Alchemy upscaler',
+      'Private generation mode'
+    ],
+    specs: {
+      'Tokens': '8,500 / month',
+      'Tier': 'Artisan Pro',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari replace.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[6]]
+  },
+  // 26
+  {
+    id: 'leonardo-ai-pro-artisan-yearly',
+    name: 'LEONARDO AI PRO',
+    category: 'AI IMAGE',
+    durationBadge: 'ARTISAN — YEARLY',
+    description: 'Pro-class image generation + Seedance 2.0 access.',
+    isPrivate: true,
+    rating: 4.7,
+    soldCount: 201,
+    priceUsd: 24.00,
+    priceUnit: '/mo',
+    brand: 'leonardo',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 87,
+    features: [
+      'Artisan Yearly Subscription',
+      'Hemat 20% biaya bulanan',
+      'Unlimited Relaxed Generations'
+    ],
+    specs: {
+      'Durasi': '1 Tahun',
+      'Tier': 'Artisan Annual'
+    },
+    warrantyText: 'Garansi 1 Tahun penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[6]]
+  },
+
+  // ===== BATCH 2 (Products 27 to 56) =====
+
+  // 27
+  {
+    id: 'leonardo-ai-pro-maestro-1-month',
+    name: 'LEONARDO AI PRO',
+    category: 'AI IMAGE',
+    durationBadge: 'MAESTRO — 1 MONTH',
+    description: 'Pro-class image generation + Seedance 2.0 access.',
+    isPrivate: true,
+    rating: 4.7,
+    soldCount: 268,
+    priceUsd: 60.00,
+    priceUnit: '/mo',
+    brand: 'leonardo',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 81,
+    features: [
+      '25,000 Fast Tokens per bulan',
+      'Simultaneous 5 Generations',
+      'Maximum Resolution 4K Upscale'
+    ],
+    specs: {
+      'Tokens': '25,000 Tokens',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[6]]
+  },
+  // 28
+  {
+    id: 'gemini-pro-promo-12-month',
+    name: 'GEMINI PRO',
+    category: 'PROMO',
+    durationBadge: '12 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'Gemini 3 Pro with full Google ecosystem integration.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 463,
+    priceUsd: 3.07,
+    priceUnit: '/12 mo',
+    brand: 'google',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 98,
+    features: [
+      'Promo Spesial 12 Bulan Aktif',
+      'Akses Gemini Advanced & Google Drive 2TB',
+      'Super hemat untuk pelajar & profesional'
+    ],
+    specs: {
+      'Durasi': '12 Bulan',
+      'Harga Promo': '$3.07 total'
+    },
+    warrantyText: 'Full Garansi 12 Bulan.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[3], INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 29
+  {
+    id: 'gemini-pro-promo-18-month',
+    name: 'GEMINI PRO',
+    category: 'PROMO',
+    durationBadge: '18 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'Gemini 3 Pro with full Google ecosystem integration.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 468,
+    priceUsd: 4.91,
+    priceUnit: '/18 mo',
+    brand: 'google',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 94,
+    features: [
+      '18 Bulan Akses Gemini Advanced',
+      'Paket Super Hemat Best Seller',
+      'Private 100% tanpa batas waktu harian'
+    ],
+    specs: {
+      'Durasi': '18 Bulan Penuh',
+      'Garansi': '18 Bulan'
+    },
+    warrantyText: 'Garansi 18 Bulan Penggantian.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[0], INDONESIAN_REVIEWS_POOL[4]]
+  },
+  // 30
+  {
+    id: 'gemini-ultra-promo-1-month',
+    name: 'GEMINI ULTRA',
+    category: 'PROMO',
+    durationBadge: '1 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'Top Gemini limits + Veo, Deep Think, and agentic tools.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 163,
+    priceUsd: 15.34,
+    priceUnit: '/mo',
+    brand: 'google',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 88,
+    features: [
+      'Promo Gemini Ultra Edition',
+      'Termasuk Veo 2 Video Creator',
+      'Deep Reasoning Mode'
+    ],
+    specs: {
+      'Durasi': '30 Hari',
+      'Harga Promo': '$15.34/mo'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[2]]
+  },
+  // 31
+  {
+    id: 'chatgpt-plus-promo-1-month',
+    name: 'CHATGPT PLUS',
+    category: 'PROMO',
+    durationBadge: '1 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 access with high limits, Sora, and Agent Mode.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 483,
+    priceUsd: 1.84,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 99,
+    features: [
+      'Harga Flash Sale Tergila Hanya $1.84',
+      'GPT-5.5 & Sora Video Generator',
+      'Advanced Voice Mode Aktif',
+      'Akun Private langsung pakai'
+    ],
+    specs: {
+      'Model': 'GPT-5.5 / Voice Mode',
+      'Durasi': '1 Bulan',
+      'Promo': 'Flash Deal Diskon 90%'
+    },
+    warrantyText: 'Garansi 30 Hari penuh.',
+    deliveryTime: 'Instant 1 Detik',
+    reviews: [INDONESIAN_REVIEWS_POOL[4], INDONESIAN_REVIEWS_POOL[3]]
+  },
+  // 32
+  {
+    id: 'chatgpt-pro-promo-1-month',
+    name: 'CHATGPT PRO',
+    category: 'PROMO',
+    durationBadge: '1 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 Pro for the most complex professional work.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 200,
+    priceUsd: 4.91,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 96,
+    features: [
+      'Promo ChatGPT Pro High Compute',
+      'Akses o3 Unlimited Reasoning',
+      'Super cepat tanpa antre'
+    ],
+    specs: {
+      'Durasi': '1 Bulan',
+      'Harga': '$4.91/mo'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 33
+  {
+    id: 'claude-pro-promo-1-month',
+    name: 'CLAUDE PRO',
+    category: 'PROMO',
+    durationBadge: '1 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'The smartest AI assistant for research, coding, and writing.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 457,
+    priceUsd: 4.91,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 97,
+    features: [
+      'Claude 3.7 Sonnet & Opus Private',
+      'Harga Promo Spesial $4.91',
+      'Artifacts & 200k Context Window'
+    ],
+    specs: {
+      'Durasi': '30 Hari',
+      'Garansi': '30 Hari Replace'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-2 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[0], INDONESIAN_REVIEWS_POOL[2]]
+  },
+  // 34
+  {
+    id: 'claude-max-5x-promo-1-month',
+    name: 'CLAUDE MAX 5X',
+    category: 'PROMO',
+    durationBadge: '1 MONTH',
+    badgeStyle: 'purple-solid',
+    description: '5x the capacity of Claude Pro for intensive users.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 437,
+    priceUsd: 15.34,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 93,
+    features: [
+      '5x Capacity Claude Pro Promo',
+      'Unlimited coding & thinking mode',
+      'Private account guaranteed'
+    ],
+    specs: {
+      'Kapasitas': '5x Limits',
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 35
+  {
+    id: 'claude-max-20x-promo-1-month',
+    name: 'CLAUDE MAX 20X',
+    category: 'PROMO',
+    durationBadge: '1 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'Power-user class — 20x the capacity of Claude Pro.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 231,
+    priceUsd: 61.35,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 78,
+    features: [
+      '20x Capacity Claude Pro Promo Diskon',
+      'Enterprise server response time'
+    ],
+    specs: {
+      'Durasi': '30 Hari',
+      'Kapasitas': '20X'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[2]]
+  },
+  // 36
+  {
+    id: 'kiro-ide-promo-8000',
+    name: 'KIRO IDE',
+    category: 'PROMO',
+    durationBadge: '8.000 CREDITS',
+    badgeStyle: 'purple-solid',
+    description: 'Spec-driven AI IDE powered by Opus 4.8 from AWS.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 329,
+    priceUsd: 3.07,
+    priceUnit: '/pack',
+    brand: 'kiro',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 92,
+    features: [
+      '8,000 Opus 4.8 Credits Murah Meriah',
+      'Full IDE integration AWS cloud',
+      'Super hemat untuk mahasiswa TI'
+    ],
+    specs: {
+      'Credits': '8,000 Credits',
+      'Harga': '$3.07/pack'
+    },
+    warrantyText: 'Garansi saldo penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 37
+  {
+    id: 'cursor-pro-promo-standard',
+    name: 'CURSOR PRO',
+    category: 'PROMO',
+    durationBadge: 'STANDARD',
+    badgeStyle: 'purple-solid',
+    description: 'The fastest AI code editor with smart Agent & tab completion.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 448,
+    priceUsd: 3.07,
+    priceUnit: '/mo',
+    brand: 'cursor',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 99,
+    features: [
+      'Cursor Pro Promo Hanya $3.07',
+      'Tab completion & Claude 3.7 Composer',
+      'Full garansi 30 hari no banned'
+    ],
+    specs: {
+      'Durasi': '30 Hari',
+      'Promo': 'Flash Deal'
+    },
+    warrantyText: 'Garansi 30 Hari penuh.',
+    deliveryTime: 'Instant 1 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[2], INDONESIAN_REVIEWS_POOL[3]]
+  },
+  // 38
+  {
+    id: 'cursor-pro-plus-promo',
+    name: 'CURSOR PRO+',
+    category: 'PROMO',
+    durationBadge: 'PRO+',
+    badgeStyle: 'purple-solid',
+    description: 'The fastest AI code editor with smart Agent & tab completion.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 291,
+    priceUsd: 6.13,
+    priceUnit: '/mo',
+    brand: 'cursor',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 90,
+    features: [
+      'Cursor Pro+ 1,500 Fast Requests',
+      'Diskon Promo Spesial $6.13'
+    ],
+    specs: {
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[2]]
+  },
+  // 39
+  {
+    id: 'cursor-ultra-promo',
+    name: 'CURSOR ULTRA',
+    category: 'PROMO',
+    durationBadge: 'ULTRA',
+    badgeStyle: 'purple-solid',
+    description: 'The fastest AI code editor with smart Agent & tab completion.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 220,
+    priceUsd: 15.34,
+    priceUnit: '/mo',
+    brand: 'cursor',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 85,
+    features: [
+      'Cursor Ultra Unlimited Fast Requests',
+      'Harga Promo $15.34/mo'
+    ],
+    specs: {
+      'Durasi': '30 Hari'
+    },
+    warrantyText: 'Garansi 30 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 40
+  {
+    id: 'api-key-deepseek-1000',
+    name: 'API KEY DEEPSEEK',
+    category: 'API',
+    durationBadge: '1.000 REQUESTS',
+    description: 'Pay per request — cheapest API, follows DeepSeek off-peak discounts.',
+    isPrivate: true,
+    rating: 4.7,
+    soldCount: 135,
+    priceUsd: 2.00,
+    priceUnit: '/pack',
+    brand: 'deepseek',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 90,
+    features: [
+      '1,000 DeepSeek V3 / R1 Requests',
+      'DeepSeek Reasoning Model super murah',
+      'Compatible OpenAI standard endpoint'
+    ],
+    specs: {
+      'Model': 'DeepSeek R1 / V3',
+      'Requests': '1,000 Calls'
+    },
+    warrantyText: 'Garansi saldo aktif.',
+    deliveryTime: 'Instant 1 Detik',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 41
+  {
+    id: 'api-key-deepseek-5000',
+    name: 'API KEY DEEPSEEK',
+    category: 'API',
+    durationBadge: '5.000 REQUESTS',
+    description: 'Pay per request — cheapest API, follows DeepSeek off-peak discounts.',
+    isPrivate: true,
+    rating: 4.7,
+    soldCount: 232,
+    priceUsd: 7.00,
+    priceUnit: '/pack',
+    brand: 'deepseek',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 88,
+    features: [
+      '5,000 DeepSeek R1 & V3 API Calls',
+      'Mendukung streaming response super cepat'
+    ],
+    specs: {
+      'Requests': '5,000 Calls'
+    },
+    warrantyText: 'Garansi saldo aktif.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 42
+  {
+    id: 'api-key-deepseek-10000',
+    name: 'API KEY DEEPSEEK',
+    category: 'API',
+    durationBadge: '10.000 REQUESTS',
+    description: 'Pay per request — cheapest API, follows DeepSeek off-peak discounts.',
+    isPrivate: true,
+    rating: 4.7,
+    soldCount: 355,
+    priceUsd: 12.00,
+    priceUnit: '/pack',
+    brand: 'deepseek',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 94,
+    features: [
+      '10,000 DeepSeek R1 & V3 API Calls',
+      'Pilihan paling hemat untuk bot AI dan backend'
+    ],
+    specs: {
+      'Requests': '10,000 Calls'
+    },
+    warrantyText: 'Garansi saldo penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 43
+  {
+    id: 'api-key-openai-1000',
+    name: 'API KEY OPENAI',
+    category: 'API',
+    durationBadge: '1.000 REQUESTS',
+    description: 'Pay per request — save with cached input & OpenAI Batch API.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 288,
+    priceUsd: 3.00,
+    priceUnit: '/pack',
+    brand: 'openai',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 86,
+    features: [
+      '1,000 Requests OpenAI API Official',
+      'Format sk-... langsung pakai'
+    ],
+    specs: {
+      'Requests': '1,000 Calls'
+    },
+    warrantyText: 'Garansi saldo penuh.',
+    deliveryTime: 'Instant 1 Detik',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 44
+  {
+    id: 'claude-pro-promo-3-month',
+    name: 'CLAUDE PRO',
+    category: 'PROMO',
+    durationBadge: '3 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'The smartest AI assistant for research, coding, and writing.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 349,
+    priceUsd: 7.67,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 91,
+    features: [
+      '3 Bulan Claude Pro Private',
+      'Harga promo hemat 60%',
+      'Garansi 90 hari replace'
+    ],
+    specs: {
+      'Durasi': '3 Bulan (90 Hari)'
+    },
+    warrantyText: 'Garansi 90 Hari replace.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[0], INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 45
+  {
+    id: 'chatgpt-plus-promo-3-month',
+    name: 'CHATGPT PLUS',
+    category: 'PROMO',
+    durationBadge: '3 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 access with high limits, Sora, and Agent Mode.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 204,
+    priceUsd: 7.36,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 89,
+    features: [
+      '3 Bulan ChatGPT Plus Private Legal',
+      'Sora video & Advanced Voice Mode'
+    ],
+    specs: {
+      'Durasi': '3 Bulan (90 Hari)'
+    },
+    warrantyText: 'Garansi 90 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[4]]
+  },
+  // 46
+  {
+    id: 'chatgpt-pro-promo-3-month',
+    name: 'CHATGPT PRO',
+    category: 'PROMO',
+    durationBadge: '3 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 Pro for the most complex professional work.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 105,
+    priceUsd: 9.20,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 82,
+    features: [
+      '3 Bulan ChatGPT Pro High Compute',
+      'Akses o3 super reasoning'
+    ],
+    specs: {
+      'Durasi': '3 Bulan (90 Hari)'
+    },
+    warrantyText: 'Garansi 90 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 47
+  {
+    id: 'claude-max-5x-promo-3-month',
+    name: 'CLAUDE MAX 5X',
+    category: 'PROMO',
+    durationBadge: '3 MONTH',
+    badgeStyle: 'purple-solid',
+    description: '5x the capacity of Claude Pro for intensive users.',
+    isPrivate: true,
+    rating: 5.0,
+    soldCount: 252,
+    priceUsd: 15.34,
+    priceUnit: '/mo',
+    brand: 'claude',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 88,
+    features: [
+      '3 Bulan 5X Kapasitas Claude Pro',
+      'Bebas rate limit'
+    ],
+    specs: {
+      'Durasi': '90 Hari',
+      'Kapasitas': '5X Pro'
+    },
+    warrantyText: 'Garansi 90 Hari Penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 48
+  {
+    id: 'chatgpt-pro-promo-4-month',
+    name: 'CHATGPT PRO',
+    category: 'PROMO',
+    durationBadge: '4 MONTH',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 Pro for the most complex professional work.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 230,
+    priceUsd: 20.25,
+    priceUnit: '/mo',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 84,
+    features: [
+      'Paket 4 Bulan ChatGPT Pro',
+      'Super stabil dan hemat'
+    ],
+    specs: {
+      'Durasi': '4 Bulan (120 Hari)'
+    },
+    warrantyText: 'Garansi 120 Hari.',
+    deliveryTime: 'Instant 1-3 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[4]]
+  },
+
+  // 49 (Screenshot 7 promo cards with strikethrough & discount pill)
+  {
+    id: 'claude-pro-promo-6-bulan-micro',
+    name: 'CLAUDE PRO',
+    category: 'PROMO',
+    durationBadge: '6 Bulan',
+    badgeStyle: 'purple-solid',
+    description: 'The smartest AI assistant for research, coding, and writing.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 220,
+    priceUsd: 0.08,
+    originalPriceUsd: 0.15,
+    discountPercent: 45,
+    priceUnit: '/6 Bulan',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 96,
+    features: [
+      'Flash Promo Claude Pro 6 Bulan',
+      'Diskon 45% dari $0.15 ke $0.08',
+      'Akun Private No Sharing'
+    ],
+    specs: {
+      'Durasi': '6 Bulan',
+      'Diskon': '45% OFF'
+    },
+    warrantyText: 'Garansi 6 Bulan penuh.',
+    deliveryTime: 'Instant 1 Detik',
+    reviews: [INDONESIAN_REVIEWS_POOL[0], INDONESIAN_REVIEWS_POOL[3]]
+  },
+  // 50
+  {
+    id: 'claude-pro-promo-1-tahun-micro',
+    name: 'CLAUDE PRO',
+    category: 'PROMO',
+    durationBadge: '1 Tahun',
+    badgeStyle: 'purple-solid',
+    description: 'The smartest AI assistant for research, coding, and writing.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 180,
+    priceUsd: 0.14,
+    originalPriceUsd: 0.30,
+    discountPercent: 55,
+    priceUnit: '/1 Tahun',
+    brand: 'claude',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 94,
+    features: [
+      'Flash Promo Claude Pro 1 Tahun',
+      'Diskon 55% dari $0.30 ke $0.14',
+      'Private 1 Tahun Penuh Garansi'
+    ],
+    specs: {
+      'Durasi': '1 Tahun',
+      'Diskon': '55% OFF'
+    },
+    warrantyText: 'Garansi 365 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 51
+  {
+    id: 'chatgpt-plus-promo-6-bulan-micro',
+    name: 'CHATGPT PLUS',
+    category: 'PROMO',
+    durationBadge: '6 Bulan',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 access with high limits, Sora, and Agent Mode.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 320,
+    priceUsd: 0.08,
+    originalPriceUsd: 0.14,
+    discountPercent: 40,
+    priceUnit: '/6 Bulan',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 97,
+    features: [
+      'ChatGPT Plus 6 Bulan Super Deal',
+      'Diskon 40% dari $0.14 ke $0.08',
+      'Sora & Voice Mode aktif'
+    ],
+    specs: {
+      'Durasi': '6 Bulan',
+      'Diskon': '40% OFF'
+    },
+    warrantyText: 'Garansi 6 Bulan.',
+    deliveryTime: 'Instant 1 Detik',
+    reviews: [INDONESIAN_REVIEWS_POOL[4]]
+  },
+  // 52
+  {
+    id: 'chatgpt-plus-promo-1-tahun-micro',
+    name: 'CHATGPT PLUS',
+    category: 'PROMO',
+    durationBadge: '1 Tahun',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 access with high limits, Sora, and Agent Mode.',
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 260,
+    priceUsd: 0.16,
+    originalPriceUsd: 0.31,
+    discountPercent: 50,
+    priceUnit: '/1 Tahun',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 1,
+    flashSaleStockPercent: 92,
+    features: [
+      'ChatGPT Plus 1 Tahun Flash Sale',
+      'Diskon 50% dari $0.31 ke $0.16',
+      'Full garansi 365 hari'
+    ],
+    specs: {
+      'Durasi': '1 Tahun',
+      'Diskon': '50% OFF'
+    },
+    warrantyText: 'Garansi 1 Tahun Penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[2]]
+  },
+  // 53
+  {
+    id: 'chatgpt-pro-promo-6-bulan-micro',
+    name: 'CHATGPT PRO',
+    category: 'PROMO',
+    durationBadge: '6 Bulan',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 Pro for the most complex professional work.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 290,
+    priceUsd: 0.08,
+    originalPriceUsd: 0.15,
+    discountPercent: 45,
+    priceUnit: '/6 Bulan',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 95,
+    features: [
+      'ChatGPT Pro 6 Bulan Diskon 45%',
+      'Akses o3 Unlimited Reasoning'
+    ],
+    specs: {
+      'Durasi': '6 Bulan',
+      'Diskon': '45% OFF'
+    },
+    warrantyText: 'Garansi 6 Bulan.',
+    deliveryTime: 'Instant 1-2 Menit',
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // 54
+  {
+    id: 'chatgpt-pro-promo-1-tahun-micro',
+    name: 'CHATGPT PRO',
+    category: 'PROMO',
+    durationBadge: '1 Tahun',
+    badgeStyle: 'purple-solid',
+    description: 'GPT-5.5 Pro for the most complex professional work.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 210,
+    priceUsd: 0.15,
+    originalPriceUsd: 0.34,
+    discountPercent: 55,
+    priceUnit: '/1 Tahun',
+    brand: 'chatgpt',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 91,
+    features: [
+      'ChatGPT Pro 1 Tahun Hemat 55%',
+      'Akses computing server khusus'
+    ],
+    specs: {
+      'Durasi': '1 Tahun',
+      'Diskon': '55% OFF'
+    },
+    warrantyText: 'Garansi 365 Hari.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[5]]
+  },
+  // 55
+  {
+    id: 'claude-max-5x-promo-6-bulan-micro',
+    name: 'CLAUDE MAX 5X',
+    category: 'PROMO',
+    durationBadge: '6 Bulan',
+    badgeStyle: 'purple-solid',
+    description: '5x the capacity of Claude Pro for intensive users.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 120,
+    priceUsd: 0.29,
+    originalPriceUsd: 0.49,
+    discountPercent: 40,
+    priceUnit: '/6 Bulan',
+    brand: 'claude',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 88,
+    features: [
+      'Claude Max 5X 6 Bulan Diskon 40%',
+      '5x Capacity limit tanpa batas'
+    ],
+    specs: {
+      'Durasi': '6 Bulan',
+      'Kapasitas': '5X Pro'
+    },
+    warrantyText: 'Garansi 6 Bulan.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[1]]
+  },
+  // 56
+  {
+    id: 'claude-max-5x-promo-1-tahun-micro',
+    name: 'CLAUDE MAX 5X',
+    category: 'PROMO',
+    durationBadge: '1 Tahun',
+    badgeStyle: 'purple-solid',
+    description: '5x the capacity of Claude Pro for intensive users.',
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 90,
+    priceUsd: 0.31,
+    originalPriceUsd: 0.61,
+    discountPercent: 50,
+    priceUnit: '/1 Tahun',
+    brand: 'claude',
+    inFlashSaleBatch: 2,
+    flashSaleStockPercent: 93,
+    features: [
+      'Claude Max 5X 1 Tahun Hemat 50%',
+      'Best value untuk developer & power user'
+    ],
+    specs: {
+      'Durasi': '1 Tahun',
+      'Diskon': '50% OFF'
+    },
+    warrantyText: 'Garansi 1 Tahun Penuh.',
+    deliveryTime: 'Instant Delivery',
+    reviews: [INDONESIAN_REVIEWS_POOL[2]]
+  }
+];
+
+export const USD_TO_IDR_RATE = 16250;
+
+export function formatUsd(amount: number): string {
+  if (amount < 1 && amount > 0) {
+    return `$${amount.toFixed(2)}`;
+  }
+  return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+export function formatIdr(amount: number): string {
+  return `Rp ${Math.round(amount).toLocaleString('id-ID')}`;
+}
+
+export function convertUsdToIdr(usd: number): number {
+  return Math.round(usd * USD_TO_IDR_RATE);
+}
+
+// 12-Hour Flash Sale Cycle determination
+export function getFlashSaleCycleInfo() {
+  const now = new Date();
+  const hours = now.getHours();
+  // Batch 1 is active for first 12 hours (00:00 - 11:59), Batch 2 is active for next 12 hours (12:00 - 23:59)
+  const currentBatch: 1 | 2 = hours < 12 ? 1 : 2;
+  
+  // Calculate remaining seconds until next 12h rotation
+  const nextRotation = new Date(now);
+  if (hours < 12) {
+    nextRotation.setHours(12, 0, 0, 0);
+  } else {
+    nextRotation.setDate(nextRotation.getDate() + 1);
+    nextRotation.setHours(0, 0, 0, 0);
+  }
+  
+  const secondsRemaining = Math.max(0, Math.floor((nextRotation.getTime() - now.getTime()) / 1000));
+  
+  return {
+    currentBatch,
+    secondsRemaining,
+    nextRotationBatch: currentBatch === 1 ? 2 : 1
+  };
+}

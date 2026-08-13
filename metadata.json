@@ -1,0 +1,6 @@
+{
+  "name": "AI Store ID - Premium AI Accounts & Tools",
+  "description": "Platform marketplace langganan akun AI resmi & legal: Claude, ChatGPT, Gemini, Cursor, Leonardo, DeepSeek & API Keys dengan QRIS otomatis dan flash sale.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
