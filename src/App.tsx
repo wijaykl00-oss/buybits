@@ -538,7 +538,7 @@ export default function App() {
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3">
             <p>© {new Date().getFullYear()} BUYBITS.ID. All rights reserved.</p>
             <p>
-              Kurs Referensi: $1 = Rp 16.250 • QRIS Standar Bank Indonesia
+              Kurs Referensi: $1 = Rp 13.948 • QRIS Standar Bank Indonesia
             </p>
           </div>
         </div>

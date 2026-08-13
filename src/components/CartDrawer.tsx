@@ -165,7 +165,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <span className="font-bold">{formatUsd(totalUsd)}</span>
                 </div>
                 <div className="flex justify-between text-neutral-600">
-                  <span>Kurs Konversi ($1 = Rp 16.250):</span>
+                  <span>Kurs Konversi ($1 = Rp 13.948):</span>
                   <span className="font-bold text-emerald-600">Otomatis QRIS</span>
                 </div>
                 <div className="flex justify-between text-neutral-900 text-sm font-black pt-2 border-t border-neutral-200">

@@ -1891,7 +1891,7 @@ export const ALL_PRODUCTS: Product[] = [
   }
 ];
 
-export const USD_TO_IDR_RATE = 16250;
+export const USD_TO_IDR_RATE = 13948;
 
 export function convertUsdToIdr(amountUsd: number): number {
   return Math.round(amountUsd * USD_TO_IDR_RATE);
