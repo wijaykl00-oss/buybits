@@ -48,9 +48,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
   if (!isOpen || !product) return null;
 
-  const effectivePriceUsd = isFlashSaleActive
-    ? Number((product.priceUsd * 0.20).toFixed(2))
-    : product.priceUsd;
+  const effectivePriceUsd =
+    product.flashSalePriceUsd ??
+    (isFlashSaleActive
+      ? Number((product.priceUsd * 0.20).toFixed(2))
+      : product.priceUsd);
 
   const displayPrice =
     currencyMode === 'IDR'

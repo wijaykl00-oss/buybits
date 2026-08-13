@@ -27,7 +27,7 @@ import { AuthModal } from './components/AuthModal';
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('aistore_products_v3');
+    const saved = localStorage.getItem('aistore_products_v5');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -88,7 +88,7 @@ export default function App() {
 
   // Save products when reviews are added
   useEffect(() => {
-    localStorage.setItem('aistore_products_v3', JSON.stringify(products));
+    localStorage.setItem('aistore_products_v5', JSON.stringify(products));
   }, [products]);
 
   // Periodically check 12h flash sale rotation
@@ -101,9 +101,11 @@ export default function App() {
 
   const handleAddToCart = (product: Product) => {
     const isFlashSale = product.inFlashSaleBatch === cycleInfo.currentBatch;
-    const finalPriceUsd = isFlashSale
-      ? Number((product.priceUsd * 0.20).toFixed(2))
-      : product.priceUsd;
+    const finalPriceUsd =
+      product.flashSalePriceUsd ??
+      (isFlashSale
+        ? Number((product.priceUsd * 0.20).toFixed(2))
+        : product.priceUsd);
 
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
@@ -130,9 +132,11 @@ export default function App() {
 
   const handleBuyNow = (product: Product) => {
     const isFlashSale = product.inFlashSaleBatch === cycleInfo.currentBatch;
-    const finalPriceUsd = isFlashSale
-      ? Number((product.priceUsd * 0.20).toFixed(2))
-      : product.priceUsd;
+    const finalPriceUsd =
+      product.flashSalePriceUsd ??
+      (isFlashSale
+        ? Number((product.priceUsd * 0.20).toFixed(2))
+        : product.priceUsd);
 
     setCartItems([
       {
