@@ -27,7 +27,7 @@ import { AuthModal } from './components/AuthModal';
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('aistore_products_v5');
+    const saved = localStorage.getItem('aistore_products_v7');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -88,7 +88,7 @@ export default function App() {
 
   // Save products when reviews are added
   useEffect(() => {
-    localStorage.setItem('aistore_products_v5', JSON.stringify(products));
+    localStorage.setItem('aistore_products_v7', JSON.stringify(products));
   }, [products]);
 
   // Periodically check 12h flash sale rotation
