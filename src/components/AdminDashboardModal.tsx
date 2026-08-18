@@ -17,6 +17,9 @@ import {
   Sliders,
   DollarSign,
   TrendingUp,
+  FileImage,
+  Eye,
+  ExternalLink,
 } from 'lucide-react';
 import { Order, InventoryItem, Product } from '../types';
 import { ALL_PRODUCTS, formatIdr } from '../data/products';
@@ -38,6 +41,14 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [searchOrder, setSearchOrder] = useState('');
   const [orderStatusFilter, setOrderStatusFilter] = useState<string>('ALL');
+  const [previewProof, setPreviewProof] = useState<{
+    imageUrl: string;
+    orderNumber: string;
+    senderName: string;
+    senderBank?: string;
+    transferAmount?: number;
+    uploadedAt?: string;
+  } | null>(null);
 
   // Add Inventory State
   const [selectedProductId, setSelectedProductId] = useState<string>(ALL_PRODUCTS[0]?.id || '');
@@ -273,6 +284,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                       <th className="p-3">Produk</th>
                       <th className="p-3">Total IDR</th>
                       <th className="p-3">Status</th>
+                      <th className="p-3">Bukti Bayar</th>
                       <th className="p-3">Waktu</th>
                       <th className="p-3">Aksi</th>
                     </tr>
@@ -280,7 +292,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                   <tbody className="divide-y divide-neutral-100">
                     {filteredOrders.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="p-6 text-center text-neutral-400 font-medium">
+                        <td colSpan={8} className="p-6 text-center text-neutral-400 font-medium">
                           Belum ada transaksi ditemukan.
                         </td>
                       </tr>
@@ -320,6 +332,29 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                               {order.status}
                             </span>
                           </td>
+                          <td className="p-3">
+                            {order.paymentProof ? (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setPreviewProof({
+                                    imageUrl: order.paymentProof!.imageUrl,
+                                    orderNumber: order.orderNumber,
+                                    senderName: order.paymentProof!.senderName,
+                                    senderBank: order.paymentProof!.senderBank,
+                                    transferAmount: order.paymentProof!.transferAmount || order.finalTotalIdr,
+                                    uploadedAt: order.paymentProof!.uploadedAt,
+                                  })
+                                }
+                                className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer border border-emerald-200"
+                              >
+                                <FileImage className="w-3.5 h-3.5" />
+                                <span>Lihat Struk</span>
+                              </button>
+                            ) : (
+                              <span className="text-[10px] text-neutral-400 italic">Belum ada</span>
+                            )}
+                          </td>
                           <td className="p-3 text-[10px] text-neutral-500 whitespace-nowrap">
                             {order.createdAt}
                           </td>
@@ -343,6 +378,63 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                 </table>
               </div>
             </div>
+
+            {/* Proof Modal Viewer */}
+            {previewProof && (
+              <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-150">
+                <div className="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-neutral-200 relative my-auto space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                        Bukti Pembayaran Pelanggan
+                      </span>
+                      <h4 className="text-sm font-black text-neutral-900 uppercase mt-1 font-mono">
+                        Invoice {previewProof.orderNumber}
+                      </h4>
+                    </div>
+                    <button
+                      onClick={() => setPreviewProof(null)}
+                      className="p-1 rounded-full hover:bg-neutral-100 text-neutral-500 hover:text-neutral-900 cursor-pointer"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="max-h-[50vh] overflow-y-auto rounded-2xl border-2 border-neutral-200 bg-neutral-900 flex items-center justify-center p-1">
+                    <img
+                      src={previewProof.imageUrl}
+                      alt="Struk Transfer"
+                      className="max-h-[48vh] w-auto object-contain rounded-xl"
+                    />
+                  </div>
+
+                  <div className="bg-neutral-50 rounded-2xl p-3 border border-neutral-200 text-xs space-y-1">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-500">Nama Pengirim:</span>
+                      <span className="font-bold text-neutral-900">{previewProof.senderName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-500">Bank / Sumber:</span>
+                      <span className="font-bold text-neutral-900">{previewProof.senderBank}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-500">Nominal:</span>
+                      <span className="font-mono font-black text-emerald-600">
+                        {formatIdr(previewProof.transferAmount || 0)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setPreviewProof(null)}
+                    className="w-full py-2.5 rounded-xl bg-neutral-900 text-white text-xs font-bold uppercase tracking-wider hover:bg-black cursor-pointer"
+                  >
+                    Tutup
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

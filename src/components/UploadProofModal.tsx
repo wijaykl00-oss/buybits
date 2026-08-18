@@ -206,22 +206,16 @@ export const UploadProofModal: React.FC<UploadProofModalProps> = ({
       return;
     }
 
-    if (!senderName.trim()) {
-      setSubmitError('Wajib mengisi nama pemilik rekening / e-wallet pengirim.');
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitError(null);
 
-    const bankChosen = senderBank === 'Lainnya' ? customBank.trim() || 'Lainnya' : senderBank;
     const amountVal = parseInt(transferAmount.replace(/[^0-9]/g, ''), 10) || activeOrder.finalTotalIdr;
 
     try {
       const updatedOrder = submitPaymentProof(activeOrder.id, {
         imageUrl: proofImageBase64,
-        senderName: senderName.trim(),
-        senderBank: bankChosen,
+        senderName: activeOrder.customerName || 'Pelanggan',
+        senderBank: 'QRIS Realtime',
         transferAmount: amountVal,
         notes: notes.trim(),
       });
@@ -234,8 +228,8 @@ export const UploadProofModal: React.FC<UploadProofModalProps> = ({
           orderId: activeOrder.id,
           paymentProof: {
             imageUrl: proofImageBase64,
-            senderName: senderName.trim(),
-            senderBank: bankChosen,
+            senderName: activeOrder.customerName || 'Pelanggan',
+            senderBank: 'QRIS Realtime',
             transferAmount: amountVal,
             notes: notes.trim(),
             uploadedAt: new Date().toISOString(),
@@ -298,8 +292,8 @@ export const UploadProofModal: React.FC<UploadProofModalProps> = ({
                 <span className="font-bold font-mono text-neutral-900">{activeOrder?.orderNumber}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500">Pengirim:</span>
-                <span className="font-bold text-neutral-900">{senderName} ({senderBank})</span>
+                <span className="text-neutral-500">Pelanggan:</span>
+                <span className="font-bold text-neutral-900">{activeOrder?.customerName}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-neutral-500">Nominal:</span>
@@ -484,55 +478,7 @@ export const UploadProofModal: React.FC<UploadProofModalProps> = ({
                 )}
               </div>
 
-              {/* SENDER DETAILS */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1 font-space">
-                    Nama Pemilik Rekening / Akun *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Nama Pengirim Sesuai Mutasi"
-                    value={senderName}
-                    onChange={(e) => setSenderName(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden font-medium"
-                  />
-                </div>
 
-                <div>
-                  <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1 font-space">
-                    Bank / E-Wallet yang Digunakan *
-                  </label>
-                  <select
-                    value={senderBank}
-                    onChange={(e) => setSenderBank(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden font-medium cursor-pointer"
-                  >
-                    {POPULAR_PAYMENT_SOURCES.map((bank) => (
-                      <option key={bank} value={bank}>
-                        {bank}
-                      </option>
-                    ))}
-                    <option value="Lainnya">Lainnya...</option>
-                  </select>
-                </div>
-              </div>
-
-              {senderBank === 'Lainnya' && (
-                <div>
-                  <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1 font-space">
-                    Sebutkan Nama Bank / Aplikasi
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Contoh: Bank Jago, Jenius, CIMB Niaga"
-                    value={customBank}
-                    onChange={(e) => setCustomBank(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 font-medium"
-                  />
-                </div>
-              )}
 
               <div>
                 <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1 font-space">

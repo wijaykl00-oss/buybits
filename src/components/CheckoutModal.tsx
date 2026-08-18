@@ -223,21 +223,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       return;
     }
 
-    if (!senderAccountName.trim()) {
-      setProofError('⚠️ Wajib mengisi nama pemilik rekening / e-wallet pengirim.');
-      return;
-    }
-
     setIsVerifyingPayment(true);
     setProofError(null);
-
-    const bankChosen = senderSource === 'Lainnya' ? customSource.trim() || 'Lainnya' : senderSource;
 
     setTimeout(() => {
       const fulfilled = submitPaymentProof(activeOrder.id, {
         imageUrl: proofImage,
-        senderName: senderAccountName.trim(),
-        senderBank: bankChosen,
+        senderName: activeOrder.customerName || 'Pelanggan',
+        senderBank: 'QRIS Realtime',
         transferAmount: activeOrder.finalTotalIdr,
         notes: `Checkout QRIS via web`,
       });
@@ -376,10 +369,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     </div>
                     <div>
                       <span className="block text-xs font-black text-neutral-900 uppercase font-space">
-                        Dynamic QRIS Realtime
+                        Dynamic QRIS & Alipay+ Realtime
                       </span>
                       <span className="text-[10px] sm:text-[11px] text-neutral-500 font-medium block">
-                        Otomatis terisi nominal. Scan pakai BCA, Mandiri, BRI, BNI, GoPay, OVO, Dana, ShopeePay.
+                        Otomatis terisi nominal. Scan pakai BCA, Mandiri, BRI, BNI, GoPay, OVO, Dana, ShopeePay, Alipay+.
                       </span>
                     </div>
                   </div>
@@ -449,19 +442,33 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
             {/* Official Indonesian Dynamic QRIS Card using foto/qris.png */}
             <div className="bg-white rounded-3xl border-2 border-neutral-300 p-4 sm:p-5 shadow-lg flex flex-col items-center text-center relative overflow-hidden">
-              {/* Header GPN / QRIS */}
+              {/* Header GPN / ALIPAY+ / QRIS */}
               <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-2">
-                <div className="flex items-center gap-2">
-                  <div className="bg-red-600 text-white text-[11px] font-black px-2 py-0.5 rounded tracking-tighter shadow-xs">
+                <div className="flex items-center gap-1.5">
+                  <div className="bg-[#1677FF] text-white text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded tracking-tighter shadow-xs">
+                    ALIPAY+
+                  </div>
+                  <div className="bg-red-600 text-white text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded tracking-tighter shadow-xs">
                     QRIS
                   </div>
-                  <span className="text-[10px] sm:text-xs font-bold text-neutral-700 font-space">
-                    QR Standar Pembayaran Nasional
+                  <span className="text-[9px] sm:text-[11px] font-bold text-neutral-700 font-space truncate">
+                    QR Pembayaran Nasional & Cross-Border
                   </span>
                 </div>
-                <div className="text-[10px] font-black text-neutral-500 tracking-wider">
-                  GPN INDONESIA
+                <div className="text-[9px] sm:text-[10px] font-black text-neutral-500 tracking-wider flex-shrink-0 font-space">
+                  GPN • ALIPAY+
                 </div>
+              </div>
+
+              {/* Alipay+ & Cross Border Notification Ribbon */}
+              <div className="w-full bg-gradient-to-r from-[#1677FF]/10 via-sky-50 to-emerald-50 border border-[#1677FF]/25 rounded-xl px-3 py-1 mb-2 flex items-center justify-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#1677FF] animate-ping" />
+                <span className="text-[10px] font-black text-[#1677FF] uppercase font-space tracking-wide">
+                  ALIPAY+ & QRIS RESMI
+                </span>
+                <span className="text-[10px] text-neutral-500 hidden sm:inline">
+                  • Scan Langsung via Aplikasi
+                </span>
               </div>
 
               <div className="mb-2">
@@ -476,8 +483,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </p>
               </div>
 
-              {/* Scannable Official QRIS Image from foto/qris.png */}
+              {/* Scannable Official QRIS Image from foto/qris.png with Alipay Indicator */}
               <div className="bg-white p-2.5 sm:p-3.5 rounded-2xl border-2 border-neutral-200 shadow-md my-1.5 max-w-[260px] sm:max-w-[280px] w-full flex flex-col items-center">
+                <div className="w-full flex items-center justify-between pb-1 mb-1 border-b border-neutral-100 text-[9px] font-black font-space">
+                  <span className="text-[#1677FF]">ALIPAY+ SUPPORTED</span>
+                  <span className="text-red-600">GPN QRIS</span>
+                </div>
                 <img
                   src="/foto/qris.png"
                   alt="QRIS Pembayaran Buybits Official"
@@ -488,7 +499,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 />
 
                 <div className="text-[10px] font-bold text-neutral-600 mt-2 text-center">
-                  Scan kode QRIS di atas dengan aplikasi BCA, Mandiri, BRI, GoPay, OVO, Dana, ShopeePay.
+                  Scan kode QRIS di atas dengan aplikasi BCA, Mandiri, BRI, GoPay, OVO, Dana, ShopeePay, Alipay.
                 </div>
               </div>
 
@@ -607,56 +618,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   <span className="px-3 py-1 bg-neutral-900 text-white rounded-full text-[10px] font-bold uppercase tracking-wider font-space">
                     Unggah Bukti Struk
                   </span>
-                </div>
-              )}
-
-              {/* Sender Details Form */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                <div>
-                  <label className="block text-[10px] font-bold text-neutral-700 uppercase mb-1 font-space">
-                    Nama Pemilik Rekening / Akun *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Nama Pengirim Sesuai Bank/E-Wallet"
-                    value={senderAccountName}
-                    onChange={(e) => setSenderAccountName(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-medium"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-neutral-700 uppercase mb-1 font-space">
-                    Bank / E-Wallet Pengirim *
-                  </label>
-                  <select
-                    value={senderSource}
-                    onChange={(e) => setSenderSource(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-medium cursor-pointer"
-                  >
-                    {PAYMENT_SOURCES.map((src) => (
-                      <option key={src} value={src}>
-                        {src}
-                      </option>
-                    ))}
-                    <option value="Lainnya">Lainnya...</option>
-                  </select>
-                </div>
-              </div>
-
-              {senderSource === 'Lainnya' && (
-                <div>
-                  <label className="block text-[10px] font-bold text-neutral-700 uppercase mb-1 font-space">
-                    Nama Bank / E-Wallet Lainnya
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Contoh: Bank Jago, SeaBank, Jenius"
-                    value={customSource}
-                    onChange={(e) => setCustomSource(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-white border border-neutral-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-medium"
-                  />
                 </div>
               )}
 

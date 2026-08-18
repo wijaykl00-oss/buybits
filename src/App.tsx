@@ -26,6 +26,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
 import { OrderLookupModal } from './components/OrderLookupModal';
+import { UploadProofModal } from './components/UploadProofModal';
 import { AdminDashboardModal } from './components/AdminDashboardModal';
 import { AuthModal } from './components/AuthModal';
 
@@ -72,6 +73,8 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isOrderLookupOpen, setIsOrderLookupOpen] = useState(false);
+  const [isUploadProofOpen, setIsUploadProofOpen] = useState(false);
+  const [proofTargetOrder, setProofTargetOrder] = useState<Order | null>(null);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -263,6 +266,10 @@ export default function App() {
         onToggleCurrency={() =>
           setCurrencyMode((prev) => (prev === 'USD' ? 'IDR' : 'USD'))
         }
+        onOpenUploadProof={() => {
+          setProofTargetOrder(null);
+          setIsUploadProofOpen(true);
+        }}
         onOpenOrderLookup={() => setIsOrderLookupOpen(true)}
         onOpenAdminDashboard={() => setIsAdminOpen(true)}
       />
@@ -660,6 +667,26 @@ export default function App() {
       <OrderLookupModal
         isOpen={isOrderLookupOpen}
         onClose={() => setIsOrderLookupOpen(false)}
+        onOpenUploadProof={(order) => {
+          setIsOrderLookupOpen(false);
+          setProofTargetOrder(order);
+          setIsUploadProofOpen(true);
+        }}
+      />
+
+      {/* 5b. Dedicated Payment Proof Upload Modal */}
+      <UploadProofModal
+        isOpen={isUploadProofOpen}
+        initialOrder={proofTargetOrder}
+        onClose={() => {
+          setIsUploadProofOpen(false);
+          setProofTargetOrder(null);
+        }}
+        onProofSubmitted={(fulfilledOrder) => {
+          setIsUploadProofOpen(false);
+          setProofTargetOrder(null);
+          handleOrderSuccess(fulfilledOrder);
+        }}
       />
 
       {/* 6. Admin Control Panel & Inventory Modal */}

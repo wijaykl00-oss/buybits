@@ -13,6 +13,8 @@ import {
   Calendar,
   Lock,
   Send,
+  UploadCloud,
+  FileImage,
 } from 'lucide-react';
 import { Order } from '../types';
 import { formatIdr } from '../data/products';
@@ -21,11 +23,13 @@ import { lookupOrder } from '../services/orderService';
 interface OrderLookupModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenUploadProof?: (order: Order) => void;
 }
 
 export const OrderLookupModal: React.FC<OrderLookupModalProps> = ({
   isOpen,
   onClose,
+  onOpenUploadProof,
 }) => {
   const [orderQuery, setOrderQuery] = useState('');
   const [emailQuery, setEmailQuery] = useState('');
@@ -266,6 +270,62 @@ export const OrderLookupModal: React.FC<OrderLookupModalProps> = ({
                   ))}
                 </div>
               </div>
+
+              {/* Upload Proof Call To Action for PENDING Orders */}
+              {searchedOrder.status === 'PENDING' && (
+                <div className="p-3 bg-red-50/80 border border-red-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-2.5">
+                  <div className="text-left">
+                    <span className="text-xs font-black text-red-700 block font-space">
+                      Sudah melakukan pembayaran?
+                    </span>
+                    <span className="text-[11px] text-neutral-600">
+                      Upload bukti transfer Anda agar sistem langsung mengirim akun AI Anda.
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (onOpenUploadProof) {
+                        onOpenUploadProof(searchedOrder);
+                      }
+                    }}
+                    className="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer font-space flex-shrink-0"
+                  >
+                    <UploadCloud className="w-4 h-4" />
+                    <span>Upload Bukti Sekarang</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Uploaded Payment Proof Receipt Preview if exists */}
+              {searchedOrder.paymentProof && (
+                <div className="p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black text-emerald-800 uppercase font-space flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      Bukti Pembayaran Tersimpan:
+                    </span>
+                    <span className="text-[10px] text-neutral-500 font-mono">
+                      {new Date(searchedOrder.paymentProof.uploadedAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-emerald-100">
+                    <img
+                      src={searchedOrder.paymentProof.imageUrl}
+                      alt="Bukti Transfer"
+                      className="w-12 h-12 object-cover rounded-lg border border-neutral-200 flex-shrink-0"
+                    />
+                    <div className="text-xs">
+                      <div className="font-bold text-neutral-900">
+                        Pengirim: {searchedOrder.paymentProof.senderName} ({searchedOrder.paymentProof.senderBank})
+                      </div>
+                      <div className="text-[11px] text-neutral-500 font-mono">
+                        Nominal: {formatIdr(searchedOrder.paymentProof.transferAmount || searchedOrder.finalTotalIdr)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Credentials Section */}
