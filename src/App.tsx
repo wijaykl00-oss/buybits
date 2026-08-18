@@ -10,10 +10,12 @@ import {
   MessageSquare,
   Star,
   Users,
+  Send,
 } from 'lucide-react';
 import { Product, CartItem, User, Order, Review } from './types';
 import { ALL_PRODUCTS, getFlashSaleCycleInfo } from './data/products';
 import { Header } from './components/Header';
+import { HeroSection } from './components/HeroSection';
 import { AnnouncementBar } from './components/AnnouncementBar';
 import { FlashSaleSection } from './components/FlashSaleSection';
 import { MenuView } from './components/MenuView';
@@ -23,6 +25,8 @@ import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
+import { OrderLookupModal } from './components/OrderLookupModal';
+import { AdminDashboardModal } from './components/AdminDashboardModal';
 import { AuthModal } from './components/AuthModal';
 
 export default function App() {
@@ -67,10 +71,31 @@ export default function App() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isOrderLookupOpen, setIsOrderLookupOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [currencyMode, setCurrencyMode] = useState<'USD' | 'IDR'>('USD');
   const [cycleInfo, setCycleInfo] = useState(getFlashSaleCycleInfo());
+
+  // Fetch live product catalog & stock from server
+  const fetchLiveProducts = async () => {
+    try {
+      const res = await fetch('/api/products');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && Array.isArray(data.products)) {
+          setProducts(data.products);
+        }
+      }
+    } catch (err) {
+      // Fallback silently to client state
+    }
+  };
+
+  useEffect(() => {
+    fetchLiveProducts();
+  }, []);
 
   // Save cart to local storage
   useEffect(() => {
@@ -205,6 +230,7 @@ export default function App() {
     setActiveOrder(order);
     setCartItems([]);
     setIsCheckoutOpen(false);
+    fetchLiveProducts();
   };
 
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -213,8 +239,8 @@ export default function App() {
   const topTrendingProducts = products.slice(0, 8);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f5f4f0] text-neutral-900 selection:bg-indigo-500 selection:text-white">
-      {/* Header with Navigation & Controls */}
+    <div className="min-h-screen flex flex-col bg-[#EFEFEA] text-neutral-900 selection:bg-[#5451FF] selection:text-white">
+      {/* Header with buybitsofficial branding, star icon & Telegram button */}
       <Header
         activeTab={activeTab}
         onSelectTab={(tab) => {
@@ -237,17 +263,33 @@ export default function App() {
         onToggleCurrency={() =>
           setCurrencyMode((prev) => (prev === 'USD' ? 'IDR' : 'USD'))
         }
+        onOpenOrderLookup={() => setIsOrderLookupOpen(true)}
+        onOpenAdminDashboard={() => setIsAdminOpen(true)}
       />
-
-      {/* BERANDA AWAL GUARANTEE ANNOUNCEMENT BANNER */}
-      {activeTab === 'HOME' && <AnnouncementBar />}
 
       {/* MAIN VIEW CONTENT ACCORDING TO ACTIVE TAB */}
       <main className="flex-1">
         {/* 1. HOME VIEW */}
         {activeTab === 'HOME' && (
           <div>
-            {/* FLASH SALE ROTATING SECTION IN BERANDA AWAL */}
+            {/* HERO SECTION MATCHING REFERENCE DESIGN */}
+            <HeroSection
+              onShopNow={() => {
+                setActiveTab('MENU');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onHowToOrder={() => {
+                setActiveTab('ABOUT');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onSelectProduct={(p) => setSelectedQuickViewProduct(p)}
+              products={products}
+            />
+
+            {/* MARQUEE TICKER BAR WITH LIME GREEN ASTERISKS */}
+            <AnnouncementBar />
+
+            {/* FLASH SALE ROTATING SECTION */}
             <FlashSaleSection
               products={products}
               onQuickView={(p) => setSelectedQuickViewProduct(p)}
@@ -265,15 +307,15 @@ export default function App() {
             <section className="py-10 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                 <div>
-                  <div className="flex items-center gap-2 text-indigo-600 text-xs font-black uppercase tracking-wider mb-1">
+                  <div className="flex items-center gap-2 text-[#5451FF] text-xs font-black uppercase tracking-wider mb-1 font-mono">
                     <TrendingUp className="w-4 h-4" />
-                    <span>Paling Banyak Digunakan di Indonesia</span>
+                    <span>Best Seller in Indonesia</span>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 uppercase tracking-tight">
+                  <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 uppercase tracking-tight">
                     PRODUK UNGGULAN & TERLARIS
                   </h2>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    Claude 3.7 Sonnet, ChatGPT Plus, Cursor Pro, Google AI Ultra & OpenAI API Keys.
+                  <p className="text-xs sm:text-sm text-neutral-500 mt-1">
+                    Claude 3.7 Sonnet, ChatGPT Pro, Cursor Pro, Google AI Ultra & OpenAI API Keys.
                   </p>
                 </div>
 
@@ -282,14 +324,14 @@ export default function App() {
                     setActiveTab('MENU');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-neutral-100 border border-neutral-300 text-neutral-900 font-bold text-xs shadow-xs transition-colors cursor-pointer w-fit"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border border-neutral-400 text-neutral-900 font-bold text-xs shadow-xs transition-colors cursor-pointer w-fit"
                 >
-                  <span>Lihat Semua 56 Produk</span>
+                  <span>Lihat Semua Produk</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
 
-              {/* 8 Featured Exact Matching Product Cards */}
+              {/* 8 Featured Matching Product Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {topTrendingProducts.map((product) => (
                   <ProductCard
@@ -307,11 +349,11 @@ export default function App() {
               </div>
             </section>
 
-            {/* Live Indonesian Trust & Customer Testimonials Bar */}
-            <section className="py-12 bg-white border-t border-neutral-200">
+            {/* Customer Testimonials Bar */}
+            <section className="py-12 bg-white border-t border-neutral-300">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-xl mx-auto mb-8">
-                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="text-[10px] font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
                     Ulasan Asli Pembeli Terverifikasi
                   </span>
                   <h3 className="text-xl sm:text-2xl font-black text-neutral-900 uppercase tracking-tight mt-2">
@@ -320,20 +362,20 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                  <div className="bg-[#faf9f5] rounded-3xl p-5 border border-neutral-200 space-y-3">
+                  <div className="bg-[#EFEFEA] rounded-3xl p-5 border border-neutral-300 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <img
                           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80"
                           alt="Rian Pratama"
-                          className="w-9 h-9 rounded-full object-cover border border-neutral-300"
+                          className="w-9 h-9 rounded-full object-cover border border-neutral-400"
                         />
                         <div>
                           <h4 className="text-xs font-bold text-neutral-900">
                             Rian Pratama
                           </h4>
                           <p className="text-[10px] text-neutral-500">
-                            Jakarta Selatan • Verified Buyer
+                            Jakarta • Verified Buyer
                           </p>
                         </div>
                       </div>
@@ -344,17 +386,17 @@ export default function App() {
                       </div>
                     </div>
                     <p className="text-xs text-neutral-700 leading-relaxed font-medium">
-                      "Claude Pro nya beneran private legal, batas prompt luas banget buat bantu skripsi coding machine learning saya. QRIS otomatis langsung masuk!"
+                      "Claude Pro nya beneran private legal, batas prompt luas banget buat bantu skripsi coding machine learning saya. Hubungi Telegram @buybitsofficial juga langsung dibalas cepat!"
                     </p>
                   </div>
 
-                  <div className="bg-[#faf9f5] rounded-3xl p-5 border border-neutral-200 space-y-3">
+                  <div className="bg-[#EFEFEA] rounded-3xl p-5 border border-neutral-300 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <img
                           src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80"
                           alt="Fajar Nugroho"
-                          className="w-9 h-9 rounded-full object-cover border border-neutral-300"
+                          className="w-9 h-9 rounded-full object-cover border border-neutral-400"
                         />
                         <div>
                           <h4 className="text-xs font-bold text-neutral-900">
@@ -376,13 +418,13 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="bg-[#faf9f5] rounded-3xl p-5 border border-neutral-200 space-y-3">
+                  <div className="bg-[#EFEFEA] rounded-3xl p-5 border border-neutral-300 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <img
                           src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80"
                           alt="Dewi Anggraini"
-                          className="w-9 h-9 rounded-full object-cover border border-neutral-300"
+                          className="w-9 h-9 rounded-full object-cover border border-neutral-400"
                         />
                         <div>
                           <h4 className="text-xs font-bold text-neutral-900">
@@ -440,21 +482,34 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-[#1c1d22] text-white border-t border-neutral-800 pt-12 pb-8">
+      <footer className="bg-[#181818] text-white border-t border-neutral-800 pt-12 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
-                  <Sparkles className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-700 flex items-center justify-center text-white p-1.5 shadow-md">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full text-white">
+                    <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
+                  </svg>
                 </div>
                 <span className="text-lg font-black tracking-tight">
-                  BUYBITS<span className="text-indigo-400">.ID</span>
+                  buybits<span className="text-[#CCFF00]">official</span>
                 </span>
               </div>
               <p className="text-xs text-neutral-400 leading-relaxed">
-                Platform penyedia akun AI resmi terlengkap di Indonesia dengan sistem pembayaran QRIS otomatis dan pengiriman kredensial instan.
+                Platform penyedia akun AI resmi & software premium terpercaya di Indonesia dengan Dynamic QRIS instan dan bantuan Telegram 24/7.
               </p>
+              <div className="pt-1">
+                <a
+                  href="https://t.me/buybitsofficial"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2AABEE] text-white text-xs font-bold hover:bg-[#229ED9] transition-all"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Telegram: @buybitsofficial</span>
+                </a>
+              </div>
             </div>
 
             <div>
@@ -467,7 +522,7 @@ export default function App() {
                     onClick={() => setActiveTab('HOME')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    HOME
+                    Home
                   </button>
                 </li>
                 <li>
@@ -475,7 +530,7 @@ export default function App() {
                     onClick={() => setActiveTab('MENU')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    MENU (Semua Produk)
+                    Store (Semua Produk)
                   </button>
                 </li>
                 <li>
@@ -483,7 +538,7 @@ export default function App() {
                     onClick={() => setActiveTab('FLASH SALE')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    FLASH SALE (Diskon 80%)
+                    Flash Sale (Diskon 80%)
                   </button>
                 </li>
                 <li>
@@ -491,7 +546,7 @@ export default function App() {
                     onClick={() => setActiveTab('ABOUT')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    ABOUT (Tentang & Garansi)
+                    About (Tentang & Garansi)
                   </button>
                 </li>
               </ul>
@@ -503,46 +558,55 @@ export default function App() {
               </h4>
               <ul className="space-y-2 text-xs text-neutral-400">
                 <li className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#CCFF00]" />
                   <span>100% Full Warranty Replace</span>
                 </li>
                 <li className="flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-yellow-400" />
-                  <span>Instant Delivery via WA/Email</span>
+                  <Zap className="w-3.5 h-3.5 text-[#CCFF00]" />
+                  <span>Instant Delivery via Web & Email</span>
                 </li>
                 <li className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#CCFF00]" />
                   <span>Legal & Private Accounts</span>
                 </li>
                 <li className="flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>QRIS & Virtual Account Aman</span>
+                  <Lock className="w-3.5 h-3.5 text-[#CCFF00]" />
+                  <span>Dynamic QRIS Standar Bank Indonesia</span>
                 </li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3">
-                Layanan Pelanggan 24/7
+                Layanan Pelanggan & Support
               </h4>
               <p className="text-xs text-neutral-400 mb-3">
-                Ada pertanyaan atau butuh bantuan aktivasi? Hubungi kami kapan saja.
+                Hubungi kami kapan saja untuk konsultasi atau klaim garansi.
               </p>
-              <a
-                href="https://wa.me/6281234567890"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors cursor-pointer"
-              >
-                <span>WhatsApp Support 24/7</span>
-              </a>
+              <div className="flex flex-col gap-2">
+                <a
+                  href="https://t.me/buybitsofficial"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-[#2AABEE] hover:bg-[#229ED9] text-white text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Telegram @buybitsofficial</span>
+                </a>
+                <button
+                  onClick={() => setIsOrderLookupOpen(true)}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors cursor-pointer"
+                >
+                  <span>Cek Status Pesanan</span>
+                </button>
+              </div>
             </div>
           </div>
 
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3">
-            <p>© {new Date().getFullYear()} BUYBITS.ID. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} buybitsofficial. All rights reserved.</p>
             <p>
-              Kurs Referensi: $1 = Rp 13.948 • QRIS Standar Bank Indonesia
+              Telegram Resmi: @buybitsofficial • Dynamic QRIS Bank Indonesia
             </p>
           </div>
         </div>
@@ -576,7 +640,7 @@ export default function App() {
         currencyMode={currencyMode}
       />
 
-      {/* 3. Checkout Modal with Real-time QRIS IDR Conversion */}
+      {/* 3. Checkout Modal with Dynamic QRIS Real-time IDR Conversion */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
@@ -585,14 +649,26 @@ export default function App() {
         onOrderSuccess={handleOrderSuccess}
       />
 
-      {/* 4. Order Success & Credentials Delivery Modal */}
+      {/* 4. Order Success & Credentials Delivery Modal with Telegram Redirection */}
       <OrderSuccessModal
         order={activeOrder}
         isOpen={!!activeOrder}
         onClose={() => setActiveOrder(null)}
       />
 
-      {/* 5. User Auth (Login/Register) Modal */}
+      {/* 5. Customer Self-Service Order Lookup Modal */}
+      <OrderLookupModal
+        isOpen={isOrderLookupOpen}
+        onClose={() => setIsOrderLookupOpen(false)}
+      />
+
+      {/* 6. Admin Control Panel & Inventory Modal */}
+      <AdminDashboardModal
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+      />
+
+      {/* 7. User Auth (Login/Register) Modal */}
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}

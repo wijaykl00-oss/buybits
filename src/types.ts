@@ -20,7 +20,6 @@ export type BrandType =
   | 'leonardo'
   | 'deepseek'
   | 'openai';
-  
 
 export type CategoryType =
   | 'ALL'
@@ -56,6 +55,7 @@ export interface Product {
   warrantyText: string;
   deliveryTime: string;
   reviews: Review[];
+  availableStock?: number;
 }
 
 export interface CartItem {
@@ -74,6 +74,26 @@ export interface User {
   isVerifiedBuyer: boolean;
 }
 
+export type OrderStatus =
+  | 'PENDING'
+  | 'PAID'
+  | 'FULFILLED'
+  | 'EXPIRED'
+  | 'FAILED'
+  | 'CANCELLED';
+
+export interface DigitalCredential {
+  serviceName: string;
+  productId: string;
+  accountEmail?: string;
+  accountPassword?: string;
+  loginUrl: string;
+  instructions: string;
+  licenseKey?: string;
+  inviteLink?: string;
+  expiresAt: string;
+}
+
 export interface Order {
   id: string;
   orderNumber: string;
@@ -88,14 +108,27 @@ export interface Order {
   uniqueCode: number;
   finalTotalIdr: number;
   paymentMethod: string;
-  status: 'PENDING' | 'PAID' | 'DELIVERED';
-  credentials?: {
-    serviceName: string;
-    accountEmail: string;
-    accountPassword: string;
-    loginUrl: string;
-    instructions: string;
-    licenseKey?: string;
-    expiresAt: string;
-  }[];
+  status: OrderStatus;
+  qrisPayload?: string;
+  expiresAt?: string;
+  transactionId?: string;
+  paidAt?: string;
+  fulfilledAt?: string;
+  credentials?: DigitalCredential[];
+}
+
+export interface InventoryItem {
+  id: string;
+  productId: string;
+  productName: string;
+  type: 'ACCOUNT' | 'LICENSE_KEY' | 'INVITE_LINK';
+  accountEmail?: string;
+  accountPassword?: string;
+  licenseKey?: string;
+  loginUrl?: string;
+  instructions?: string;
+  status: 'AVAILABLE' | 'SOLD';
+  orderId?: string;
+  createdAt: string;
+  soldAt?: string;
 }

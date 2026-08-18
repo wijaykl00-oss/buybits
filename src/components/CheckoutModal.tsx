@@ -10,13 +10,12 @@ import {
   ArrowLeft,
   Lock,
   Sparkles,
-  Download,
   AlertCircle,
+  RefreshCw,
 } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import { CartItem, Order, User } from '../types';
 import { convertUsdToIdr, formatIdr, formatUsd, USD_TO_IDR_RATE } from '../data/products';
-
-const qrisPng = '/foto/qris.png';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -36,10 +35,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [step, setStep] = useState<'form' | 'payment'>('form');
   const [customerName, setCustomerName] = useState(currentUser?.name || '');
   const [customerEmail, setCustomerEmail] = useState(currentUser?.email || '');
+  const [customerWhatsApp, setCustomerWhatsApp] = useState(currentUser?.phone || '');
 
-  // Unique verification code (3 digits)
-  const [uniqueCode] = useState(() => Math.floor(100 + Math.random() * 899));
+  const [isLoadingCheckout, setIsLoadingCheckout] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  // Active Order Details from Server
+  const [serverOrder, setServerOrder] = useState<Order | null>(null);
+  const [qrisPayload, setQrisPayload] = useState<string>('');
   const [copiedAmount, setCopiedAmount] = useState(false);
+  const [copiedQris, setCopiedQris] = useState(false);
   const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
 
@@ -47,17 +52,40 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     if (currentUser) {
       if (!customerName) setCustomerName(currentUser.name);
       if (!customerEmail) setCustomerEmail(currentUser.email);
+      if (!customerWhatsApp && currentUser.phone) setCustomerWhatsApp(currentUser.phone);
     }
   }, [currentUser]);
 
   // Payment Countdown Timer
   useEffect(() => {
-    if (step !== 'payment') return;
+    if (step !== 'payment' || !serverOrder) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(timer);
-  }, [step]);
+  }, [step, serverOrder]);
+
+  // Real-time Polling for Payment Webhook Confirmation
+  useEffect(() => {
+    if (step !== 'payment' || !serverOrder || serverOrder.status === 'FULFILLED') return;
+
+    const pollInterval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/orders/${serverOrder.id}?email=${encodeURIComponent(customerEmail)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (data.success && (data.order.status === 'FULFILLED' || data.order.status === 'PAID')) {
+          clearInterval(pollInterval);
+          onOrderSuccess(data.order);
+        }
+      } catch (err) {
+        // Safe polling ignore
+      }
+    }, 3000);
+
+    return () => clearInterval(pollInterval);
+  }, [step, serverOrder, customerEmail, onOrderSuccess]);
 
   if (!isOpen || items.length === 0) return null;
 
@@ -66,78 +94,94 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     0
   );
   const baseTotalIdr = convertUsdToIdr(totalUsd);
-  const finalTotalIdr = baseTotalIdr + uniqueCode;
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const formatTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-  const handleProceedToPayment = (e: React.FormEvent) => {
+  const handleProceedToPayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerEmail) return;
-    setStep('payment');
+    if (!customerEmail || !customerEmail.includes('@')) {
+      setCheckoutError('Silakan masukkan alamat email yang valid');
+      return;
+    }
+
+    setIsLoadingCheckout(true);
+    setCheckoutError(null);
+
+    try {
+      // Call Server Checkout API with price validation and stock lock
+      const response = await fetch('/api/orders/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: customerName.trim() || 'Pelanggan Buybits',
+          customerEmail: customerEmail.trim().toLowerCase(),
+          customerWhatsApp: customerWhatsApp.trim(),
+          items: items.map((it) => ({
+            productId: it.product.id,
+            quantity: it.quantity,
+          })),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Gagal memproses checkout server');
+      }
+
+      setServerOrder(data.order);
+      setQrisPayload(data.qrisPayload);
+      setStep('payment');
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      setCheckoutError(err.message || 'Terjadi kesalahan saat memproses checkout. Silakan coba lagi.');
+    } finally {
+      setIsLoadingCheckout(false);
+    }
   };
 
-  const handleSimulateInstantPayment = () => {
+  const handleSimulatePaymentWebhook = async () => {
+    if (!serverOrder) return;
     setIsVerifyingPayment(true);
 
-    setTimeout(() => {
-      const orderNumber = `AIS-${Date.now().toString().slice(-6)}`;
-      const order: Order = {
-        id: `ord-${Date.now()}`,
-        orderNumber,
-        createdAt: new Date().toLocaleDateString('id-ID', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
+    try {
+      // Call backend payment webhook simulator endpoint
+      const response = await fetch('/api/admin/simulate-webhook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: serverOrder.id,
+          action: 'PAY_AND_FULFILL',
         }),
-        customerName: customerName.trim() || 'Pelanggan Buybits',
-        customerEmail: customerEmail.trim(),
-        items: [...items],
-        totalUsd,
-        totalIdr: baseTotalIdr,
-        exchangeRate: USD_TO_IDR_RATE,
-        uniqueCode,
-        finalTotalIdr,
-        paymentMethod: 'QRIS Otomatis',
-        status: 'PAID',
-        credentials: items.map((item) => ({
-          serviceName: item.product.name,
-          accountEmail: `vip-${item.product.brand}-${Date.now().toString().slice(-4)}@aistore-premium.com`,
-          accountPassword: `Pass#${Math.random().toString(36).slice(-8)}!`,
-          loginUrl:
-            item.product.brand === 'claude'
-              ? 'https://claude.ai/login'
-              : item.product.brand === 'chatgpt'
-              ? 'https://chatgpt.com/auth/login'
-              : item.product.brand === 'cursor'
-              ? 'https://cursor.com/login'
-              : item.product.brand === 'google'
-              ? 'https://gemini.google.com/app'
-              : 'https://platform.openai.com/api-keys',
-          instructions:
-            'Gunakan email dan password ini untuk login langsung. Akun 100% private, Anda dapat mengganti password atau mengaktifkan 2FA sendiri.',
-          licenseKey:
-            item.product.category === 'API'
-              ? `sk-proj-${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`
-              : undefined,
-          expiresAt: item.product.durationBadge.includes('Tahun') || item.product.durationBadge.includes('YEAR')
-            ? '365 Hari dari sekarang'
-            : '30 Hari dari sekarang',
-        })),
-      };
+      });
 
+      const data = await response.json();
+      if (data.success && data.order) {
+        setIsVerifyingPayment(false);
+        onOrderSuccess(data.order);
+      } else {
+        throw new Error(data.error || 'Simulasi pembayaran gagal');
+      }
+    } catch (err: any) {
+      console.error('Simulation error:', err);
       setIsVerifyingPayment(false);
-      onOrderSuccess(order);
-    }, 1200);
+      alert('Gagal memverifikasi: ' + err.message);
+    }
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopiedAmount(true);
     setTimeout(() => setCopiedAmount(false), 2000);
+  };
+
+  const copyQrisPayload = () => {
+    if (!qrisPayload) return;
+    navigator.clipboard.writeText(qrisPayload);
+    setCopiedQris(true);
+    setTimeout(() => setCopiedQris(false), 2000);
   };
 
   return (
@@ -152,7 +196,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         </button>
 
         {step === 'form' ? (
-          /* STEP 1: Customer Details (Name & Email) & QRIS Payment Only */
+          /* STEP 1: Customer Details & Order Breakdown */
           <div>
             <div className="mb-5">
               <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
@@ -162,9 +206,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 Data Pemesanan & Pengiriman
               </h3>
               <p className="text-xs text-neutral-500 mt-0.5">
-                Kredensial akun (Email & Password) akan otomatis dikirimkan ke Email berikut.
+                Kredensial akun (Email, Password, API Key) akan otomatis diberikan dan dikirim ke Email ini.
               </p>
             </div>
+
+            {checkoutError && (
+              <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-2xl flex items-center gap-2.5 text-xs text-rose-700 font-medium">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                <span>{checkoutError}</span>
+              </div>
+            )}
 
             <form onSubmit={handleProceedToPayment} className="space-y-4">
               <div className="space-y-3">
@@ -184,7 +235,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
                 <div>
                   <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
-                    Alamat Email (Penerima Akun)
+                    Alamat Email (Penerima Akun / Kredensial) *
                   </label>
                   <input
                     type="email"
@@ -195,9 +246,22 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     className="w-full px-3.5 py-2.5 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-hidden font-medium"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
+                    Nomor WhatsApp (Opsional untuk Notifikasi)
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="08123456789"
+                    value={customerWhatsApp}
+                    onChange={(e) => setCustomerWhatsApp(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-xs bg-neutral-50 border border-neutral-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-hidden font-medium"
+                  />
+                </div>
               </div>
 
-              {/* Payment Method Selector (QRIS Only) */}
+              {/* Payment Method Selector (Dynamic QRIS Only) */}
               <div>
                 <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1.5">
                   Metode Pembayaran
@@ -209,20 +273,20 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     </div>
                     <div>
                       <span className="block text-xs font-black text-neutral-900 uppercase">
-                        QRIS Realtime Otomatis
+                        Dynamic QRIS Realtime
                       </span>
                       <span className="text-[11px] text-neutral-500 font-medium">
-                        Mendukung semua Bank (BCA, Mandiri, BRI, BNI) & E-Wallet (GoPay, OVO, Dana, ShopeePay)
+                        Otomatis terisi nominal. Scan pakai BCA, Mandiri, BRI, BNI, GoPay, OVO, Dana, ShopeePay.
                       </span>
                     </div>
                   </div>
                   <span className="text-[10px] bg-emerald-500 text-white font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                    Otomatis
+                    Instant
                   </span>
                 </div>
               </div>
 
-              {/* Dynamic Currency Rate Conversion Breakdown */}
+              {/* Price Breakdown */}
               <div className="bg-neutral-50 rounded-2xl p-4 border border-neutral-200 space-y-2 text-xs">
                 <div className="flex justify-between text-neutral-600">
                   <span>Subtotal ({items.length} item):</span>
@@ -233,32 +297,38 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   <span className="font-bold">Rp {USD_TO_IDR_RATE.toLocaleString('id-ID')}</span>
                 </div>
                 <div className="flex justify-between text-neutral-600">
-                  <span>Konversi Otomatis ke Rupiah:</span>
+                  <span>Konversi ke Rupiah:</span>
                   <span className="font-bold">{formatIdr(baseTotalIdr)}</span>
                 </div>
-                <div className="flex justify-between text-indigo-600 font-semibold">
-                  <span>Kode Verifikasi Unik Otomatis:</span>
-                  <span>+{uniqueCode}</span>
-                </div>
                 <div className="flex justify-between text-neutral-900 font-black text-sm pt-2 border-t border-neutral-200">
-                  <span>Total yang Harus Ditransfer:</span>
+                  <span>Perkiraan Total IDR:</span>
                   <span className="text-base text-indigo-700">
-                    {formatIdr(finalTotalIdr)}
+                    {formatIdr(baseTotalIdr)}
                   </span>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-full bg-[#1c1d22] hover:bg-neutral-900 text-white text-xs font-black uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                disabled={isLoadingCheckout}
+                className="w-full py-3.5 rounded-full bg-[#1c1d22] hover:bg-neutral-900 active:scale-98 text-white text-xs font-black uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
-                <Sparkles className="w-4 h-4 text-yellow-300" />
-                <span>Lanjut ke Bayar QRIS ({formatIdr(finalTotalIdr)})</span>
+                {isLoadingCheckout ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin text-indigo-400" />
+                    <span>Membuat Dynamic QRIS Server...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 text-yellow-300" />
+                    <span>Lanjut ke Bayar Dynamic QRIS</span>
+                  </>
+                )}
               </button>
             </form>
           </div>
         ) : (
-          /* STEP 2: Real-time Dynamic QRIS Payment Screen with qris.png Image */
+          /* STEP 2: Real-time Dynamic QRIS Payment Screen */
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <button
@@ -274,58 +344,54 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
             </div>
 
-            {/* QRIS Card with Official Indonesian Banking Look */}
+            {/* Official Indonesian Dynamic QRIS Card */}
             <div className="bg-white rounded-3xl border-2 border-neutral-300 p-5 shadow-lg flex flex-col items-center text-center relative overflow-hidden">
-              {/* Alipay Top Banner */}
-              <div className="w-full bg-[#1677FF] text-white py-2 px-4 rounded-xl flex items-center justify-between shadow-xs mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[#1677FF] font-black text-[11px]">
-                    支
-                  </div>
-                  <span className="text-sm font-black tracking-wider uppercase">
-                    Alipay
-                  </span>
-                </div>
-                <span className="text-[10px] font-bold bg-white/20 px-2 py-0.5 rounded-md">
-                  QRIS / E-Wallet
-                </span>
-              </div>
-
+              {/* Header GPN / QRIS */}
               <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="bg-red-600 text-white text-[11px] font-black px-2 py-0.5 rounded tracking-tighter">
+                  <div className="bg-red-600 text-white text-[11px] font-black px-2 py-0.5 rounded tracking-tighter shadow-xs">
                     QRIS
                   </div>
-                  <span className="text-[10px] font-bold text-neutral-600">
-                    QR Standar Pembayaran Nasional
+                  <span className="text-[10px] font-bold text-neutral-700">
+                    QR Standar Pembayaran Nasional (Dynamic)
                   </span>
                 </div>
-                <div className="text-[10px] font-black text-neutral-400">
+                <div className="text-[10px] font-black text-neutral-500 tracking-wider">
                   GPN INDONESIA
                 </div>
               </div>
 
               <div className="mb-2">
-                <div className="text-xs font-black text-[#1677FF] uppercase tracking-wider mb-0.5">
-                  Alipay / QRIS Payment
+                <div className="text-[11px] font-black text-indigo-600 uppercase tracking-wider mb-0.5">
+                  Order ID: {serverOrder?.orderNumber}
                 </div>
                 <h4 className="text-sm font-black text-neutral-900 uppercase tracking-tight">
                   BUYBITS ID OFFICIAL
                 </h4>
                 <p className="text-[11px] text-neutral-500">
-                  NMID: ID1024889201992 • Instant Verification
+                  NMID: ID1024889201992 • Instant Realtime Verification
                 </p>
               </div>
 
-              {/* Real QRIS Image from foto/qris.png */}
-              <div className="bg-white p-3 rounded-2xl border border-neutral-200 shadow-xs my-2 relative max-w-xs">
-                <img
-                  src={qrisPng}
-                  alt="QRIS Code Buybits"
-                  className="w-56 sm:w-64 h-auto mx-auto rounded-xl shadow-md border border-neutral-100 object-contain"
-                />
+              {/* Dynamic QR Code Vector Rendered from Payload */}
+              <div className="bg-white p-3 rounded-2xl border border-neutral-200 shadow-md my-2 relative max-w-xs flex flex-col items-center">
+                {qrisPayload ? (
+                  <div className="p-2 bg-white rounded-xl">
+                    <QRCodeSVG
+                      value={qrisPayload}
+                      size={210}
+                      level="M"
+                      includeMargin={false}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-52 h-52 flex items-center justify-center bg-neutral-100 rounded-xl">
+                    <RefreshCw className="w-6 h-6 animate-spin text-neutral-400" />
+                  </div>
+                )}
+
                 <div className="text-[10px] font-bold text-neutral-500 mt-2">
-                  Scan pakai Alipay, BCA, GoPay, OVO, Dana, ShopeePay, Mandiri, BRI & semua Bank/E-Wallet
+                  Buka aplikasi M-Banking atau E-Wallet apa saja dan arahkan kamera ke kode QR di atas.
                 </div>
               </div>
 
@@ -336,11 +402,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </span>
                 <div className="flex items-center justify-center gap-2 mt-1">
                   <span className="text-2xl font-black text-indigo-700 font-mono">
-                    {formatIdr(finalTotalIdr)}
+                    {formatIdr(serverOrder?.finalTotalIdr || 0)}
                   </span>
                   <button
                     type="button"
-                    onClick={() => copyToClipboard(finalTotalIdr.toString())}
+                    onClick={() => copyToClipboard(serverOrder?.finalTotalIdr.toString() || '')}
                     className="p-1.5 rounded-lg bg-white border border-neutral-300 hover:bg-neutral-100 text-neutral-700 transition-colors cursor-pointer"
                     title="Salin Nominal"
                   >
@@ -352,36 +418,47 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   </button>
                 </div>
                 <span className="text-[10px] text-amber-700 font-semibold block mt-1">
-                  ⚠️ Pastikan nominal transfer sesuai persis hingga 3 digit terakhir agar terdeteksi otomatis!
+                  ⚠️ Nominal sudah diatur otomatis oleh Dynamic QRIS.
                 </span>
               </div>
             </div>
 
-            {/* Check Payment Simulator Button */}
+            {/* Check Payment & Webhook Simulation Button */}
             <div className="space-y-2 pt-2">
               <button
                 type="button"
                 id="btn-confirm-payment"
-                onClick={handleSimulateInstantPayment}
+                onClick={handleSimulatePaymentWebhook}
                 disabled={isVerifyingPayment}
-                className="w-full py-3.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-98 text-white text-xs font-black uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all"
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-98 text-white text-xs font-black uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all disabled:opacity-60"
               >
                 {isVerifyingPayment ? (
                   <>
                     <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Mengecek Transaksi QRIS Realtime...</span>
+                    <span>Memverifikasi Pembayaran QRIS...</span>
                   </>
                 ) : (
                   <>
                     <Check className="w-4 h-4 stroke-[3]" />
-                    <span>Saya Sudah Bayar (Cek Otomatis)</span>
+                    <span>Saya Sudah Bayar (Cek Otomatis / Simulasi Webhook)</span>
                   </>
                 )}
               </button>
 
-              <p className="text-[10px] text-center text-neutral-500 font-medium">
-                Sistem kami memindai mutasi bank setiap 5 detik. Akun akan langsung tampil di layar setelah pembayaran diterima.
-              </p>
+              <div className="flex items-center justify-center gap-3 text-[10px] text-neutral-500">
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  Mendengarkan Webhook Gateway Realtime
+                </span>
+                <span>•</span>
+                <button
+                  type="button"
+                  onClick={copyQrisPayload}
+                  className="text-indigo-600 hover:underline cursor-pointer"
+                >
+                  {copiedQris ? 'Disalin!' : 'Salin String QRIS'}
+                </button>
+              </div>
             </div>
           </div>
         )}

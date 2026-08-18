@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import {
   ShoppingCart,
   Zap,
-  Sparkles,
   Search,
   User as UserIcon,
   Menu as MenuIcon,
   X,
   Shield,
   DollarSign,
+  Package,
+  Globe,
+  LogIn,
+  Send,
 } from 'lucide-react';
 import { User } from '../types';
 
@@ -24,6 +27,8 @@ interface HeaderProps {
   onSearchChange: (q: string) => void;
   currencyMode: 'USD' | 'IDR';
   onToggleCurrency: () => void;
+  onOpenOrderLookup: () => void;
+  onOpenAdminDashboard: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -38,152 +43,220 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchChange,
   currencyMode,
   onToggleCurrency,
+  onOpenOrderLookup,
+  onOpenAdminDashboard,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  const navItems: Array<'HOME' | 'MENU' | 'FLASH SALE' | 'ABOUT'> = [
-    'HOME',
-    'MENU',
-    'FLASH SALE',
-    'ABOUT',
-  ];
-
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200 shadow-xs">
+    <header className="sticky top-0 z-40 bg-[#EFEFEA]/95 backdrop-blur-md border-b border-neutral-300 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 gap-4">
-          {/* Logo & Brand */}
+        <div className="flex items-center justify-between h-20 gap-4">
+          {/* Logo & Brand: buybitsofficial with Star Icon */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => onSelectTab('HOME')}
               className="flex items-center gap-2.5 text-left group cursor-pointer"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-                <Sparkles className="w-5 h-5 text-yellow-300" />
+              {/* Star Logo with rounded purple frame matching screenshot */}
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-600 to-indigo-700 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform p-2">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-full h-full text-white"
+                >
+                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
+                </svg>
               </div>
-              <div>
-                <span className="text-lg font-black tracking-tight text-neutral-900 flex items-center gap-1.5">
-                  BUYBITS<span className="text-indigo-600">.ID</span>
+              <div className="flex flex-col">
+                <span className="text-base sm:text-lg font-black tracking-tight text-neutral-900 leading-none">
+                  buybits<span className="text-indigo-600 font-extrabold">official</span>
                 </span>
-                <span className="text-[10px] block font-semibold text-neutral-500 tracking-wider uppercase">
-                  Official AI Accounts
+                <span className="text-[9px] font-bold text-neutral-500 tracking-wider uppercase mt-0.5">
+                  AI & Software Market
                 </span>
               </div>
             </button>
           </div>
 
-          {/* Desktop Navigation Tabs: HOME, MENU, FLASH SALE, ABOUT */}
-          <nav className="hidden md:flex items-center gap-1 bg-neutral-100/90 p-1.5 rounded-full border border-neutral-200/80">
-            {navItems.map((tab) => {
-              const isActive = activeTab === tab;
-              const isFlash = tab === 'FLASH SALE';
+          {/* Center Navigation Tabs: Home, Store, Flash Sale (HOT), About */}
+          <nav className="hidden md:flex items-center gap-8 text-xs sm:text-sm font-bold text-neutral-700">
+            <button
+              onClick={() => onSelectTab('HOME')}
+              className={`relative py-1.5 transition-colors cursor-pointer ${
+                activeTab === 'HOME'
+                  ? 'text-indigo-600 font-black'
+                  : 'text-neutral-700 hover:text-neutral-950'
+              }`}
+            >
+              <span>Home</span>
+              {activeTab === 'HOME' && (
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+              )}
+            </button>
 
-              return (
-                <button
-                  key={tab}
-                  id={`nav-tab-${tab.toLowerCase().replace(' ', '-')}`}
-                  onClick={() => onSelectTab(tab)}
-                  className={`px-4 py-2 rounded-full text-xs font-black tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
-                    isActive
-                      ? isFlash
-                        ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-sm'
-                        : 'bg-[#1c1d22] text-white shadow-sm'
-                      : isFlash
-                      ? 'text-rose-600 hover:text-rose-700 hover:bg-rose-50'
-                      : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/80'
-                  }`}
-                >
-                  {isFlash && (
-                    <Zap className="w-3.5 h-3.5 fill-current animate-bounce" />
-                  )}
-                  {tab}
-                  {isFlash && (
-                    <span className="bg-amber-400 text-neutral-950 text-[9px] font-black px-1.5 py-0.2 rounded-full">
-                      -80%
-                    </span>
-                  )}
-                </button>
-              );
-            })}
+            <button
+              onClick={() => onSelectTab('MENU')}
+              className={`relative py-1.5 transition-colors cursor-pointer ${
+                activeTab === 'MENU'
+                  ? 'text-indigo-600 font-black'
+                  : 'text-neutral-700 hover:text-neutral-950'
+              }`}
+            >
+              <span>Store</span>
+              {activeTab === 'MENU' && (
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+              )}
+            </button>
+
+            <button
+              onClick={() => onSelectTab('FLASH SALE')}
+              className={`relative py-1.5 transition-colors flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'FLASH SALE'
+                  ? 'text-indigo-600 font-black'
+                  : 'text-neutral-700 hover:text-neutral-950'
+              }`}
+            >
+              <span>Flash Sale</span>
+              <span className="bg-[#CCFF00] text-neutral-950 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-neutral-900 leading-none">
+                HOT
+              </span>
+              {activeTab === 'FLASH SALE' && (
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+              )}
+            </button>
+
+            <button
+              onClick={() => onSelectTab('ABOUT')}
+              className={`relative py-1.5 transition-colors cursor-pointer ${
+                activeTab === 'ABOUT'
+                  ? 'text-indigo-600 font-black'
+                  : 'text-neutral-700 hover:text-neutral-950'
+              }`}
+            >
+              <span>About</span>
+              {activeTab === 'ABOUT' && (
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+              )}
+            </button>
           </nav>
 
-          {/* Right Action Controls: Search, Currency Toggle, User, Cart */}
+          {/* Right Action Controls */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Search Input on Desktop */}
-            <div className="hidden lg:flex items-center relative w-56">
-              <Search className="w-4 h-4 text-neutral-400 absolute left-3 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Cari AI (Claude, Cursor...)"
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 text-xs bg-neutral-100 border border-neutral-200 rounded-full focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500 text-neutral-800 placeholder:text-neutral-400 font-medium"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => onSearchChange('')}
-                  className="absolute right-2.5 text-neutral-400 hover:text-neutral-600 text-xs"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            {/* Currency Toggle (USD / IDR) */}
+            {/* Currency / Language Toggle Pill (EN / ID) */}
             <button
               onClick={onToggleCurrency}
-              id="currency-toggle-btn"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition-colors shadow-2xs cursor-pointer"
-              title="Ganti mata uang tampilan (USD / IDR)"
+              id="header-currency-btn"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition-colors shadow-2xs cursor-pointer"
+              title="Ganti mata uang / bahasa"
             >
-              <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{currencyMode}</span>
-              <span className="text-[10px] text-neutral-400 font-normal">
-                {currencyMode === 'USD' ? '($)' : '(Rp)'}
+              <Globe className="w-3.5 h-3.5 text-neutral-600" />
+              <span>{currencyMode === 'USD' ? 'EN ($)' : 'ID (Rp)'}</span>
+              <span className="text-[10px] text-neutral-400">▾</span>
+            </button>
+
+            {/* Cart Pill with Count Badge */}
+            <button
+              onClick={onOpenCart}
+              id="header-cart-btn"
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-900 transition-transform active:scale-95 shadow-2xs cursor-pointer"
+              title="Buka Keranjang"
+            >
+              <ShoppingCart className="w-3.5 h-3.5 text-neutral-700" />
+              <span>Cart</span>
+              <span className="bg-[#CCFF00] text-neutral-950 text-[10px] font-black px-1.5 py-0.5 rounded-full border border-neutral-900 min-w-[18px] text-center leading-none">
+                {cartCount}
               </span>
             </button>
 
-            {/* User Account / Login Button */}
+            {/* Telegram Button linking to @buybitsofficial */}
+            <a
+              href="https://t.me/buybitsofficial"
+              target="_blank"
+              rel="noreferrer"
+              id="header-telegram-btn"
+              className="w-9 h-9 rounded-full bg-[#2AABEE] hover:bg-[#229ED9] text-white flex items-center justify-center shadow-sm hover:scale-105 transition-all cursor-pointer"
+              title="Hubungi Admin Telegram @buybitsofficial"
+            >
+              {/* Telegram Plane Icon */}
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-4 h-4 translate-x-[-1px] translate-y-[1px]"
+              >
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+              </svg>
+            </a>
+
+            {/* Cek Pesanan */}
+            <button
+              onClick={onOpenOrderLookup}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition-colors shadow-2xs cursor-pointer"
+              title="Lacak Pesanan"
+            >
+              <Package className="w-3.5 h-3.5 text-neutral-600" />
+              <span>Cek Pesanan</span>
+            </button>
+
+            {/* Admin Dashboard */}
+            <button
+              onClick={onOpenAdminDashboard}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-neutral-900 hover:bg-neutral-800 text-xs font-bold text-white transition-colors shadow-2xs cursor-pointer"
+              title="Admin Panel"
+            >
+              <Shield className="w-3.5 h-3.5 text-yellow-400" />
+              <span>Admin</span>
+            </button>
+
+            {/* User Login / Profile Button */}
             {currentUser ? (
               <div className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-900 text-xs font-bold hover:bg-indigo-100 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-neutral-300 text-neutral-900 text-xs font-bold hover:bg-neutral-50 transition-colors cursor-pointer shadow-2xs"
                 >
                   <img
                     src={currentUser.avatar}
                     alt={currentUser.name}
                     className="w-5 h-5 rounded-full object-cover border border-indigo-400"
                   />
-                  <span className="hidden sm:inline max-w-[90px] truncate">
+                  <span className="hidden sm:inline max-w-[80px] truncate">
                     {currentUser.name}
                   </span>
-                  <span className="bg-emerald-500 w-2 h-2 rounded-full" />
                 </button>
 
                 {userDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-neutral-200 p-2 z-50 animate-in fade-in slide-in-from-top-2">
                     <div className="p-3 border-b border-neutral-100">
-                      <p className="text-xs font-bold text-neutral-900">
-                        {currentUser.name}
-                      </p>
-                      <p className="text-[11px] text-neutral-500 truncate">
-                        {currentUser.email}
-                      </p>
-                      <div className="flex items-center gap-1 mt-1.5 text-[10px] font-bold text-emerald-600">
-                        <Shield className="w-3 h-3" />
-                        <span>Pembeli Terverifikasi</span>
-                      </div>
+                      <p className="text-xs font-bold text-neutral-900">{currentUser.name}</p>
+                      <p className="text-[11px] text-neutral-500 truncate">{currentUser.email}</p>
                     </div>
+                    <button
+                      onClick={() => {
+                        setUserDropdownOpen(false);
+                        onOpenOrderLookup();
+                      }}
+                      className="w-full text-left px-3 py-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 rounded-xl transition-colors mt-1"
+                    >
+                      Riwayat & Kredensial Saya
+                    </button>
+                    <a
+                      href="https://t.me/buybitsofficial"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full text-left px-3 py-2 text-xs font-bold text-[#2AABEE] hover:bg-sky-50 rounded-xl transition-colors flex items-center gap-1.5"
+                    >
+                      <span>Support @buybitsofficial</span>
+                    </a>
                     <button
                       onClick={() => {
                         setUserDropdownOpen(false);
                         onLogout();
                       }}
-                      className="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors mt-1"
+                      className="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
                     >
-                      Keluar / Ganti Akun
+                      Keluar
                     </button>
                   </div>
                 )}
@@ -192,80 +265,97 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 id="btn-open-login"
                 onClick={onOpenAuthModal}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-800 text-xs font-bold transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1E1E1E] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
               >
-                <UserIcon className="w-3.5 h-3.5 text-neutral-600" />
-                <span>Masuk</span>
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Sign In</span>
               </button>
             )}
-
-            {/* Cart Button with Count Badge */}
-            <button
-              id="btn-header-cart"
-              onClick={onOpenCart}
-              className="relative p-2.5 rounded-full bg-[#4f46e5] hover:bg-[#4338ca] text-white transition-transform active:scale-95 shadow-sm cursor-pointer"
-              title="Buka Keranjang Belanja"
-            >
-              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center ring-2 ring-white animate-pulse">
-                  {cartCount}
-                </span>
-              )}
-            </button>
 
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl text-neutral-700 hover:bg-neutral-100"
+              className="md:hidden p-2 rounded-xl text-neutral-700 hover:bg-neutral-200/60"
             >
-              {mobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <MenuIcon className="w-5 h-5" />
-              )}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-neutral-200 space-y-2">
-            <div className="relative mb-3">
-              <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-2.5" />
-              <input
-                type="text"
-                placeholder="Cari AI accounts..."
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-neutral-100 border border-neutral-200 rounded-xl"
-              />
-            </div>
+          <div className="md:hidden py-4 border-t border-neutral-300 space-y-3">
             <div className="grid grid-cols-2 gap-2">
-              {navItems.map((tab) => {
-                const isActive = activeTab === tab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => {
-                      onSelectTab(tab);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`px-4 py-2.5 rounded-xl text-xs font-bold tracking-wider text-left flex items-center justify-between ${
-                      isActive
-                        ? 'bg-[#1c1d22] text-white'
-                        : 'bg-neutral-100 text-neutral-800'
-                    }`}
-                  >
-                    <span>{tab}</span>
-                    {tab === 'FLASH SALE' && (
-                      <span className="bg-rose-500 text-white text-[9px] px-1.5 py-0.5 rounded-full">
-                        80% OFF
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
+              <button
+                onClick={() => {
+                  onSelectTab('HOME');
+                  setMobileMenuOpen(false);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => {
+                  onSelectTab('MENU');
+                  setMobileMenuOpen(false);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
+              >
+                Store
+              </button>
+              <button
+                onClick={() => {
+                  onSelectTab('FLASH SALE');
+                  setMobileMenuOpen(false);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300 flex items-center justify-between"
+              >
+                <span>Flash Sale</span>
+                <span className="bg-[#CCFF00] text-neutral-950 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-neutral-900">
+                  HOT
+                </span>
+              </button>
+              <button
+                onClick={() => {
+                  onSelectTab('ABOUT');
+                  setMobileMenuOpen(false);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
+              >
+                About
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-2 pt-2 border-t border-neutral-300">
+              <a
+                href="https://t.me/buybitsofficial"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-2.5 bg-[#2AABEE] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2"
+              >
+                <span>Chat Telegram @buybitsofficial</span>
+              </a>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenOrderLookup();
+                }}
+                className="w-full py-2.5 bg-white border border-neutral-300 text-neutral-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"
+              >
+                <Package className="w-3.5 h-3.5" />
+                <span>Cek Status Pesanan</span>
+              </button>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAdminDashboard();
+                }}
+                className="w-full py-2.5 bg-neutral-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"
+              >
+                <Shield className="w-3.5 h-3.5 text-yellow-400" />
+                <span>Admin Control Panel</span>
+              </button>
             </div>
           </div>
         )}
