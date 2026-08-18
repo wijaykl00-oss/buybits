@@ -10,7 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || 'buybits_secret_webhook_key_2026';
 
-app.use(express.json());
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // CORS headers for Vite dev server proxy or direct communication
 app.use((req, res, next) => {
@@ -198,6 +199,59 @@ app.get('/api/orders/:id', (req, res) => {
     success: true,
     order: sanitizedOrder,
   });
+});
+
+// ==========================================
+// 3b. POST /api/orders/:id/payment-proof - Upload Payment Proof
+// ==========================================
+app.post('/api/orders/:id/payment-proof', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { paymentProof } = req.body;
+
+    const order = db.getOrderById(id);
+    if (!order) {
+      return res.status(404).json({ success: false, error: 'Pesanan tidak ditemukan' });
+    }
+
+    if (!paymentProof || !paymentProof.imageUrl) {
+      return res.status(400).json({ success: false, error: 'Bukti pembayaran (gambar) wajib diunggah' });
+    }
+
+    order.paymentProof = {
+      imageUrl: paymentProof.imageUrl,
+      senderName: paymentProof.senderName || order.customerName,
+      senderBank: paymentProof.senderBank || 'QRIS / E-Wallet / Bank',
+      senderAccount: paymentProof.senderAccount || '',
+      transferAmount: paymentProof.transferAmount || order.finalTotalIdr,
+      notes: paymentProof.notes || '',
+      uploadedAt: paymentProof.uploadedAt || new Date().toISOString(),
+    };
+
+    // Auto fulfill and allocate digital credentials
+    const transactionId = `tx_proof_${Date.now()}`;
+    const fulfillment = await fulfillOrderAtomically(order.id, transactionId);
+
+    if (fulfillment.success && fulfillment.order) {
+      fulfillment.order.paymentProof = order.paymentProof;
+      db.saveOrder(fulfillment.order);
+      return res.json({
+        success: true,
+        message: 'Bukti pembayaran berhasil diunggah dan pesanan diproses!',
+        order: fulfillment.order,
+      });
+    }
+
+    db.saveOrder(order);
+    res.json({
+      success: true,
+      message: 'Bukti pembayaran berhasil diunggah!',
+      order,
+    });
+  } catch (err: any) {
+    console.error('[Payment Proof Upload Error]', err);
+    res.status(500).json({ success: false, error: err.message || 'Gagal menyimpan bukti pembayaran' });
+  }
 });
 
 // ==========================================

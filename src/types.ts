@@ -94,6 +94,16 @@ export interface DigitalCredential {
   expiresAt: string;
 }
 
+export interface PaymentProof {
+  imageUrl: string;
+  senderName: string;
+  senderBank?: string;
+  senderAccount?: string;
+  transferAmount?: number;
+  notes?: string;
+  uploadedAt: string;
+}
+
 export interface Order {
   id: string;
   orderNumber: string;
@@ -114,6 +124,7 @@ export interface Order {
   transactionId?: string;
   paidAt?: string;
   fulfilledAt?: string;
+  paymentProof?: PaymentProof;
   credentials?: DigitalCredential[];
 }
 

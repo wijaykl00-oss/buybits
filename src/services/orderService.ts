@@ -190,6 +190,53 @@ export function fulfillOrder(orderId: string): Order | null {
   return order;
 }
 
+export function submitPaymentProof(
+  orderId: string,
+  proof: {
+    imageUrl: string;
+    senderName: string;
+    senderBank?: string;
+    senderAccount?: string;
+    transferAmount?: number;
+    notes?: string;
+  }
+): Order | null {
+  const orders = getStoredOrders();
+  const order = orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+  if (!order) return null;
+
+  const uploadedAt = new Date().toISOString();
+  order.paymentProof = {
+    ...proof,
+    uploadedAt,
+  };
+
+  // If order is still pending, fulfill it automatically or update status
+  const fulfilledOrder = fulfillOrder(order.id);
+  if (fulfilledOrder) {
+    fulfilledOrder.paymentProof = {
+      ...proof,
+      uploadedAt,
+    };
+    saveStoredOrders(getStoredOrders().map((o) => (o.id === fulfilledOrder.id ? fulfilledOrder : o)));
+  }
+
+  // Also notify server endpoint with payment proof
+  fetch(`/api/orders/${encodeURIComponent(order.id)}/payment-proof`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      orderId: order.id,
+      paymentProof: {
+        ...proof,
+        uploadedAt,
+      },
+    }),
+  }).catch(() => {});
+
+  return fulfilledOrder || order;
+}
+
 export function lookupOrder(query: string, email?: string): Order | null {
   const orders = getStoredOrders();
   const q = query.trim().toLowerCase();
@@ -204,3 +251,4 @@ export function lookupOrder(query: string, email?: string): Order | null {
 export function getAllOrders(): Order[] {
   return getStoredOrders();
 }
+
