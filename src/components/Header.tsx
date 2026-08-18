@@ -50,17 +50,17 @@ export const Header: React.FC<HeaderProps> = ({
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-[#EFEFEA]/95 backdrop-blur-md border-b border-neutral-300 shadow-2xs">
+    <header className="sticky top-0 z-40 bg-[#F4F3EE]/95 backdrop-blur-md border-b border-neutral-300 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
-          {/* Logo & Brand: buybitsofficial with Star Icon */}
+          {/* Logo & Brand: buybitsofficial with Red Star Icon */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => onSelectTab('HOME')}
               className="flex items-center gap-2.5 text-left group cursor-pointer"
             >
-              {/* Star Logo with rounded purple frame matching screenshot */}
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-600 to-indigo-700 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform p-2">
+              {/* Red Star Logo */}
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-600 via-rose-600 to-red-700 flex items-center justify-center text-white shadow-md shadow-red-600/30 group-hover:scale-105 transition-transform p-2">
                 <svg
                   viewBox="0 0 24 24"
                   fill="currentColor"
@@ -70,10 +70,10 @@ export const Header: React.FC<HeaderProps> = ({
                 </svg>
               </div>
               <div className="flex flex-col">
-                <span className="text-base sm:text-lg font-black tracking-tight text-neutral-900 leading-none">
-                  buybits<span className="text-indigo-600 font-extrabold">official</span>
+                <span className="text-base sm:text-lg font-black tracking-tight text-neutral-900 leading-none font-display">
+                  buybits<span className="text-red-600 font-black">official</span>
                 </span>
-                <span className="text-[9px] font-bold text-neutral-500 tracking-wider uppercase mt-0.5">
+                <span className="text-[9px] font-bold text-neutral-500 tracking-wider uppercase mt-0.5 font-space">
                   AI & Software Market
                 </span>
               </div>
@@ -81,18 +81,18 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Center Navigation Tabs: Home, Store, Flash Sale (HOT), About */}
-          <nav className="hidden md:flex items-center gap-8 text-xs sm:text-sm font-bold text-neutral-700">
+          <nav className="hidden md:flex items-center gap-8 text-xs sm:text-sm font-bold text-neutral-800 font-space">
             <button
               onClick={() => onSelectTab('HOME')}
               className={`relative py-1.5 transition-colors cursor-pointer ${
                 activeTab === 'HOME'
-                  ? 'text-indigo-600 font-black'
+                  ? 'text-red-600 font-black'
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
               <span>Home</span>
               {activeTab === 'HOME' && (
-                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
             </button>
 
@@ -100,13 +100,13 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onSelectTab('MENU')}
               className={`relative py-1.5 transition-colors cursor-pointer ${
                 activeTab === 'MENU'
-                  ? 'text-indigo-600 font-black'
+                  ? 'text-red-600 font-black'
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
               <span>Store</span>
               {activeTab === 'MENU' && (
-                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
             </button>
 
@@ -114,16 +114,16 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onSelectTab('FLASH SALE')}
               className={`relative py-1.5 transition-colors flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'FLASH SALE'
-                  ? 'text-indigo-600 font-black'
+                  ? 'text-red-600 font-black'
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
               <span>Flash Sale</span>
-              <span className="bg-[#CCFF00] text-neutral-950 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-neutral-900 leading-none">
+              <span className="bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs leading-none">
                 HOT
               </span>
               {activeTab === 'FLASH SALE' && (
-                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
             </button>
 
@@ -131,13 +131,13 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onSelectTab('ABOUT')}
               className={`relative py-1.5 transition-colors cursor-pointer ${
                 activeTab === 'ABOUT'
-                  ? 'text-indigo-600 font-black'
+                  ? 'text-red-600 font-black'
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
               <span>About</span>
               {activeTab === 'ABOUT' && (
-                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-indigo-600 rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
             </button>
           </nav>
@@ -165,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <ShoppingCart className="w-3.5 h-3.5 text-neutral-700" />
               <span>Cart</span>
-              <span className="bg-[#CCFF00] text-neutral-950 text-[10px] font-black px-1.5 py-0.5 rounded-full border border-neutral-900 min-w-[18px] text-center leading-none">
+              <span className="bg-red-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
                 {cartCount}
               </span>
             </button>
@@ -179,7 +179,6 @@ export const Header: React.FC<HeaderProps> = ({
               className="w-9 h-9 rounded-full bg-[#2AABEE] hover:bg-[#229ED9] text-white flex items-center justify-center shadow-sm hover:scale-105 transition-all cursor-pointer"
               title="Hubungi Admin Telegram @buybitsofficial"
             >
-              {/* Telegram Plane Icon */}
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -202,10 +201,10 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Admin Dashboard */}
             <button
               onClick={onOpenAdminDashboard}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-neutral-900 hover:bg-neutral-800 text-xs font-bold text-white transition-colors shadow-2xs cursor-pointer"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-[#141414] hover:bg-black text-xs font-bold text-white transition-colors shadow-2xs cursor-pointer"
               title="Admin Panel"
             >
-              <Shield className="w-3.5 h-3.5 text-yellow-400" />
+              <Shield className="w-3.5 h-3.5 text-red-400" />
               <span>Admin</span>
             </button>
 
@@ -219,7 +218,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <img
                     src={currentUser.avatar}
                     alt={currentUser.name}
-                    className="w-5 h-5 rounded-full object-cover border border-indigo-400"
+                    className="w-5 h-5 rounded-full object-cover border border-red-500"
                   />
                   <span className="hidden sm:inline max-w-[80px] truncate">
                     {currentUser.name}
@@ -237,7 +236,7 @@ export const Header: React.FC<HeaderProps> = ({
                         setUserDropdownOpen(false);
                         onOpenOrderLookup();
                       }}
-                      className="w-full text-left px-3 py-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 rounded-xl transition-colors mt-1"
+                      className="w-full text-left px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors mt-1"
                     >
                       Riwayat & Kredensial Saya
                     </button>
@@ -254,7 +253,7 @@ export const Header: React.FC<HeaderProps> = ({
                         setUserDropdownOpen(false);
                         onLogout();
                       }}
-                      className="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                      className="w-full text-left px-3 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-100 rounded-xl transition-colors"
                     >
                       Keluar
                     </button>
@@ -265,9 +264,9 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 id="btn-open-login"
                 onClick={onOpenAuthModal}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1E1E1E] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#141414] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
               >
-                <LogIn className="w-3.5 h-3.5" />
+                <LogIn className="w-3.5 h-3.5 text-red-400" />
                 <span>Sign In</span>
               </button>
             )}
@@ -285,7 +284,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-neutral-300 space-y-3">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 font-space">
               <button
                 onClick={() => {
                   onSelectTab('HOME');
@@ -312,7 +311,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300 flex items-center justify-between"
               >
                 <span>Flash Sale</span>
-                <span className="bg-[#CCFF00] text-neutral-950 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-neutral-900">
+                <span className="bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">
                   HOT
                 </span>
               </button>
@@ -351,9 +350,9 @@ export const Header: React.FC<HeaderProps> = ({
                   setMobileMenuOpen(false);
                   onOpenAdminDashboard();
                 }}
-                className="w-full py-2.5 bg-neutral-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 bg-[#141414] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"
               >
-                <Shield className="w-3.5 h-3.5 text-yellow-400" />
+                <Shield className="w-3.5 h-3.5 text-red-400" />
                 <span>Admin Control Panel</span>
               </button>
             </div>

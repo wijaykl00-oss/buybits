@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { Order, InventoryItem, Product } from '../types';
 import { ALL_PRODUCTS, formatIdr } from '../data/products';
+import { getAllOrders, fulfillOrder } from '../services/orderService';
 
 interface AdminDashboardModalProps {
   isOpen: boolean;
@@ -53,16 +54,22 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
     setIsLoading(true);
     try {
       const [ordersRes, invRes] = await Promise.all([
-        fetch('/api/admin/orders'),
-        fetch('/api/admin/inventory'),
+        fetch('/api/admin/orders').catch(() => null),
+        fetch('/api/admin/inventory').catch(() => null),
       ]);
 
-      if (ordersRes.ok) {
+      if (ordersRes && ordersRes.ok) {
         const oData = await ordersRes.json();
-        if (oData.success) setOrders(oData.orders);
+        if (oData.success && Array.isArray(oData.orders)) {
+          setOrders(oData.orders);
+        } else {
+          setOrders(getAllOrders());
+        }
+      } else {
+        setOrders(getAllOrders());
       }
 
-      if (invRes.ok) {
+      if (invRes && invRes.ok) {
         const iData = await invRes.json();
         if (iData.success) {
           setInventory(iData.inventory);
@@ -71,6 +78,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
       }
     } catch (err) {
       console.error('Failed to load admin data:', err);
+      setOrders(getAllOrders());
     } finally {
       setIsLoading(false);
     }

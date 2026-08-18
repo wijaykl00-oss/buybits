@@ -239,8 +239,8 @@ export default function App() {
   const topTrendingProducts = products.slice(0, 8);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#EFEFEA] text-neutral-900 selection:bg-[#5451FF] selection:text-white">
-      {/* Header with buybitsofficial branding, star icon & Telegram button */}
+    <div className="min-h-screen flex flex-col bg-[#F4F3EE] text-neutral-900 selection:bg-red-600 selection:text-white">
+      {/* Header with buybitsofficial branding, red star icon & Telegram button */}
       <Header
         activeTab={activeTab}
         onSelectTab={(tab) => {
@@ -286,7 +286,7 @@ export default function App() {
               products={products}
             />
 
-            {/* MARQUEE TICKER BAR WITH LIME GREEN ASTERISKS */}
+            {/* MARQUEE TICKER BAR WITH RED ASTERISKS */}
             <AnnouncementBar />
 
             {/* FLASH SALE ROTATING SECTION */}
@@ -307,11 +307,11 @@ export default function App() {
             <section className="py-10 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                 <div>
-                  <div className="flex items-center gap-2 text-[#5451FF] text-xs font-black uppercase tracking-wider mb-1 font-mono">
+                  <div className="flex items-center gap-2 text-red-600 text-xs font-black uppercase tracking-wider mb-1 font-space">
                     <TrendingUp className="w-4 h-4" />
                     <span>Best Seller in Indonesia</span>
                   </div>
-                  <h2 className="text-2xl sm:text-4xl font-black text-neutral-900 uppercase tracking-tight">
+                  <h2 className="font-display text-2.5xl sm:text-4xl font-black text-[#111111] uppercase tracking-tight">
                     PRODUK UNGGULAN & TERLARIS
                   </h2>
                   <p className="text-xs sm:text-sm text-neutral-500 mt-1">
@@ -324,7 +324,7 @@ export default function App() {
                     setActiveTab('MENU');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border border-neutral-400 text-neutral-900 font-bold text-xs shadow-xs transition-colors cursor-pointer w-fit"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border-2 border-neutral-800 text-neutral-900 font-bold text-xs shadow-xs transition-colors cursor-pointer w-fit"
                 >
                   <span>Lihat Semua Produk</span>
                   <ArrowRight className="w-4 h-4" />
@@ -353,16 +353,16 @@ export default function App() {
             <section className="py-12 bg-white border-t border-neutral-300">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-xl mx-auto mb-8">
-                  <span className="text-[10px] font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="text-[10px] font-black text-red-700 bg-red-50 px-3 py-1 rounded-full uppercase tracking-wider border border-red-200">
                     Ulasan Asli Pembeli Terverifikasi
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-black text-neutral-900 uppercase tracking-tight mt-2">
+                  <h3 className="font-display text-xl sm:text-3xl font-black text-[#111111] uppercase tracking-tight mt-2">
                     Dipercaya Lebih Dari 10.000+ Developer & Profesional
                   </h3>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                  <div className="bg-[#EFEFEA] rounded-3xl p-5 border border-neutral-300 space-y-3">
+                  <div className="bg-[#F4F3EE] rounded-3xl p-5 border border-neutral-300 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <img
@@ -390,7 +390,7 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="bg-[#EFEFEA] rounded-3xl p-5 border border-neutral-300 space-y-3">
+                  <div className="bg-[#F4F3EE] rounded-3xl p-5 border border-neutral-300 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <img
@@ -418,7 +418,7 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="bg-[#EFEFEA] rounded-3xl p-5 border border-neutral-300 space-y-3">
+                  <div className="bg-[#F4F3EE] rounded-3xl p-5 border border-neutral-300 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <img
@@ -482,18 +482,18 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-[#181818] text-white border-t border-neutral-800 pt-12 pb-8">
+      <footer className="bg-[#111111] text-white border-t border-neutral-800 pt-12 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-700 flex items-center justify-center text-white p-1.5 shadow-md">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 flex items-center justify-center text-white p-1.5 shadow-md">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full text-white">
                     <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
                   </svg>
                 </div>
-                <span className="text-lg font-black tracking-tight">
-                  buybits<span className="text-[#CCFF00]">official</span>
+                <span className="text-lg font-black tracking-tight font-display">
+                  buybits<span className="text-red-500">official</span>
                 </span>
               </div>
               <p className="text-xs text-neutral-400 leading-relaxed">
@@ -504,7 +504,7 @@ export default function App() {
                   href="https://t.me/buybitsofficial"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2AABEE] text-white text-xs font-bold hover:bg-[#229ED9] transition-all"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2AABEE] text-white text-xs font-bold hover:bg-[#229ED9] transition-all"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Telegram: @buybitsofficial</span>
@@ -513,7 +513,7 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3">
+              <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3 font-space">
                 Menu Utama
               </h4>
               <ul className="space-y-2 text-xs text-neutral-400">
@@ -553,31 +553,31 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3">
+              <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3 font-space">
                 Jaminan Keamanan
               </h4>
               <ul className="space-y-2 text-xs text-neutral-400">
                 <li className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#CCFF00]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-red-500" />
                   <span>100% Full Warranty Replace</span>
                 </li>
                 <li className="flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-[#CCFF00]" />
+                  <Zap className="w-3.5 h-3.5 text-red-500" />
                   <span>Instant Delivery via Web & Email</span>
                 </li>
                 <li className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#CCFF00]" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-red-500" />
                   <span>Legal & Private Accounts</span>
                 </li>
                 <li className="flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-[#CCFF00]" />
+                  <Lock className="w-3.5 h-3.5 text-red-500" />
                   <span>Dynamic QRIS Standar Bank Indonesia</span>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3">
+              <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3 font-space">
                 Layanan Pelanggan & Support
               </h4>
               <p className="text-xs text-neutral-400 mb-3">
@@ -603,7 +603,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3">
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3 font-space">
             <p>© {new Date().getFullYear()} buybitsofficial. All rights reserved.</p>
             <p>
               Telegram Resmi: @buybitsofficial • Dynamic QRIS Bank Indonesia
