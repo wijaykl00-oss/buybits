@@ -15,8 +15,8 @@ import {
   Send,
   ExternalLink,
   Package,
+  Download,
 } from 'lucide-react';
-import { QRCodeSVG } from 'qrcode.react';
 import { CartItem, Order, User } from '../types';
 import { convertUsdToIdr, formatIdr, formatUsd, USD_TO_IDR_RATE } from '../data/products';
 import { createCheckoutOrder, fulfillOrder } from '../services/orderService';
@@ -49,7 +49,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
   const [qrisPayload, setQrisPayload] = useState<string>('');
   const [copiedAmount, setCopiedAmount] = useState(false);
-  const [copiedQris, setCopiedQris] = useState(false);
   const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
 
@@ -335,16 +334,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
             </div>
 
-            {/* Official Indonesian Dynamic QRIS Card */}
+            {/* Official Indonesian Dynamic QRIS Card using foto/qris.png */}
             <div className="bg-white rounded-3xl border-2 border-neutral-300 p-4 sm:p-5 shadow-lg flex flex-col items-center text-center relative overflow-hidden">
               {/* Header GPN / QRIS */}
-              <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-3">
+              <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-2">
                 <div className="flex items-center gap-2">
                   <div className="bg-red-600 text-white text-[11px] font-black px-2 py-0.5 rounded tracking-tighter shadow-xs">
                     QRIS
                   </div>
                   <span className="text-[10px] sm:text-xs font-bold text-neutral-700 font-space">
-                    QR Standar Pembayaran Nasional (Dynamic)
+                    QR Standar Pembayaran Nasional
                   </span>
                 </div>
                 <div className="text-[10px] font-black text-neutral-500 tracking-wider">
@@ -364,25 +363,20 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </p>
               </div>
 
-              {/* Dynamic QR Code Vector Rendered from Payload */}
-              <div className="bg-white p-3 rounded-2xl border border-neutral-200 shadow-md my-2 relative max-w-xs flex flex-col items-center">
-                {qrisPayload ? (
-                  <div className="p-2 bg-white rounded-xl">
-                    <QRCodeSVG
-                      value={qrisPayload}
-                      size={200}
-                      level="M"
-                      includeMargin={false}
-                    />
-                  </div>
-                ) : (
-                  <div className="w-48 h-48 flex items-center justify-center bg-neutral-100 rounded-xl">
-                    <RefreshCw className="w-6 h-6 animate-spin text-neutral-400" />
-                  </div>
-                )}
+              {/* Scannable Official QRIS Image from foto/qris.png */}
+              <div className="bg-white p-2.5 sm:p-3.5 rounded-2xl border-2 border-neutral-200 shadow-md my-1.5 max-w-[260px] sm:max-w-[280px] w-full flex flex-col items-center">
+                <img
+                  src="/foto/qris.png"
+                  alt="QRIS Pembayaran Buybits Official"
+                  className="w-full h-auto object-contain rounded-xl"
+                  onError={(e) => {
+                    // Fallback to /qris.png if /foto/qris.png path difference
+                    (e.target as HTMLImageElement).src = '/qris.png';
+                  }}
+                />
 
-                <div className="text-[10px] font-bold text-neutral-500 mt-2">
-                  Buka aplikasi M-Banking atau E-Wallet apa saja dan scan kode QR di atas.
+                <div className="text-[10px] font-bold text-neutral-600 mt-2 text-center">
+                  Scan kode QRIS di atas dengan aplikasi BCA, Mandiri, BRI, GoPay, OVO, Dana, ShopeePay.
                 </div>
               </div>
 
@@ -409,7 +403,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   </button>
                 </div>
                 <span className="text-[10px] text-amber-700 font-semibold block mt-1">
-                  ⚠️ Nominal sudah diatur otomatis oleh Dynamic QRIS.
+                  ⚠️ Masukkan nominal pas sebesar <b>{formatIdr(activeOrder?.finalTotalIdr || 0)}</b> saat scan QRIS.
                 </span>
               </div>
             </div>
@@ -436,7 +430,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 )}
               </button>
 
-              {/* Dedicated High-Contrast Telegram Support Card (Bug-Free) */}
+              {/* Dedicated High-Contrast Telegram Support Card */}
               <div className="p-3 bg-sky-50 border border-sky-200 rounded-2xl flex items-center justify-between gap-3 text-left">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-full bg-[#2AABEE] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
