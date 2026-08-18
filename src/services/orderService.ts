@@ -3,7 +3,6 @@ import { ALL_PRODUCTS, convertUsdToIdr, USD_TO_IDR_RATE, getFlashSaleCycleInfo }
 import { generateDynamicQRIS } from './qrisEngine';
 
 const STORAGE_KEY_ORDERS = 'buybits_orders_v1';
-const STORAGE_KEY_INVENTORY = 'buybits_inventory_v1';
 
 function getStoredOrders(): Order[] {
   try {
@@ -30,7 +29,7 @@ export function createCheckoutOrder(params: {
 }): { order: Order; qrisPayload: string; finalTotalIdr: number } {
   const { customerName, customerEmail, customerWhatsApp, items } = params;
 
-  // Calculate prices strictly from catalog
+  // Calculate prices strictly from catalog for currently selected items
   const cycle = getFlashSaleCycleInfo();
   let calculatedTotalUsd = 0;
   const validatedItems: CartItem[] = [];
@@ -62,7 +61,7 @@ export function createCheckoutOrder(params: {
   const orderNumber = `AIS-${timestamp.toString().slice(-6)}`;
   const expiresAt = new Date(timestamp + 15 * 60 * 1000).toISOString();
 
-  // Generate Dynamic QRIS for this exact transaction amount
+  // Generate Dynamic QRIS for this exact nominal
   const qrisPayload = generateDynamicQRIS({
     amount: finalTotalIdr,
     orderId: orderNumber,
@@ -98,7 +97,7 @@ export function createCheckoutOrder(params: {
   existing.unshift(newOrder);
   saveStoredOrders(existing);
 
-  // Also notify server in background if available
+  // Sync to server in background if available
   fetch('/api/orders/checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -108,9 +107,7 @@ export function createCheckoutOrder(params: {
       customerWhatsApp,
       items: validatedItems,
     }),
-  }).catch(() => {
-    // Background server fallback
-  });
+  }).catch(() => {});
 
   return { order: newOrder, qrisPayload, finalTotalIdr };
 }
@@ -121,48 +118,59 @@ export function fulfillOrder(orderId: string): Order | null {
   if (!order) return null;
 
   const now = new Date().toISOString();
-  const credentials: DigitalCredential[] = order.items.map((item) => {
-    const isApiKey = item.product.category === 'API';
-    const randCode = Math.random().toString(36).substring(2, 7).toUpperCase();
-    const duration = item.product.durationBadge || '1 Bulan';
-    const expiresAt = duration.toLowerCase().includes('year') || duration.toLowerCase().includes('tahun')
-      ? '365 Hari dari sekarang'
-      : duration.toLowerCase().includes('3 month')
-      ? '90 Hari dari sekarang'
-      : '30 Hari dari sekarang';
+  const credentials: DigitalCredential[] = [];
 
-    if (isApiKey) {
-      return {
-        serviceName: item.product.name,
-        productId: item.product.id,
-        licenseKey: `sk-proj-${item.product.brand}-${randCode}${Date.now().toString().slice(-6)}`,
-        loginUrl: 'https://platform.openai.com/api-keys',
-        instructions: 'Salin API Key di atas dan masukkan ke Authorization Bearer header aplikasi Anda.',
-        expiresAt,
-      };
+  // Generate separate credential per item and quantity
+  for (const item of order.items) {
+    for (let q = 0; q < item.quantity; q++) {
+      const isApiKey = item.product.category === 'API';
+      const randCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+      const duration = item.product.durationBadge || '1 Bulan';
+      const expiresAt = duration.toLowerCase().includes('year') || duration.toLowerCase().includes('tahun')
+        ? '365 Hari dari sekarang'
+        : duration.toLowerCase().includes('3 month')
+        ? '90 Hari dari sekarang'
+        : '30 Hari dari sekarang';
+
+      const serviceName = item.quantity > 1 ? `${item.product.name} (Akun #${q + 1})` : item.product.name;
+
+      if (isApiKey) {
+        credentials.push({
+          serviceName,
+          productId: item.product.id,
+          licenseKey: `sk-proj-${item.product.brand}-${randCode}${Date.now().toString().slice(-6)}`,
+          loginUrl: 'https://platform.openai.com/api-keys',
+          instructions: 'Salin API Key di atas dan masukkan ke Authorization Bearer header aplikasi Anda.',
+          expiresAt,
+        });
+      } else {
+        const loginUrl =
+          item.product.brand === 'claude'
+            ? 'https://claude.ai/login'
+            : item.product.brand === 'chatgpt'
+            ? 'https://chatgpt.com/auth/login'
+            : item.product.brand === 'cursor'
+            ? 'https://cursor.com/login'
+            : item.product.brand === 'google'
+            ? 'https://gemini.google.com/app'
+            : item.product.brand === 'leonardo'
+            ? 'https://app.leonardo.ai'
+            : item.product.brand === 'deepseek'
+            ? 'https://chat.deepseek.com'
+            : 'https://kiro.ai/login';
+
+        credentials.push({
+          serviceName,
+          productId: item.product.id,
+          accountEmail: `user.${item.product.brand}.${randCode.toLowerCase()}@buybitsofficial.id`,
+          accountPassword: `Pass#${randCode}!2026`,
+          loginUrl,
+          instructions: 'Akun 100% Private & Legal. Anda dapat langsung login dan mengganti password sendiri.',
+          expiresAt,
+        });
+      }
     }
-
-    const loginUrl =
-      item.product.brand === 'claude'
-        ? 'https://claude.ai/login'
-        : item.product.brand === 'chatgpt'
-        ? 'https://chatgpt.com/auth/login'
-        : item.product.brand === 'cursor'
-        ? 'https://cursor.com/login'
-        : item.product.brand === 'google'
-        ? 'https://gemini.google.com/app'
-        : 'https://kiro.ai/login';
-
-    return {
-      serviceName: item.product.name,
-      productId: item.product.id,
-      accountEmail: `user.${item.product.brand}.${randCode.toLowerCase()}@buybitsofficial.id`,
-      accountPassword: `Pass#${randCode}!2026`,
-      loginUrl,
-      instructions: 'Akun 100% Private & Legal. Anda dapat langsung login dan mengganti password sendiri.',
-      expiresAt,
-    };
-  });
+  }
 
   order.status = 'FULFILLED';
   order.paidAt = now;

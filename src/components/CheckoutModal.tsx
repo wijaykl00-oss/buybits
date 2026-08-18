@@ -13,11 +13,14 @@ import {
   AlertCircle,
   RefreshCw,
   Send,
+  ExternalLink,
+  Package,
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { CartItem, Order, User } from '../types';
 import { convertUsdToIdr, formatIdr, formatUsd, USD_TO_IDR_RATE } from '../data/products';
 import { createCheckoutOrder, fulfillOrder } from '../services/orderService';
+import { BrandLogo } from './BrandLogo';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -49,6 +52,18 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [copiedQris, setCopiedQris] = useState(false);
   const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
+
+  // Reset modal state whenever modal opens or cart items change to prevent order bleeding
+  useEffect(() => {
+    if (isOpen) {
+      setStep('form');
+      setActiveOrder(null);
+      setQrisPayload('');
+      setCheckoutError(null);
+      setTimeLeft(900);
+      setIsVerifyingPayment(false);
+    }
+  }, [isOpen, items]);
 
   useEffect(() => {
     if (currentUser) {
@@ -90,7 +105,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     setCheckoutError(null);
 
     try {
-      // Create Checkout Order with Dynamic QRIS calculation
+      // Create fresh Checkout Order with Dynamic QRIS calculation for these specific items
       const result = createCheckoutOrder({
         customerName: customerName.trim() || 'Pelanggan Buybits',
         customerEmail: customerEmail.trim().toLowerCase(),
@@ -128,20 +143,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     setTimeout(() => setCopiedAmount(false), 2000);
   };
 
-  const copyQrisPayload = () => {
-    if (!qrisPayload) return;
-    navigator.clipboard.writeText(qrisPayload);
-    setCopiedQris(true);
-    setTimeout(() => setCopiedQris(false), 2000);
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
       <div className="bg-white rounded-3xl max-w-xl w-full p-4 sm:p-7 shadow-2xl border border-neutral-200 relative my-auto max-h-[92vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 sm:top-5 right-4 sm:right-5 text-neutral-400 hover:text-neutral-700 p-1.5 rounded-full hover:bg-neutral-100 transition-colors cursor-pointer"
+          className="absolute top-4 sm:top-5 right-4 sm:right-5 text-neutral-400 hover:text-neutral-700 p-1.5 rounded-full hover:bg-neutral-100 transition-colors cursor-pointer z-10"
         >
           <X className="w-5 h-5" />
         </button>
@@ -149,7 +157,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         {step === 'form' ? (
           /* STEP 1: Customer Details & Order Breakdown */
           <div>
-            <div className="mb-4 sm:mb-5">
+            <div className="mb-4">
               <span className="text-[10px] font-black text-red-600 bg-red-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider font-space">
                 Langkah 1 dari 2
               </span>
@@ -159,6 +167,38 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <p className="text-xs text-neutral-500 mt-0.5">
                 Kredensial akun (Email, Password, API Key) akan otomatis diberikan dan dikirim ke Email ini.
               </p>
+            </div>
+
+            {/* List of Products being Checked Out */}
+            <div className="mb-4 p-3 bg-neutral-50 rounded-2xl border border-neutral-200">
+              <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider block mb-2 font-space">
+                Produk yang Dipilih ({items.length} Item):
+              </span>
+              <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
+                {items.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-neutral-200 shadow-2xs text-xs"
+                  >
+                    <div className="flex items-center gap-2">
+                      <BrandLogo brand={item.product.brand} size="sm" />
+                      <div>
+                        <h5 className="font-bold text-neutral-900 text-xs">
+                          {item.product.name}
+                        </h5>
+                        <span className="text-[10px] text-neutral-500 font-medium font-space">
+                          Qty: {item.quantity} • {item.product.durationBadge}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-black text-red-600 font-space block">
+                        {formatIdr(convertUsdToIdr(item.finalPriceUsd * item.quantity))}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {checkoutError && (
@@ -374,7 +414,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
             </div>
 
-            {/* Check Payment & Webhook Simulation Button */}
+            {/* Check Payment Button */}
             <div className="space-y-2 pt-1">
               <button
                 type="button"
@@ -396,19 +436,30 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 )}
               </button>
 
-              <div className="flex items-center justify-between text-[10px] text-neutral-500 pt-1">
-                <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                  Mendengarkan Transaksi Realtime
-                </span>
+              {/* Dedicated High-Contrast Telegram Support Card (Bug-Free) */}
+              <div className="p-3 bg-sky-50 border border-sky-200 rounded-2xl flex items-center justify-between gap-3 text-left">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-[#2AABEE] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+                    <Send className="w-4 h-4 translate-x-[-0.5px]" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-neutral-900 block font-space">
+                      Bantuan & Konfirmasi
+                    </span>
+                    <span className="text-[10px] text-neutral-600 font-medium block">
+                      Telegram: <b>@buybitsofficial</b>
+                    </span>
+                  </div>
+                </div>
+
                 <a
                   href="https://t.me/buybitsofficial"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[#2AABEE] hover:underline font-bold flex items-center gap-1"
+                  className="px-3.5 py-1.5 rounded-full bg-[#2AABEE] hover:bg-[#229ED9] text-white text-xs font-black uppercase tracking-wider flex items-center gap-1 shadow-xs transition-all hover:scale-105 flex-shrink-0 cursor-pointer"
                 >
-                  <Send className="w-3 h-3" />
-                  <span>Bantuan Telegram</span>
+                  <span>Chat</span>
+                  <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
             </div>
