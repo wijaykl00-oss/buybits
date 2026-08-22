@@ -96,55 +96,54 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
   }, [produkAkunList, activeFilter, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-[#07090E] text-white py-8 sm:py-12 relative overflow-hidden">
-      {/* Subtle Background Glows & Grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(#00e5ff0a_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-60" />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-[#F4F3EE] text-neutral-900 py-8 sm:py-12 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none opacity-60" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header Title Section */}
+        {/* Header Title Section (Red & White Theme) */}
         <div className="mb-8 sm:mb-10 text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-black tracking-wider uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-black tracking-wider uppercase mb-3 font-space">
+            <Sparkles className="w-3.5 h-3.5 text-red-600" />
             <span>Katalog Resmi Produk Akun</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase font-display">
-            PRODUK <span className="text-[#00E5FF] drop-shadow-[0_0_20px_rgba(0,229,255,0.4)]">AKUN</span>
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[#111111] uppercase font-display">
+            PRODUK <span className="text-red-600">AKUN</span>
           </h1>
 
-          <p className="text-neutral-400 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
+          <p className="text-neutral-600 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
             Daftar harga akun streaming premium, media sosial aktif dengan followers riil, dan akun Gmail fresh/bekas berkualitas dengan garansi penuh.
           </p>
 
           {/* Quick Trust Badges */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-4 text-xs font-semibold text-neutral-300">
-            <div className="flex items-center gap-1.5 text-cyan-400">
-              <CheckCircle2 className="w-4 h-4" />
+          <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-4 text-xs font-semibold text-neutral-700">
+            <div className="flex items-center gap-1.5 text-red-600 font-bold">
+              <CheckCircle2 className="w-4 h-4 text-red-600" />
               <span>100% Private & Legal</span>
             </div>
-            <div className="flex items-center gap-1.5 text-emerald-400">
-              <ShieldCheck className="w-4 h-4" />
+            <div className="flex items-center gap-1.5 text-emerald-600 font-bold">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>Garansi Penuh Full Replace</span>
             </div>
-            <div className="flex items-center gap-1.5 text-amber-400">
-              <Zap className="w-4 h-4" />
+            <div className="flex items-center gap-1.5 text-amber-600 font-bold">
+              <Zap className="w-4 h-4 text-amber-500" />
               <span>Pengiriman Instan 1-3 Menit</span>
             </div>
           </div>
         </div>
 
-        {/* Filter Pills & Search Bar */}
-        <div className="bg-[#0e131d]/90 backdrop-blur-md rounded-2xl p-4 border border-neutral-800/80 shadow-xl mb-10 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        {/* Filter Pills & Search Bar (White Card Container) */}
+        <div className="bg-white rounded-2xl p-4 border border-neutral-300 shadow-sm mb-10 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           {/* Category Filter Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 no-scrollbar">
             <button
               onClick={() => setActiveFilter('ALL')}
               className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
                 activeFilter === 'ALL'
-                  ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                  : 'bg-[#151b27] hover:bg-[#1f2738] text-neutral-300'
+                  ? 'bg-red-600 text-white shadow-md shadow-red-600/25'
+                  : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
               }`}
             >
               Semua Akun
@@ -154,8 +153,8 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
               onClick={() => setActiveFilter('STREAMING')}
               className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
                 activeFilter === 'STREAMING'
-                  ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                  : 'bg-[#151b27] hover:bg-[#1f2738] text-neutral-300'
+                  ? 'bg-red-600 text-white shadow-md shadow-red-600/25'
+                  : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
               }`}
             >
               Streaming (Netflix, Spotify, WeTV, Capcut)
@@ -165,8 +164,8 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
               onClick={() => setActiveFilter('SOSMED')}
               className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
                 activeFilter === 'SOSMED'
-                  ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                  : 'bg-[#151b27] hover:bg-[#1f2738] text-neutral-300'
+                  ? 'bg-red-600 text-white shadow-md shadow-red-600/25'
+                  : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
               }`}
             >
               Sosmed (IG, TikTok)
@@ -176,8 +175,8 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
               onClick={() => setActiveFilter('GMAIL')}
               className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
                 activeFilter === 'GMAIL'
-                  ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20'
-                  : 'bg-[#151b27] hover:bg-[#1f2738] text-neutral-300'
+                  ? 'bg-red-600 text-white shadow-md shadow-red-600/25'
+                  : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
               }`}
             >
               Akun Gmail
@@ -192,17 +191,17 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari akun..."
-              className="w-full bg-[#151b27] border border-neutral-700/80 rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-neutral-500 focus:outline-hidden focus:border-cyan-400 font-medium"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-xl pl-9 pr-3.5 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-hidden focus:border-red-500 focus:bg-white font-medium transition-colors"
             />
           </div>
         </div>
 
-        {/* Grouped Product Sections Matching the Reference Images */}
+        {/* Grouped Product Sections */}
         {groupedProducts.length === 0 ? (
-          <div className="bg-[#0e131d] rounded-2xl p-12 text-center border border-neutral-800 space-y-3">
-            <Search className="w-10 h-10 text-neutral-600 mx-auto" />
-            <h3 className="text-base font-bold text-white">Produk Akun Tidak Ditemukan</h3>
-            <p className="text-xs text-neutral-400">
+          <div className="bg-white rounded-2xl p-12 text-center border border-neutral-300 space-y-3 shadow-xs">
+            <Search className="w-10 h-10 text-neutral-400 mx-auto" />
+            <h3 className="text-base font-bold text-neutral-900">Produk Akun Tidak Ditemukan</h3>
+            <p className="text-xs text-neutral-500">
               Tidak ada produk yang cocok dengan pencarian "{searchQuery}".
             </p>
             <button
@@ -210,7 +209,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
                 setSearchQuery('');
                 setActiveFilter('ALL');
               }}
-              className="px-4 py-2 bg-cyan-500 text-black text-xs font-black rounded-full"
+              className="px-4 py-2 bg-red-600 text-white text-xs font-black rounded-full hover:bg-red-700 transition-colors cursor-pointer"
             >
               Reset Filter
             </button>
@@ -219,13 +218,13 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
           <div className="space-y-10 sm:space-y-12">
             {groupedProducts.map((group) => (
               <section key={group.id} className="space-y-4">
-                {/* Neon Cyan Category Header */}
-                <div className="flex items-center gap-3 pb-2 border-b border-cyan-500/20">
-                  <h2 className="text-base sm:text-lg font-black tracking-wider text-[#00E5FF] uppercase drop-shadow-[0_0_12px_rgba(0,229,255,0.35)] font-display">
+                {/* Red & White Category Header */}
+                <div className="flex items-center gap-3 pb-2 border-b border-red-200">
+                  <h2 className="text-base sm:text-lg font-black tracking-wider text-red-600 uppercase font-display">
                     {group.title}
                   </h2>
                   {group.badge && (
-                    <span className="text-[10px] font-bold text-neutral-400 bg-[#151b27] px-2.5 py-0.5 rounded-full border border-neutral-800">
+                    <span className="text-[10px] font-bold text-neutral-600 bg-white px-2.5 py-0.5 rounded-full border border-neutral-300 shadow-2xs">
                       {group.badge}
                     </span>
                   )}
@@ -243,7 +242,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
                       <div
                         key={product.id}
                         id={`produk-akun-card-${product.id}`}
-                        className="bg-[#0d1117] rounded-2xl p-5 border border-neutral-800/90 hover:border-cyan-500/50 shadow-lg transition-all duration-200 flex flex-col justify-between group hover:shadow-cyan-950/40 relative overflow-hidden"
+                        className="bg-white rounded-2xl p-5 border border-neutral-300 hover:border-red-500 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group relative overflow-hidden"
                       >
                         {/* Top Area: Title & Brand */}
                         <div>
@@ -251,7 +250,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
                             <BrandLogo brand={product.brand} size="sm" />
                             <button
                               onClick={() => onQuickView(product)}
-                              className="p-1.5 rounded-lg bg-neutral-800/60 hover:bg-cyan-500/20 hover:text-cyan-300 text-neutral-400 transition-colors"
+                              className="p-1.5 rounded-lg bg-neutral-100 hover:bg-red-50 hover:text-red-600 text-neutral-500 transition-colors cursor-pointer"
                               title="Lihat Detail Produk"
                             >
                               <Info className="w-3.5 h-3.5" />
@@ -260,44 +259,44 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
 
                           <h3
                             onClick={() => onQuickView(product)}
-                            className="text-sm sm:text-[15px] font-bold text-white leading-snug cursor-pointer hover:text-cyan-300 transition-colors capitalize"
+                            className="text-sm sm:text-[15px] font-bold text-neutral-900 leading-snug cursor-pointer hover:text-red-600 transition-colors capitalize"
                           >
                             {product.name}
                           </h3>
 
-                          {/* Price in Bright Neon Cyan */}
+                          {/* Price in Bold Red */}
                           <div className="mt-2.5">
-                            <span className="text-lg sm:text-xl font-black text-[#00E5FF] tracking-tight font-space drop-shadow-[0_0_10px_rgba(0,229,255,0.25)]">
+                            <span className="text-lg sm:text-xl font-black text-red-600 tracking-tight font-space">
                               {displayPrice}
                             </span>
                           </div>
 
-                          {/* Minimal Purchase Alert Box (like in Gmail photo) */}
+                          {/* Minimal Purchase Alert Box */}
                           {product.minOrderNote && (
-                            <div className="mt-3 px-3 py-1.5 rounded-lg bg-[#1e1b10] border border-amber-500/40 text-[11px] font-bold text-amber-300">
+                            <div className="mt-3 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-[11px] font-bold text-amber-800">
                               {product.minOrderNote}
                             </div>
                           )}
                         </div>
 
                         {/* Bottom Actions */}
-                        <div className="pt-4 mt-3 border-t border-neutral-800/60 flex items-center gap-2">
+                        <div className="pt-4 mt-3 border-t border-neutral-200 flex items-center gap-2">
                           <button
                             type="button"
                             onClick={() => onBuyNow(product)}
-                            className="flex-1 py-2.5 rounded-xl bg-[#161b22] hover:bg-cyan-500 hover:text-black border border-neutral-700 hover:border-cyan-400 text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer font-space shadow-sm active:scale-95 group/btn"
+                            className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer font-space shadow-xs active:scale-95"
                           >
-                            <ShoppingCart className="w-3.5 h-3.5 group-hover/btn:text-black" />
+                            <ShoppingCart className="w-3.5 h-3.5" />
                             <span>Beli Sekarang</span>
                           </button>
 
                           <button
                             type="button"
                             onClick={() => onAddToCart(product)}
-                            className="p-2.5 rounded-xl bg-[#161b22] hover:bg-[#21262d] border border-neutral-700 text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                            className="p-2.5 rounded-xl bg-neutral-100 hover:bg-red-50 border border-neutral-300 hover:border-red-300 text-neutral-700 hover:text-red-600 transition-colors cursor-pointer"
                             title="Tambah ke Keranjang"
                           >
-                            <ShoppingCart className="w-4 h-4 text-cyan-400" />
+                            <ShoppingCart className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
