@@ -19,6 +19,7 @@ import { HeroSection } from './components/HeroSection';
 import { AnnouncementBar } from './components/AnnouncementBar';
 import { FlashSaleSection } from './components/FlashSaleSection';
 import { MenuView } from './components/MenuView';
+import { ProdukAkunView } from './components/ProdukAkunView';
 import { AboutView } from './components/AboutView';
 import { ProductCard } from './components/ProductCard';
 import { ProductDetailModal } from './components/ProductDetailModal';
@@ -32,10 +33,13 @@ import { AuthModal } from './components/AuthModal';
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('aistore_products_v7');
+    const saved = localStorage.getItem('aistore_products_v8');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length >= ALL_PRODUCTS.length) {
+          return parsed;
+        }
       } catch {
         return ALL_PRODUCTS;
       }
@@ -43,7 +47,7 @@ export default function App() {
     return ALL_PRODUCTS;
   });
 
-  const [activeTab, setActiveTab] = useState<'HOME' | 'MENU' | 'FLASH SALE' | 'ABOUT'>('HOME');
+  const [activeTab, setActiveTab] = useState<'HOME' | 'PRODUK AKUN' | 'MENU' | 'FLASH SALE' | 'ABOUT'>('HOME');
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('aistore_cart');
     if (saved) {
@@ -458,7 +462,18 @@ export default function App() {
           </div>
         )}
 
-        {/* 2. MENU CATALOG VIEW */}
+        {/* 2. PRODUK AKUN VIEW */}
+        {activeTab === 'PRODUK AKUN' && (
+          <ProdukAkunView
+            products={products}
+            onQuickView={(p) => setSelectedQuickViewProduct(p)}
+            onBuyNow={handleBuyNow}
+            onAddToCart={handleAddToCart}
+            currencyMode={currencyMode}
+          />
+        )}
+
+        {/* 3. MENU CATALOG VIEW */}
         {activeTab === 'MENU' && (
           <MenuView
             products={products}
@@ -472,7 +487,7 @@ export default function App() {
           />
         )}
 
-        {/* 3. FLASH SALE FULL VIEW */}
+        {/* 4. FLASH SALE FULL VIEW */}
         {activeTab === 'FLASH SALE' && (
           <FlashSaleSection
             products={products}
@@ -484,7 +499,7 @@ export default function App() {
           />
         )}
 
-        {/* 4. ABOUT VIEW */}
+        {/* 5. ABOUT VIEW */}
         {activeTab === 'ABOUT' && <AboutView />}
       </main>
 
@@ -530,6 +545,14 @@ export default function App() {
                     className="hover:text-white transition-colors cursor-pointer"
                   >
                     Home
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setActiveTab('PRODUK AKUN')}
+                    className="hover:text-white transition-colors cursor-pointer text-red-400 font-bold"
+                  >
+                    Produk Akun (New)
                   </button>
                 </li>
                 <li>
