@@ -187,6 +187,106 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         </div>
       );
 
+    case 'netflix':
+      return (
+        <div
+          className={`${sizeClasses} bg-[#141414] border border-red-900/30 flex items-center justify-center shadow-sm flex-shrink-0 ${className}`}
+        >
+          {/* Netflix Red N */}
+          <span className="text-[#E50914] font-black text-base sm:text-lg tracking-tighter leading-none font-display">
+            N
+          </span>
+        </div>
+      );
+
+    case 'capcut':
+      return (
+        <div
+          className={`${sizeClasses} bg-[#0b0e14] border border-cyan-800/40 flex items-center justify-center shadow-sm flex-shrink-0 ${className}`}
+        >
+          {/* Capcut Ribbon Logo */}
+          <svg viewBox="0 0 24 24" fill="none" className="w-3/5 h-3/5 text-white">
+            <path
+              d="M4 7.5L12 12L20 7.5M4 16.5L12 12L20 16.5"
+              stroke="#00E5FF"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      );
+
+    case 'spotify':
+      return (
+        <div
+          className={`${sizeClasses} bg-[#121212] border border-emerald-900/30 flex items-center justify-center shadow-sm flex-shrink-0 ${className}`}
+        >
+          {/* Spotify Green Icon */}
+          <svg viewBox="0 0 24 24" fill="#1DB954" className="w-3/5 h-3/5">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.48.66.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+          </svg>
+        </div>
+      );
+
+    case 'wetv':
+      return (
+        <div
+          className={`${sizeClasses} bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-sm flex-shrink-0 ${className}`}
+        >
+          <span className="text-white font-black text-[11px] tracking-tight">
+            WeTV
+          </span>
+        </div>
+      );
+
+    case 'instagram':
+      return (
+        <div
+          className={`${sizeClasses} bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-sm flex-shrink-0 ${className}`}
+        >
+          {/* Instagram Camera Logo */}
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3/5 h-3/5">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg>
+        </div>
+      );
+
+    case 'tiktok':
+      return (
+        <div
+          className={`${sizeClasses} bg-[#010101] border border-neutral-800 flex items-center justify-center shadow-sm flex-shrink-0 ${className}`}
+        >
+          {/* TikTok Musical Note */}
+          <svg viewBox="0 0 24 24" fill="none" className="w-3/5 h-3/5">
+            <path
+              d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.892 2.896 2.896 2.896 0 0 1-2.897-2.896 2.896 2.896 0 0 1 2.897-2.896c.394 0 .768.081 1.109.227V9.457a6.34 6.34 0 0 0-1.109-.098 6.346 6.346 0 0 0-6.34 6.346 6.346 6.346 0 0 0 6.34 6.347 6.346 6.346 0 0 0 6.34-6.347V8.761a8.196 8.196 0 0 0 4.767 1.503V6.82a4.78 4.78 0 0 1-1-.134z"
+              fill="#25F4EE"
+            />
+            <path
+              d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-1v13.672a2.896 2.896 0 0 1-2.892 2.896 2.896 2.896 0 0 1-2.897-2.896 2.896 2.896 0 0 1 2.897-2.896c.394 0 .768.081 1.109.227V9.457a6.34 6.34 0 0 0-1.109-.098 6.346 6.346 0 0 0-6.34 6.346 6.346 6.346 0 0 0 6.34 6.347 6.346 6.346 0 0 0 6.34-6.347V8.761a8.196 8.196 0 0 0 4.767 1.503V6.82a4.78 4.78 0 0 1-1-.134z"
+              fill="#FE2C55"
+              className="opacity-80"
+            />
+          </svg>
+        </div>
+      );
+
+    case 'gmail':
+      return (
+        <div
+          className={`${sizeClasses} bg-white border border-neutral-200 flex items-center justify-center shadow-sm flex-shrink-0 ${className}`}
+        >
+          {/* Gmail Envelope Icon */}
+          <svg viewBox="0 0 24 24" className="w-3/5 h-3/5">
+            <path fill="#4285F4" d="M22 6c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h18c.55 0 1-.45 1-1V6z" opacity="0.1"/>
+            <path fill="#EA4335" d="M20 18h-2V9.5L12 14.5 6 9.5V18H4V6h1.5L12 11.5 18.5 6H20v12z"/>
+          </svg>
+        </div>
+      );
+
     default:
       return (
         <div

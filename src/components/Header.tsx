@@ -17,8 +17,8 @@ import {
 import { User } from '../types';
 
 interface HeaderProps {
-  activeTab: 'HOME' | 'MENU' | 'FLASH SALE' | 'ABOUT';
-  onSelectTab: (tab: 'HOME' | 'MENU' | 'FLASH SALE' | 'ABOUT') => void;
+  activeTab: 'HOME' | 'PRODUK AKUN' | 'MENU' | 'FLASH SALE' | 'ABOUT';
+  onSelectTab: (tab: 'HOME' | 'PRODUK AKUN' | 'MENU' | 'FLASH SALE' | 'ABOUT') => void;
   cartCount: number;
   onOpenCart: () => void;
   currentUser: User | null;
@@ -83,8 +83,8 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Center Navigation Tabs: Home, Store, Flash Sale (HOT), About */}
-          <nav className="hidden md:flex items-center gap-8 text-xs sm:text-sm font-bold text-neutral-800 font-space">
+          {/* Center Navigation Tabs: Home, Produk Akun, Store, Flash Sale (HOT), About */}
+          <nav className="hidden md:flex items-center gap-7 lg:gap-8 text-xs sm:text-sm font-bold text-neutral-800 font-space">
             <button
               onClick={() => onSelectTab('HOME')}
               className={`relative py-1.5 transition-colors cursor-pointer ${
@@ -95,6 +95,23 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <span>Home</span>
               {activeTab === 'HOME' && (
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
+              )}
+            </button>
+
+            <button
+              onClick={() => onSelectTab('PRODUK AKUN')}
+              className={`relative py-1.5 transition-colors flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'PRODUK AKUN'
+                  ? 'text-red-600 font-black'
+                  : 'text-neutral-700 hover:text-neutral-950'
+              }`}
+            >
+              <span>Produk Akun</span>
+              <span className="bg-cyan-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs leading-none">
+                NEW
+              </span>
+              {activeTab === 'PRODUK AKUN' && (
                 <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
             </button>
@@ -310,6 +327,18 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => {
+                  onSelectTab('PRODUK AKUN');
+                  setMobileMenuOpen(false);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-cyan-400 text-cyan-900 flex items-center justify-between"
+              >
+                <span>Produk Akun</span>
+                <span className="bg-cyan-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">
+                  NEW
+                </span>
+              </button>
+              <button
+                onClick={() => {
                   onSelectTab('MENU');
                   setMobileMenuOpen(false);
                 }}
@@ -334,7 +363,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onSelectTab('ABOUT');
                   setMobileMenuOpen(false);
                 }}
-                className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
+                className="col-span-2 px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
               >
                 About
               </button>

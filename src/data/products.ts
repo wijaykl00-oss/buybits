@@ -3,6 +3,445 @@ import { INDONESIAN_REVIEWS_POOL } from './reviews';
 
 export const ALL_PRODUCTS: Product[] = [
   // ==========================================
+  // PRODUK AKUN (STREAMING, SOSMED & GMAIL)
+  // ==========================================
+  {
+    id: "netflix-private-1-bulan",
+    name: "Netflix private 1 bulan",
+    category: "PRODUK AKUN",
+    subCategory: "NETFLIX",
+    categoryBadgeText: "NETFLIX",
+    durationBadge: "1 BULAN",
+    description: "Akun Netflix 1 Bulan Private Profile 4K UHD Resmi Garansi Penuh.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 428,
+    priceIdr: 70000,
+    priceUsd: 5.02,
+    priceUnit: "",
+    brand: "netflix",
+    features: [
+      "1 Profil Private dengan PIN",
+      "Kualitas 4K Ultra HD & Dolby Atmos",
+      "Bisa download film & series offline",
+      "Garansi 30 Hari Penuh"
+    ],
+    specs: {
+      "Tipe": "Private Profile",
+      "Durasi": "30 Hari",
+      "Kualitas": "4K Ultra HD",
+      "Garansi": "30 Hari Full"
+    },
+    warrantyText: "Garansi 30 Hari ganti akun instan jika ada kendala.",
+    deliveryTime: "Instant 1-3 Menit",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "netflix-private-7-hari",
+    name: "Netflix private 7 hari",
+    category: "PRODUK AKUN",
+    subCategory: "NETFLIX",
+    categoryBadgeText: "NETFLIX",
+    durationBadge: "7 HARI",
+    description: "Akun Netflix 7 Hari Private Profile 4K UHD Resmi.",
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 215,
+    priceIdr: 40000,
+    priceUsd: 2.87,
+    priceUnit: "",
+    brand: "netflix",
+    features: [
+      "1 Profil Private dengan PIN",
+      "Kualitas 4K Ultra HD",
+      "Bisa tonton di HP / Laptop / TV",
+      "Garansi 7 Hari Penuh"
+    ],
+    specs: {
+      "Tipe": "Private Profile",
+      "Durasi": "7 Hari",
+      "Kualitas": "4K Ultra HD",
+      "Garansi": "7 Hari Full"
+    },
+    warrantyText: "Garansi 7 Hari ganti akun instan.",
+    deliveryTime: "Instant 1-3 Menit",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "capcut-head-35-hari",
+    name: "Capcut head 35 hari",
+    category: "PRODUK AKUN",
+    subCategory: "CAPCUT",
+    categoryBadgeText: "CAPCUT",
+    durationBadge: "35 HARI",
+    description: "Akun Capcut Pro Head 35 Hari fitur lengkap tanpa watermark & cloud space.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 512,
+    priceIdr: 45000,
+    priceUsd: 3.23,
+    priceUnit: "",
+    brand: "capcut",
+    features: [
+      "Semua Efek & Filter Pro Terbuka",
+      "Export Video 4K 60FPS Tanpa Watermark",
+      "Cloud Space Tambahan",
+      "Garansi 35 Hari Penuh"
+    ],
+    specs: {
+      "Tipe": "Capcut Head",
+      "Durasi": "35 Hari",
+      "Platform": "Android / iOS / PC",
+      "Garansi": "35 Hari Full"
+    },
+    warrantyText: "Garansi 35 Hari penuh.",
+    deliveryTime: "Instant 1-3 Menit",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "spotify-premium-1-bulan",
+    name: "Spotify premium 1 bulan",
+    category: "PRODUK AKUN",
+    subCategory: "SPOTIFY",
+    categoryBadgeText: "SPOTIFY",
+    durationBadge: "1 BULAN",
+    description: "Spotify Premium Individual 1 Bulan bebas iklan & download lagu offline.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 680,
+    priceIdr: 20000,
+    priceUsd: 1.43,
+    priceUnit: "",
+    brand: "spotify",
+    features: [
+      "Bebas Iklan Selamanya",
+      "Download Musik Offline Tak Terbatas",
+      "Audio Kualitas Sangat Tinggi (320kbps)",
+      "Bisa di HP, Laptop & Smart TV"
+    ],
+    specs: {
+      "Tipe": "Premium Individual",
+      "Durasi": "30 Hari",
+      "Garansi": "30 Hari Full"
+    },
+    warrantyText: "Garansi 30 Hari Penuh.",
+    deliveryTime: "Instant 1-3 Menit",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "spotify-premium-2-bulan",
+    name: "Spotify premium 2 bulan",
+    category: "PRODUK AKUN",
+    subCategory: "SPOTIFY",
+    categoryBadgeText: "SPOTIFY",
+    durationBadge: "2 BULAN",
+    description: "Spotify Premium Individual 2 Bulan bebas iklan & audio high quality.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 390,
+    priceIdr: 35000,
+    priceUsd: 2.51,
+    priceUnit: "",
+    brand: "spotify",
+    features: [
+      "Bebas Iklan 2 Bulan Penuh",
+      "Download Lagu Offline",
+      "Kualitas Audio 320kbps",
+      "Garansi 60 Hari Penuh"
+    ],
+    specs: {
+      "Tipe": "Premium Individual",
+      "Durasi": "60 Hari",
+      "Garansi": "60 Hari Full"
+    },
+    warrantyText: "Garansi 60 Hari Penuh.",
+    deliveryTime: "Instant 1-3 Menit",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "wetv-1-bulan",
+    name: "Wetv 1 bulan",
+    category: "PRODUK AKUN",
+    subCategory: "WETV",
+    categoryBadgeText: "WETV",
+    durationBadge: "1 BULAN",
+    description: "Akun WeTV VIP 1 Bulan nonton drama Asia & film eksklusif tanpa iklan.",
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 230,
+    priceIdr: 20000,
+    priceUsd: 1.43,
+    priceUnit: "",
+    brand: "wetv",
+    features: [
+      "Akses Semua Drama & Film VIP",
+      "Kualitas Full HD 1080p & Fast Track",
+      "Bebas Iklan Mengganggu",
+      "Garansi 30 Hari Penuh"
+    ],
+    specs: {
+      "Tipe": "WeTV VIP",
+      "Durasi": "30 Hari",
+      "Garansi": "30 Hari Full"
+    },
+    warrantyText: "Garansi 30 Hari Penuh.",
+    deliveryTime: "Instant 1-3 Menit",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "instagram-2000-followers",
+    name: "2.000 followers",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN INSTAGRAM (AKTIF)",
+    categoryBadgeText: "INSTAGRAM",
+    durationBadge: "2.000 FOLLOWERS",
+    description: "Akun Instagram Aktif dengan 2.000 Followers real aktif, siap pakai bisnis/personal.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 180,
+    priceIdr: 65000,
+    priceUsd: 4.66,
+    priceUnit: "",
+    brand: "instagram",
+    features: [
+      "2.000 Real Active Followers",
+      "Akun Bersih & Aman",
+      "Bisa Ganti Email & Password",
+      "Garansi Login Pertama"
+    ],
+    specs: {
+      "Followers": "2.000 (Aktif)",
+      "Platform": "Instagram",
+      "Tipe": "Akun Siap Pakai",
+      "Garansi": "Garansi Akses Awal"
+    },
+    warrantyText: "Garansi Login & Akses Awal 100% Berhasil.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "instagram-1000-followers",
+    name: "1.000 followers",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN INSTAGRAM (AKTIF)",
+    categoryBadgeText: "INSTAGRAM",
+    durationBadge: "1.000 FOLLOWERS",
+    description: "Akun Instagram Aktif dengan 1.000 Followers real aktif, history bersih.",
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 240,
+    priceIdr: 45000,
+    priceUsd: 3.23,
+    priceUnit: "",
+    brand: "instagram",
+    features: [
+      "1.000 Real Active Followers",
+      "Akun Bersih & Bebas Pelanggaran",
+      "Bisa Langsung Ganti Data",
+      "Garansi Login Pertama"
+    ],
+    specs: {
+      "Followers": "1.000 (Aktif)",
+      "Platform": "Instagram",
+      "Tipe": "Akun Siap Pakai",
+      "Garansi": "Garansi Akses Awal"
+    },
+    warrantyText: "Garansi Login & Akses Awal 100% Berhasil.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "tiktok-2000-followers",
+    name: "2.000 followers",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN TIKTOK (AKTIF)",
+    categoryBadgeText: "TIKTOK",
+    durationBadge: "2.000 FOLLOWERS",
+    description: "Akun TikTok Aktif dengan 2.000 Followers, fitur Live streaming siap pakai.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 155,
+    priceIdr: 95000,
+    priceUsd: 6.81,
+    priceUnit: "",
+    brand: "tiktok",
+    features: [
+      "2.000 Followers Aktif",
+      "Fitur Live Streaming Siap Pakai",
+      "Bisa Ubah Username & Password",
+      "Garansi Login Pertama"
+    ],
+    specs: {
+      "Followers": "2.000 (Aktif)",
+      "Fitur": "Live Ready",
+      "Platform": "TikTok",
+      "Garansi": "Garansi Akses Awal"
+    },
+    warrantyText: "Garansi Login & Akses Awal 100% Berhasil.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "tiktok-1000-followers",
+    name: "1.000 followers",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN TIKTOK (AKTIF)",
+    categoryBadgeText: "TIKTOK",
+    durationBadge: "1.000 FOLLOWERS",
+    description: "Akun TikTok Aktif dengan 1.000 Followers, history bersih.",
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 310,
+    priceIdr: 65000,
+    priceUsd: 4.66,
+    priceUnit: "",
+    brand: "tiktok",
+    features: [
+      "1.000 Followers Aktif",
+      "Akun Aman & Siap Pakai",
+      "Bisa Ganti Nomor & Email",
+      "Garansi Login Pertama"
+    ],
+    specs: {
+      "Followers": "1.000 (Aktif)",
+      "Platform": "TikTok",
+      "Tipe": "Akun Siap Pakai",
+      "Garansi": "Garansi Akses Awal"
+    },
+    warrantyText: "Garansi Login & Akses Awal 100% Berhasil.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "gmail-fresh",
+    name: "FRESH",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN GMAIL",
+    categoryBadgeText: "GMAIL",
+    durationBadge: "FRESH",
+    description: "Akun Gmail Fresh Baru Dibuat, Clean IP, siap untuk verifikasi & multi-account.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 1200,
+    priceIdr: 2500,
+    priceUsd: 0.18,
+    minQuantity: 20,
+    minOrderNote: "* Minimal pembelian 20",
+    priceUnit: "/akun",
+    brand: "gmail",
+    features: [
+      "Fresh Clean IP Creation",
+      "Tanpa Nomor HP Tertaut (No-Recovery)",
+      "Support Login Semua Perangkat",
+      "Minimal Pembelian 20 Akun"
+    ],
+    specs: {
+      "Tipe": "Gmail Fresh Baru",
+      "Min. Order": "20 Akun",
+      "Status": "Unverified Phone / Clean",
+      "Garansi": "Garansi Login 24 Jam"
+    },
+    warrantyText: "Garansi Login 24 Jam ganti baru jika tidak bisa login.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "gmail-yt-premium",
+    name: "YT PREMIUM",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN GMAIL",
+    categoryBadgeText: "GMAIL",
+    durationBadge: "YT PREMIUM",
+    description: "Akun Gmail siap pakai untuk aktivasi YouTube Premium promo & trial.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 850,
+    priceIdr: 3000,
+    priceUsd: 0.22,
+    minQuantity: 15,
+    minOrderNote: "* Minimal pembelian 15",
+    priceUnit: "/akun",
+    brand: "gmail",
+    features: [
+      "Ready Invite / Trial YT Premium",
+      "Akun Aman & Berumur",
+      "Bisa Login Langsung di YouTube App",
+      "Minimal Pembelian 15 Akun"
+    ],
+    specs: {
+      "Tipe": "Gmail YT Premium",
+      "Min. Order": "15 Akun",
+      "Garansi": "Garansi Login 24 Jam"
+    },
+    warrantyText: "Garansi Login 24 Jam ganti baru.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "gmail-bekas",
+    name: "BEKAS",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN GMAIL",
+    categoryBadgeText: "GMAIL",
+    durationBadge: "BEKAS",
+    description: "Akun Gmail Bekas/Aged, umur matang dan kuat untuk pendaftaran akun media sosial & marketplace.",
+    isPrivate: true,
+    rating: 4.8,
+    soldCount: 1500,
+    priceIdr: 1200,
+    priceUsd: 0.09,
+    minQuantity: 33,
+    minOrderNote: "* Minimal pembelian 33",
+    priceUnit: "/akun",
+    brand: "gmail",
+    features: [
+      "Aged / Umur Matang",
+      "Tahan Checkpoint & Verifikasi",
+      "Cocok Untuk Bot / Pendaftaran Masal",
+      "Minimal Pembelian 33 Akun"
+    ],
+    specs: {
+      "Tipe": "Gmail Bekas / Aged",
+      "Min. Order": "33 Akun",
+      "Garansi": "Garansi Login 24 Jam"
+    },
+    warrantyText: "Garansi Login 24 Jam ganti baru.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  {
+    id: "gmail-gemini",
+    name: "GEMINI",
+    category: "PRODUK AKUN",
+    subCategory: "AKUN GMAIL",
+    categoryBadgeText: "GMAIL",
+    durationBadge: "GEMINI",
+    description: "Akun Gmail support aktivasi Gemini AI Advanced, Google One promo & Google Workspace.",
+    isPrivate: true,
+    rating: 4.9,
+    soldCount: 920,
+    priceIdr: 3500,
+    priceUsd: 0.25,
+    minQuantity: 13,
+    minOrderNote: "* Minimal pembelian 13",
+    priceUnit: "/akun",
+    brand: "gmail",
+    features: [
+      "Support Promo Google AI / Gemini",
+      "Google One Trial Ready",
+      "Clean Reputation",
+      "Minimal Pembelian 13 Akun"
+    ],
+    specs: {
+      "Tipe": "Gmail Gemini Promo",
+      "Min. Order": "13 Akun",
+      "Garansi": "Garansi Login 24 Jam"
+    },
+    warrantyText: "Garansi Login 24 Jam ganti baru.",
+    deliveryTime: "Instant Delivery",
+    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+  },
+  // ==========================================
   // FLASH SALE / PROMO SPECIALS (BATCH 1)
   // ==========================================
   {

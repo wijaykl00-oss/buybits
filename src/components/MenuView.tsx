@@ -31,6 +31,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
 
   const categories: CategoryType[] = [
     'ALL',
+    'PRODUK AKUN',
     'AI ASSISTANT',
     'DEVELOPER',
     'AI IMAGE',
@@ -40,6 +41,13 @@ export const MenuView: React.FC<MenuViewProps> = ({
 
   const brands: { id: BrandType | 'ALL'; name: string }[] = [
     { id: 'ALL', name: 'Semua Brand' },
+    { id: 'netflix', name: 'Netflix' },
+    { id: 'capcut', name: 'CapCut' },
+    { id: 'spotify', name: 'Spotify' },
+    { id: 'wetv', name: 'WeTV' },
+    { id: 'instagram', name: 'Instagram' },
+    { id: 'tiktok', name: 'TikTok' },
+    { id: 'gmail', name: 'Gmail' },
     { id: 'claude', name: 'Claude' },
     { id: 'chatgpt', name: 'ChatGPT' },
     { id: 'google', name: 'Google AI' },

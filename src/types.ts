@@ -19,10 +19,18 @@ export type BrandType =
   | 'qoder'
   | 'leonardo'
   | 'deepseek'
-  | 'openai';
+  | 'openai'
+  | 'netflix'
+  | 'capcut'
+  | 'spotify'
+  | 'wetv'
+  | 'instagram'
+  | 'tiktok'
+  | 'gmail';
 
 export type CategoryType =
   | 'ALL'
+  | 'PRODUK AKUN'
   | 'AI ASSISTANT'
   | 'DEVELOPER'
   | 'AI IMAGE'
@@ -32,16 +40,21 @@ export type CategoryType =
 export interface Product {
   id: string;
   name: string;
-  category: 'AI ASSISTANT' | 'DEVELOPER' | 'AI IMAGE' | 'API' | 'PROMO';
+  category: 'PRODUK AKUN' | 'AI ASSISTANT' | 'DEVELOPER' | 'AI IMAGE' | 'API' | 'PROMO';
+  subCategory?: string;
   categoryBadgeText?: string;
   durationBadge: string;
-  badgeStyle?: 'outline' | 'purple-solid';
+  badgeStyle?: 'outline' | 'purple-solid' | 'cyan-glow';
   description: string;
   isPrivate: boolean;
   rating: number;
   soldCount: number;
   priceUsd: number;
+  priceIdr?: number;
+  minQuantity?: number;
+  minOrderNote?: string;
   originalPriceUsd?: number;
+  originalPriceIdr?: number;
   discountPercent?: number;
   priceUnit: string;
   brand: BrandType;

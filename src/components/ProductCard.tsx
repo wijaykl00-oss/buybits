@@ -22,20 +22,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   currencyMode = 'USD',
 }) => {
   // Use explicit flash sale price if defined, otherwise 80% off if batch active, or normal price
+  const isFlashSaleEligible = isFlashSaleActive && product.category !== 'PRODUK AKUN';
   const effectivePriceUsd =
     product.flashSalePriceUsd ??
-    (isFlashSaleActive
+    (isFlashSaleEligible
       ? Number((product.priceUsd * 0.20).toFixed(2))
       : product.priceUsd);
 
   const displayPrice =
     currencyMode === 'IDR'
-      ? formatIdr(convertUsdToIdr(effectivePriceUsd))
+      ? (product.priceIdr ? formatIdr(product.priceIdr) : formatIdr(convertUsdToIdr(effectivePriceUsd)))
       : formatUsd(effectivePriceUsd);
 
   const rawOriginalPrice =
     product.originalPriceUsd ||
-    (isFlashSaleActive ? product.priceUsd : 0);
+    (isFlashSaleEligible ? product.priceUsd : 0);
 
   const originalDisplayPrice =
     currencyMode === 'IDR'
@@ -43,13 +44,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       : formatUsd(rawOriginalPrice);
 
   const hasDiscount =
-    isFlashSaleActive ||
+    product.category !== 'PRODUK AKUN' &&
+    (isFlashSaleEligible ||
     !!product.discountPercent ||
-    !!product.originalPriceUsd;
+    !!product.originalPriceUsd);
 
   const discountPercentValue =
-    product.discountPercent || (isFlashSaleActive ? 80 : 0);
-  const discountLabel = discountPercentValue ? `-${discountPercentValue}%` : null;
+    product.discountPercent || (isFlashSaleEligible ? 80 : 0);
+  const discountLabel = hasDiscount && discountPercentValue ? `-${discountPercentValue}%` : null;
 
   return (
     <div
