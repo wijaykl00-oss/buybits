@@ -6,13 +6,10 @@ import {
   User as UserIcon,
   Menu as MenuIcon,
   X,
-  Shield,
   DollarSign,
-  Package,
   Globe,
   LogIn,
   Send,
-  UploadCloud,
 } from 'lucide-react';
 import { User } from '../types';
 
@@ -208,36 +205,7 @@ export const Header: React.FC<HeaderProps> = ({
               </svg>
             </a>
 
-            {/* Upload Bukti Bayar Menu Button */}
-            <button
-              onClick={onOpenUploadProof}
-              id="header-upload-proof-btn"
-              className="hidden lg:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border-2 border-red-500 bg-red-50 hover:bg-red-100 text-xs font-black text-red-600 transition-colors shadow-2xs cursor-pointer font-space"
-              title="Upload Bukti Pembayaran / Konfirmasi Transfer"
-            >
-              <UploadCloud className="w-3.5 h-3.5 text-red-600" />
-              <span>Upload Bukti Bayar</span>
-            </button>
 
-            {/* Cek Pesanan */}
-            <button
-              onClick={onOpenOrderLookup}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition-colors shadow-2xs cursor-pointer"
-              title="Lacak Pesanan"
-            >
-              <Package className="w-3.5 h-3.5 text-neutral-600" />
-              <span>Cek Pesanan</span>
-            </button>
-
-            {/* Admin Dashboard */}
-            <button
-              onClick={onOpenAdminDashboard}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-[#141414] hover:bg-black text-xs font-bold text-white transition-colors shadow-2xs cursor-pointer"
-              title="Admin Panel"
-            >
-              <Shield className="w-3.5 h-3.5 text-red-400" />
-              <span>Admin</span>
-            </button>
 
             {/* User Login / Profile Button */}
             {currentUser ? (
@@ -378,36 +346,6 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <span>Chat Telegram @buybitsofficial</span>
               </a>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenUploadProof();
-                }}
-                className="w-full py-2.5 bg-red-50 border-2 border-red-500 text-red-600 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 font-space"
-              >
-                <UploadCloud className="w-4 h-4 text-red-600" />
-                <span>Upload Bukti Pembayaran</span>
-              </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenOrderLookup();
-                }}
-                className="w-full py-2.5 bg-white border border-neutral-300 text-neutral-900 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"
-              >
-                <Package className="w-3.5 h-3.5" />
-                <span>Cek Status Pesanan</span>
-              </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenAdminDashboard();
-                }}
-                className="w-full py-2.5 bg-[#141414] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"
-              >
-                <Shield className="w-3.5 h-3.5 text-red-400" />
-                <span>Admin Control Panel</span>
-              </button>
             </div>
           </div>
         )}
