@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   X,
-  QrCode,
   ShieldCheck,
   Zap,
   Copy,
@@ -357,31 +356,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </div>
               </div>
 
-              {/* Payment Method Selector (Dynamic QRIS Only) */}
-              <div>
-                <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1.5 font-space">
-                  Metode Pembayaran
-                </label>
-                <div className="p-3.5 rounded-2xl border-2 border-red-500 bg-red-50/40 flex items-center justify-between shadow-xs">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs flex-shrink-0">
-                      <QrCode className="w-5 h-5 text-red-600" />
-                    </div>
-                    <div>
-                      <span className="block text-xs font-black text-neutral-900 uppercase font-space">
-                        Dynamic QRIS & Alipay+ Realtime
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] text-neutral-500 font-medium block">
-                        Otomatis terisi nominal. Scan pakai BCA, Mandiri, BRI, BNI, GoPay, OVO, Dana, ShopeePay, Alipay+.
-                      </span>
-                    </div>
-                  </div>
-                  <span className="text-[10px] bg-emerald-600 text-white font-black px-2.5 py-1 rounded-full uppercase tracking-wider flex-shrink-0">
-                    Instant
-                  </span>
-                </div>
-              </div>
-
               {/* Price Breakdown */}
               <div className="bg-neutral-50 rounded-2xl p-4 border border-neutral-200 space-y-2 text-xs font-space">
                 <div className="flex justify-between text-neutral-600">
@@ -442,33 +416,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
             {/* Official Indonesian Dynamic QRIS Card using foto/qris.png */}
             <div className="bg-white rounded-3xl border-2 border-neutral-300 p-4 sm:p-5 shadow-lg flex flex-col items-center text-center relative overflow-hidden">
-              {/* Header GPN / ALIPAY+ / QRIS */}
-              <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-100 mb-2">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-[#1677FF] text-white text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded tracking-tighter shadow-xs">
-                    ALIPAY+
-                  </div>
-                  <div className="bg-red-600 text-white text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded tracking-tighter shadow-xs">
-                    QRIS
-                  </div>
-                  <span className="text-[9px] sm:text-[11px] font-bold text-neutral-700 font-space truncate">
-                    QR Pembayaran Nasional & Cross-Border
-                  </span>
+              {/* Header ALIPAY+ & QRIS */}
+              <div className="w-full flex items-center justify-center gap-2 pb-3 border-b border-neutral-100 mb-2">
+                <div className="bg-[#1677FF] text-white text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded tracking-tighter shadow-xs">
+                  ALIPAY+
                 </div>
-                <div className="text-[9px] sm:text-[10px] font-black text-neutral-500 tracking-wider flex-shrink-0 font-space">
-                  GPN • ALIPAY+
+                <div className="bg-red-600 text-white text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded tracking-tighter shadow-xs">
+                  QRIS
                 </div>
-              </div>
-
-              {/* Alipay+ & Cross Border Notification Ribbon */}
-              <div className="w-full bg-gradient-to-r from-[#1677FF]/10 via-sky-50 to-emerald-50 border border-[#1677FF]/25 rounded-xl px-3 py-1 mb-2 flex items-center justify-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#1677FF] animate-ping" />
-                <span className="text-[10px] font-black text-[#1677FF] uppercase font-space tracking-wide">
-                  ALIPAY+ & QRIS RESMI
-                </span>
-                <span className="text-[10px] text-neutral-500 hidden sm:inline">
-                  • Scan Langsung via Aplikasi
-                </span>
               </div>
 
               <div className="mb-2">
@@ -476,11 +431,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   Order ID: {activeOrder?.orderNumber}
                 </div>
                 <h4 className="text-sm sm:text-base font-black text-neutral-900 uppercase tracking-tight font-display">
-                  BUYBITS OFFICIAL
+                  Toko Kelontong
                 </h4>
-                <p className="text-[10px] sm:text-[11px] text-neutral-500">
-                  NMID: ID1024889201992 • Instant Verification
-                </p>
               </div>
 
               {/* Scannable Official QRIS Image from foto/qris.png with Alipay Indicator */}
@@ -497,10 +449,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     (e.target as HTMLImageElement).src = '/qris.png';
                   }}
                 />
-
-                <div className="text-[10px] font-bold text-neutral-600 mt-2 text-center">
-                  Scan kode QRIS di atas dengan aplikasi BCA, Mandiri, BRI, GoPay, OVO, Dana, ShopeePay, Alipay.
-                </div>
               </div>
 
               {/* Exact Amount To Pay with Copy Button */}
@@ -533,23 +481,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
             {/* MANDATORY PAYMENT PROOF UPLOAD SECTION */}
             <div className="p-4 bg-amber-50/70 border-2 border-amber-300 rounded-3xl space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-amber-500 text-white flex items-center justify-center">
-                    <UploadCloud className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-black uppercase text-neutral-900 tracking-tight font-space">
-                      Upload Bukti Pembayaran (Wajib)
-                    </h4>
-                    <p className="text-[10px] text-neutral-600">
-                      Wajib mengunggah screenshot struk transfer QRIS untuk menyelesaikan pesanan.
-                    </p>
-                  </div>
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-amber-500 text-white flex items-center justify-center">
+                  <UploadCloud className="w-4 h-4" />
                 </div>
-                <span className="text-[9px] font-black uppercase bg-red-600 text-white px-2 py-0.5 rounded-md font-space">
-                  Wajib
-                </span>
+                <h4 className="text-xs font-black uppercase text-neutral-900 tracking-tight font-space">
+                  Upload Pembayaran
+                </h4>
               </div>
 
               {/* Hidden file input */}

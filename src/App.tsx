@@ -33,7 +33,7 @@ import { AuthModal } from './components/AuthModal';
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('aistore_products_v8');
+    const saved = localStorage.getItem('aistore_products_v9');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -135,7 +135,7 @@ export default function App() {
     const isFlashSale = product.inFlashSaleBatch === cycleInfo.currentBatch;
     const finalPriceUsd =
       product.flashSalePriceUsd ??
-      (isFlashSale
+      (isFlashSale && !product.discountPercent
         ? Number((product.priceUsd * 0.20).toFixed(2))
         : product.priceUsd);
 
@@ -166,7 +166,7 @@ export default function App() {
     const isFlashSale = product.inFlashSaleBatch === cycleInfo.currentBatch;
     const finalPriceUsd =
       product.flashSalePriceUsd ??
-      (isFlashSale
+      (isFlashSale && !product.discountPercent
         ? Number((product.priceUsd * 0.20).toFixed(2))
         : product.priceUsd);
 

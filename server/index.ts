@@ -94,7 +94,7 @@ app.post('/api/orders/checkout', async (req, res) => {
       const isFlashSale = serverProduct.inFlashSaleBatch === cycle.currentBatch;
       const serverFinalPriceUsd =
         serverProduct.flashSalePriceUsd ??
-        (isFlashSale
+        (isFlashSale && !serverProduct.discountPercent
           ? Number((serverProduct.priceUsd * 0.2).toFixed(2))
           : serverProduct.priceUsd);
 

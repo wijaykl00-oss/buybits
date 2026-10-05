@@ -39,7 +39,7 @@ export function createCheckoutOrder(params: {
     const isFlashSale = prod.inFlashSaleBatch === cycle.currentBatch;
     const finalPriceUsd =
       prod.flashSalePriceUsd ??
-      (isFlashSale
+      (isFlashSale && !prod.discountPercent
         ? Number((prod.priceUsd * 0.20).toFixed(2))
         : prod.priceUsd);
 

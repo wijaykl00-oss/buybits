@@ -25,7 +25,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const isFlashSaleEligible = isFlashSaleActive && product.category !== 'PRODUK AKUN';
   const effectivePriceUsd =
     product.flashSalePriceUsd ??
-    (isFlashSaleEligible
+    (isFlashSaleEligible && !product.discountPercent
       ? Number((product.priceUsd * 0.20).toFixed(2))
       : product.priceUsd);
 

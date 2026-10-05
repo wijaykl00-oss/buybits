@@ -51,7 +51,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const isFlashSaleEligible = isFlashSaleActive && product.category !== 'PRODUK AKUN';
   const effectivePriceUsd =
     product.flashSalePriceUsd ??
-    (isFlashSaleEligible
+    (isFlashSaleEligible && !product.discountPercent
       ? Number((product.priceUsd * 0.20).toFixed(2))
       : product.priceUsd);
 
@@ -60,16 +60,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       ? (product.priceIdr ? formatIdr(product.priceIdr) : formatIdr(convertUsdToIdr(effectivePriceUsd)))
       : formatUsd(effectivePriceUsd);
 
+  const rawOriginalPrice =
+    product.originalPriceUsd ||
+    (isFlashSaleEligible ? product.priceUsd : 0);
+
   const originalDisplayPrice =
     currencyMode === 'IDR'
-      ? formatIdr(
-          convertUsdToIdr(
-            isFlashSaleEligible ? product.priceUsd : product.originalPriceUsd || 0
-          )
-        )
-      : formatUsd(
-          isFlashSaleEligible ? product.priceUsd : product.originalPriceUsd || 0
-        );
+      ? formatIdr(convertUsdToIdr(rawOriginalPrice))
+      : formatUsd(rawOriginalPrice);
 
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault();
