@@ -3,7 +3,7 @@ import { INDONESIAN_REVIEWS_POOL } from './reviews';
 
 export const ALL_PRODUCTS: Product[] = [
   // ==========================================
-  // PRODUK AKUN (STREAMING, SOSMED & GMAIL)
+  // PRODUK AKUN (STREAMING & SOSMED)
   // ==========================================
   {
     id: "netflix-private-1-bulan",
@@ -310,136 +310,7 @@ export const ALL_PRODUCTS: Product[] = [
     },
     warrantyText: "Garansi Login & Akses Awal 100% Berhasil.",
     deliveryTime: "Instant Delivery",
-    reviews: [INDONESIAN_REVIEWS_POOL[0]]
-  },
-  {
-    id: "gmail-fresh",
-    name: "FRESH",
-    category: "PRODUK AKUN",
-    subCategory: "AKUN GMAIL",
-    categoryBadgeText: "GMAIL",
-    durationBadge: "FRESH",
-    description: "Akun Gmail Fresh Baru Dibuat, Clean IP, siap untuk verifikasi & multi-account.",
-    isPrivate: true,
-    rating: 4.9,
-    soldCount: 1200,
-    priceIdr: 2500,
-    priceUsd: 0.18,
-    minQuantity: 20,
-    minOrderNote: "* Minimal pembelian 20",
-    priceUnit: "/akun",
-    brand: "gmail",
-    features: [
-      "Fresh Clean IP Creation",
-      "Tanpa Nomor HP Tertaut (No-Recovery)",
-      "Support Login Semua Perangkat",
-      "Minimal Pembelian 20 Akun"
-    ],
-    specs: {
-      "Tipe": "Gmail Fresh Baru",
-      "Min. Order": "20 Akun",
-      "Status": "Unverified Phone / Clean",
-      "Garansi": "Garansi Login 24 Jam"
-    },
-    warrantyText: "Garansi Login 24 Jam ganti baru jika tidak bisa login.",
-    deliveryTime: "Instant Delivery",
-    reviews: [INDONESIAN_REVIEWS_POOL[0]]
-  },
-  {
-    id: "gmail-yt-premium",
-    name: "YT PREMIUM",
-    category: "PRODUK AKUN",
-    subCategory: "AKUN GMAIL",
-    categoryBadgeText: "GMAIL",
-    durationBadge: "YT PREMIUM",
-    description: "Akun Gmail siap pakai untuk aktivasi YouTube Premium promo & trial.",
-    isPrivate: true,
-    rating: 4.9,
-    soldCount: 850,
-    priceIdr: 3000,
-    priceUsd: 0.22,
-    minQuantity: 15,
-    minOrderNote: "* Minimal pembelian 15",
-    priceUnit: "/akun",
-    brand: "gmail",
-    features: [
-      "Ready Invite / Trial YT Premium",
-      "Akun Aman & Berumur",
-      "Bisa Login Langsung di YouTube App",
-      "Minimal Pembelian 15 Akun"
-    ],
-    specs: {
-      "Tipe": "Gmail YT Premium",
-      "Min. Order": "15 Akun",
-      "Garansi": "Garansi Login 24 Jam"
-    },
-    warrantyText: "Garansi Login 24 Jam ganti baru.",
-    deliveryTime: "Instant Delivery",
-    reviews: [INDONESIAN_REVIEWS_POOL[0]]
-  },
-  {
-    id: "gmail-bekas",
-    name: "BEKAS",
-    category: "PRODUK AKUN",
-    subCategory: "AKUN GMAIL",
-    categoryBadgeText: "GMAIL",
-    durationBadge: "BEKAS",
-    description: "Akun Gmail Bekas/Aged, umur matang dan kuat untuk pendaftaran akun media sosial & marketplace.",
-    isPrivate: true,
-    rating: 4.8,
-    soldCount: 1500,
-    priceIdr: 1200,
-    priceUsd: 0.09,
-    minQuantity: 33,
-    minOrderNote: "* Minimal pembelian 33",
-    priceUnit: "/akun",
-    brand: "gmail",
-    features: [
-      "Aged / Umur Matang",
-      "Tahan Checkpoint & Verifikasi",
-      "Cocok Untuk Bot / Pendaftaran Masal",
-      "Minimal Pembelian 33 Akun"
-    ],
-    specs: {
-      "Tipe": "Gmail Bekas / Aged",
-      "Min. Order": "33 Akun",
-      "Garansi": "Garansi Login 24 Jam"
-    },
-    warrantyText: "Garansi Login 24 Jam ganti baru.",
-    deliveryTime: "Instant Delivery",
-    reviews: [INDONESIAN_REVIEWS_POOL[0]]
-  },
-  {
-    id: "gmail-gemini",
-    name: "GEMINI",
-    category: "PRODUK AKUN",
-    subCategory: "AKUN GMAIL",
-    categoryBadgeText: "GMAIL",
-    durationBadge: "GEMINI",
-    description: "Akun Gmail support aktivasi Gemini AI Advanced, Google One promo & Google Workspace.",
-    isPrivate: true,
-    rating: 4.9,
-    soldCount: 920,
-    priceIdr: 3500,
-    priceUsd: 0.25,
-    minQuantity: 13,
-    minOrderNote: "* Minimal pembelian 13",
-    priceUnit: "/akun",
-    brand: "gmail",
-    features: [
-      "Support Promo Google AI / Gemini",
-      "Google One Trial Ready",
-      "Clean Reputation",
-      "Minimal Pembelian 13 Akun"
-    ],
-    specs: {
-      "Tipe": "Gmail Gemini Promo",
-      "Min. Order": "13 Akun",
-      "Garansi": "Garansi Login 24 Jam"
-    },
-    warrantyText: "Garansi Login 24 Jam ganti baru.",
-    deliveryTime: "Instant Delivery",
-    reviews: [INDONESIAN_REVIEWS_POOL[0]]
+    reviews: [INDONESIAN_REVIEWS_POOL[0]],
   },
   // ==========================================
   // FLASH SALE / PROMO SPECIALS (BATCH 1)

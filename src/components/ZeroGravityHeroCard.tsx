@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { motion, useSpring, useTransform } from 'motion/react';
 import { Product } from '../types';
 
@@ -17,11 +17,20 @@ interface ZeroGravityHeroCardProps {
   onClick: () => void;
 }
 
+interface BubbleConfig {
+  id: number;
+  size: number;
+  left: number;
+  duration: number;
+  delay: number;
+  wobbleX: number[];
+}
+
 export const ZeroGravityHeroCard: React.FC<ZeroGravityHeroCardProps> = ({ card, onClick }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Springs for silky smooth microgravity physics
+  // Springs for silky smooth microgravity cursor physics
   const springConfig = { stiffness: 220, damping: 18, mass: 0.8 };
   const mouseX = useSpring(0, springConfig);
   const mouseY = useSpring(0, springConfig);
@@ -29,9 +38,9 @@ export const ZeroGravityHeroCard: React.FC<ZeroGravityHeroCardProps> = ({ card, 
   // 3D tilt & agile maneuver transformations
   const moveX = useTransform(mouseX, [-1, 1], [-22, 22]);
   const moveY = useTransform(mouseY, [-1, 1], [-18, 18]);
-  const rotateX = useTransform(mouseY, [-1, 1], [16, -16]);
-  const rotateY = useTransform(mouseX, [-1, 1], [-18, 18]);
-  const tiltZ = useTransform(mouseX, [-1, 1], [-12, 12]);
+  const rotateX = useTransform(mouseY, [-1, 1], [14, -14]);
+  const rotateY = useTransform(mouseX, [-1, 1], [-16, 16]);
+  const tiltZ = useTransform(mouseX, [-1, 1], [-10, 10]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -52,6 +61,45 @@ export const ZeroGravityHeroCard: React.FC<ZeroGravityHeroCardProps> = ({ card, 
     mouseY.set(0);
   }, [mouseX, mouseY]);
 
+  // Unique procedural bubbles for each card (staggered & realistic)
+  const bubbles: BubbleConfig[] = useMemo(() => {
+    const idx = card.cardIndex;
+    return [
+      {
+        id: 1,
+        size: 14 + (idx * 3) % 8, // 14px - 22px
+        left: 15 + (idx * 17) % 30, // 15% - 45%
+        duration: 4.8 + (idx * 0.4),
+        delay: -1.2 * idx,
+        wobbleX: [-6, 7, -5, 6, -6],
+      },
+      {
+        id: 2,
+        size: 9 + (idx * 2) % 6, // 9px - 15px
+        left: 55 + (idx * 13) % 32, // 55% - 87%
+        duration: 3.9 + (idx * 0.3),
+        delay: -2.1 * idx,
+        wobbleX: [5, -6, 7, -4, 5],
+      },
+      {
+        id: 3,
+        size: 18 + (idx * 4) % 10, // 18px - 28px
+        left: 30 + (idx * 19) % 35, // 30% - 65%
+        duration: 5.5 + (idx * 0.5),
+        delay: -0.8 * idx,
+        wobbleX: [-8, 6, -7, 5, -8],
+      },
+      {
+        id: 4,
+        size: 8 + (idx * 3) % 5, // 8px - 13px
+        left: 20 + (idx * 23) % 50,
+        duration: 3.4 + (idx * 0.35),
+        delay: -3.3 * idx,
+        wobbleX: [4, -5, 6, -3, 4],
+      },
+    ];
+  }, [card.cardIndex]);
+
   // Alternating themes: Red vs Sleek Black
   const bgClasses = card.isRed
     ? 'bg-[#DC2626] text-white shadow-lg shadow-red-900/25 border border-red-500/30'
@@ -67,61 +115,61 @@ export const ZeroGravityHeroCard: React.FC<ZeroGravityHeroCardProps> = ({ card, 
       className={`${bgClasses} min-w-[130px] xs:min-w-[150px] md:min-w-0 snap-center rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 aspect-[4/5] flex flex-col items-center justify-between text-center cursor-pointer transition-all duration-300 relative flex-shrink-0 md:flex-shrink overflow-hidden group select-none hover:shadow-2xl`}
       style={{ perspective: 1000 }}
     >
-      {/* Zero-G Ambient Space Particles: Floating Bubbles */}
+      {/* Dynamic Animated Zero-Gravity Bubbles (Separate Bubble Asset) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {/* Bubble 1 */}
-        <span
-          className="absolute rounded-full border border-white/50 bg-white/15 animate-pulse"
-          style={{
-            width: '8px',
-            height: '8px',
-            left: `${15 + (card.cardIndex * 13) % 65}%`,
-            top: `${20 + (card.cardIndex * 17) % 55}%`,
-            animationDuration: `${2.4 + card.cardIndex * 0.4}s`,
-          }}
-        />
-        {/* Bubble 2 */}
-        <span
-          className="absolute rounded-full border border-white/40 bg-white/10"
-          style={{
-            width: '12px',
-            height: '12px',
-            right: `${18 + (card.cardIndex * 11) % 60}%`,
-            top: `${35 + (card.cardIndex * 19) % 45}%`,
-          }}
-        />
-        {/* Bubble 3 */}
-        <span
-          className="absolute rounded-full border border-white/30 bg-white/10"
-          style={{
-            width: '6px',
-            height: '6px',
-            left: `${28 + (card.cardIndex * 7) % 50}%`,
-            bottom: '26%',
-          }}
-        />
+        {bubbles.map((b) => (
+          <motion.img
+            key={b.id}
+            src="/hero-cards/bubble.svg"
+            alt="Bubble"
+            style={{
+              position: 'absolute',
+              width: `${b.size}px`,
+              height: `${b.size}px`,
+              left: `${b.left}%`,
+              bottom: '-25px',
+            }}
+            animate={{
+              y: [0, -220],
+              x: b.wobbleX,
+              opacity: [0, 0.85, 0.85, 0],
+              scale: [0.75, 1, 1.08, 0.8],
+            }}
+            transition={{
+              duration: b.duration,
+              delay: b.delay,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="select-none filter drop-shadow-xs"
+          />
+        ))}
 
-        {/* Twinkling Sparkles (✨) */}
+        {/* Twinkling Star Sparkles (✨) */}
         <div
           className={`absolute transition-opacity duration-300 ${
-            isHovered ? 'opacity-100 scale-110' : 'opacity-60 scale-90'
+            isHovered ? 'opacity-100 scale-110' : 'opacity-50 scale-90'
           }`}
           style={{
             top: `${14 + (card.cardIndex * 5) % 20}%`,
             right: `${12 + (card.cardIndex * 9) % 25}%`,
           }}
         >
-          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-amber-300/90 drop-shadow-sm animate-spin" style={{ animationDuration: '8s' }}>
+          <svg
+            viewBox="0 0 24 24"
+            className="w-3.5 h-3.5 fill-amber-300/90 drop-shadow-sm animate-spin"
+            style={{ animationDuration: '9s' }}
+          >
             <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
           </svg>
         </div>
 
         <div
           className={`absolute transition-opacity duration-300 ${
-            isHovered ? 'opacity-90' : 'opacity-30'
+            isHovered ? 'opacity-90' : 'opacity-25'
           }`}
           style={{
-            bottom: '32%',
+            bottom: '30%',
             left: `${14 + (card.cardIndex * 8) % 20}%`,
           }}
         >
@@ -170,16 +218,16 @@ export const ZeroGravityHeroCard: React.FC<ZeroGravityHeroCardProps> = ({ card, 
         )}
       </div>
 
-      {/* Floating 2D Cartoon Boy (Zero-Gravity Antigravity Layer) */}
+      {/* Floating Pure 2D Cartoon Boy (Zero-Gravity Antigravity Layer) */}
       <div className="w-full flex-1 flex items-center justify-center relative z-20 pointer-events-none mt-1">
         <motion.div
           animate={
             isHovered
               ? {
-                  scale: 1.14,
+                  scale: 1.15,
                 }
               : {
-                  y: [-6, 6, -6],
+                  y: [-5, 6, -5],
                   rotate: [-3.5, 3.5, -3.5],
                   scale: [1, 1.025, 1],
                   transition: {
@@ -199,13 +247,11 @@ export const ZeroGravityHeroCard: React.FC<ZeroGravityHeroCardProps> = ({ card, 
           }}
           className="w-full h-full flex items-center justify-center relative"
         >
+          {/* Pure boy character only: NO card background, NO borders, transparent PNG */}
           <img
             src={card.boySprite}
             alt={card.title}
-            className="max-w-[125%] max-h-[125%] object-contain filter drop-shadow-md transition-all duration-200"
-            style={{
-              imageRendering: 'auto',
-            }}
+            className="w-[88%] h-[88%] object-contain filter drop-shadow-md transition-all duration-200 select-none"
           />
         </motion.div>
       </div>

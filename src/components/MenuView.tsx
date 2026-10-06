@@ -47,7 +47,6 @@ export const MenuView: React.FC<MenuViewProps> = ({
     { id: 'wetv', name: 'WeTV' },
     { id: 'instagram', name: 'Instagram' },
     { id: 'tiktok', name: 'TikTok' },
-    { id: 'gmail', name: 'Gmail' },
     { id: 'claude', name: 'Claude' },
     { id: 'chatgpt', name: 'ChatGPT' },
     { id: 'google', name: 'Google AI' },

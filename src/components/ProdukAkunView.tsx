@@ -40,7 +40,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
   onAddToCart,
   currencyMode,
 }) => {
-  const [activeFilter, setActiveFilter] = useState<'ALL' | 'STREAMING' | 'SOSMED' | 'GMAIL'>('ALL');
+  const [activeFilter, setActiveFilter] = useState<'ALL' | 'STREAMING' | 'SOSMED'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Extract only PRODUK AKUN items
@@ -56,7 +56,6 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
     { id: 'WETV', title: 'WETV', badge: 'Asian Drama VIP' },
     { id: 'AKUN INSTAGRAM (AKTIF)', title: 'AKUN INSTAGRAM (AKTIF)', badge: 'Real Active Followers' },
     { id: 'AKUN TIKTOK (AKTIF)', title: 'AKUN TIKTOK (AKTIF)', badge: 'Live Ready & Aktif' },
-    { id: 'AKUN GMAIL', title: 'AKUN GMAIL', badge: 'Clean & Aged' },
   ];
 
   // Group products by subCategory
@@ -73,8 +72,6 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
           if (!['NETFLIX', 'CAPCUT', 'SPOTIFY', 'WETV'].includes(group.id)) return false;
         } else if (activeFilter === 'SOSMED') {
           if (!['AKUN INSTAGRAM (AKTIF)', 'AKUN TIKTOK (AKTIF)'].includes(group.id)) return false;
-        } else if (activeFilter === 'GMAIL') {
-          if (group.id !== 'AKUN GMAIL') return false;
         }
 
         // Search query
@@ -114,7 +111,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
           </h1>
 
           <p className="text-neutral-600 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
-            Daftar harga akun streaming premium, media sosial aktif dengan followers riil, dan akun Gmail fresh/bekas berkualitas dengan garansi penuh.
+            Daftar harga akun streaming premium dan media sosial aktif dengan followers riil berkualitas dengan garansi penuh.
           </p>
 
           {/* Quick Trust Badges */}
@@ -169,17 +166,6 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
               }`}
             >
               Sosmed (IG, TikTok)
-            </button>
-
-            <button
-              onClick={() => setActiveFilter('GMAIL')}
-              className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                activeFilter === 'GMAIL'
-                  ? 'bg-red-600 text-white shadow-md shadow-red-600/25'
-                  : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
-              }`}
-            >
-              Akun Gmail
             </button>
           </div>
 
