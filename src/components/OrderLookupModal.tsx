@@ -325,12 +325,9 @@ export const OrderLookupModal: React.FC<OrderLookupModalProps> = ({
                 <div className="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
                   <MessageCircle className="w-6 h-6" />
                 </div>
-                <h4 className="text-sm sm:text-base font-black text-neutral-900 uppercase font-space">
+                <h4 className="text-sm sm:text-base font-black text-neutral-900 uppercase font-space mb-2">
                   Ambil Akun Anda Sekarang
                 </h4>
-                <p className="text-xs text-neutral-600 max-w-sm">
-                  Pembayaran pesanan Anda telah lunas ({searchedOrder.orderNumber}). Silakan klik tombol di bawah untuk mengambil akun via WhatsApp admin kami.
-                </p>
                 <a
                   href={`https://wa.me/6285124935573?text=${encodeURIComponent(
                     `Halo Admin, saya ingin mengambil akun untuk pesanan #${searchedOrder.orderNumber}.`
@@ -343,9 +340,6 @@ export const OrderLookupModal: React.FC<OrderLookupModalProps> = ({
                   <span>Ambil Akun (WhatsApp)</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
-                <span className="text-[11px] text-neutral-500 font-mono">
-                  WhatsApp: 085124935573
-                </span>
               </div>
             )}
           </div>

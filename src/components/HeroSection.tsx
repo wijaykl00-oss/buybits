@@ -7,6 +7,8 @@ import {
 } from 'lucide-react';
 import { Product } from '../types';
 
+import { ZeroGravityHeroCard, ZeroGravityHeroCardData } from './ZeroGravityHeroCard';
+
 interface HeroSectionProps {
   onShopNow: () => void;
   onSelectProduct: (product: Product) => void;
@@ -25,42 +27,52 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const claudeMax5x = products.find((p) => p.name.toLowerCase().includes('claude max 5x')) || products[1];
   const claudeMax20x = products.find((p) => p.name.toLowerCase().includes('claude max 20x')) || products[2];
 
-  // Red, Black, White alternating theme
-  const heroCards = [
+  // Red & Black Alternating Antigravity Hero Cards
+  const heroCards: ZeroGravityHeroCardData[] = [
     {
       title: 'CLAUDE PRO',
       badge: '1 MONTH',
-      bgStyle: 'bg-[#DC2626] text-white shadow-red-900/20',
-      iconStyle: 'bg-white/20 text-white',
+      isRed: true,
       product: claudePro,
+      boySprite: '/hero-cards/boy-1.png',
+      cardIndex: 1,
+      floatDuration: 3.8,
     },
     {
       title: 'CLAUDE PRO',
       badge: '3 MONTHS',
-      bgStyle: 'bg-[#141414] text-white shadow-black/30 border border-neutral-800',
-      iconStyle: 'text-[#DC2626]',
+      isRed: false,
       product: claudePro,
+      boySprite: '/hero-cards/boy-2.png',
+      cardIndex: 2,
+      floatDuration: 4.2,
     },
     {
       title: 'CLAUDE MAX 5X',
       badge: 'PROMO',
-      bgStyle: 'bg-[#DC2626] text-white shadow-red-900/20',
-      iconStyle: 'bg-white/20 text-white',
+      isRed: true,
       product: claudeMax5x,
+      boySprite: '/hero-cards/boy-3.png',
+      cardIndex: 3,
+      floatDuration: 3.5,
     },
     {
       title: 'CLAUDE MAX 5X',
       badge: 'EXCLUSIVE',
-      bgStyle: 'bg-[#141414] text-white shadow-black/30 border border-neutral-800',
-      iconStyle: 'text-[#DC2626]',
+      isRed: false,
       product: claudeMax5x,
+      boySprite: '/hero-cards/boy-4.png',
+      cardIndex: 4,
+      floatDuration: 4.5,
     },
     {
       title: 'CLAUDE MAX 20X',
       badge: 'VIP',
-      bgStyle: 'bg-[#DC2626] text-white shadow-red-900/20',
-      iconStyle: 'bg-white/20 text-white',
+      isRed: true,
       product: claudeMax20x,
+      boySprite: '/hero-cards/boy-5.png',
+      cardIndex: 5,
+      floatDuration: 3.9,
     },
   ];
 
@@ -167,38 +179,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Showcase Cards: Touch Swipe Snap on Mobile & Grid on Desktop */}
         <div className="mt-8 sm:mt-10 flex md:grid md:grid-cols-5 gap-3 sm:gap-4 overflow-x-auto md:overflow-visible pb-3 md:pb-0 no-scrollbar snap-x">
           {heroCards.map((card, idx) => (
-            <div
+            <ZeroGravityHeroCard
               key={idx}
+              card={card}
               onClick={() => card.product && onSelectProduct(card.product)}
-              className={`${card.bgStyle} min-w-[130px] xs:min-w-[150px] md:min-w-0 snap-center rounded-2xl sm:rounded-3xl p-4 sm:p-6 aspect-[4/5] flex flex-col items-center justify-between text-center cursor-pointer shadow-md hover:-translate-y-1.5 transition-all duration-200 group relative flex-shrink-0 md:flex-shrink`}
-            >
-              {/* Star Logo in Middle / Top */}
-              <div className="w-full flex-1 flex items-center justify-center">
-                <div className={`w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center ${card.iconStyle} group-hover:scale-110 transition-transform`}>
-                  {/* 8-pointed Asterisk / Star */}
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    className="w-7 h-7 xs:w-9 xs:h-9 sm:w-10 sm:h-10"
-                  >
-                    <line x1="12" y1="2" x2="12" y2="22" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
-                    <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Card Label Bottom */}
-              <div className="w-full pt-1.5 sm:pt-2">
-                <span className="text-[10px] xs:text-[11px] sm:text-xs font-black tracking-wider xs:tracking-widest uppercase block font-space truncate">
-                  {card.title}
-                </span>
-              </div>
-            </div>
+            />
           ))}
         </div>
       </div>

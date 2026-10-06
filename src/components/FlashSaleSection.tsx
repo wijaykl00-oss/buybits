@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Zap, Clock, Sparkles, Flame, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Zap, Clock, Sparkles, Flame, ChevronRight } from 'lucide-react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { getFlashSaleCycleInfo } from '../data/products';
@@ -165,11 +165,6 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
                   </span>
                 )}
               </button>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs font-bold text-rose-100">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Semua produk di bawah otomatis dipotong 80% saat checkout</span>
             </div>
           </div>
         </div>

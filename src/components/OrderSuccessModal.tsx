@@ -62,12 +62,9 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
           <div className="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/25 mb-3">
             <MessageCircle className="w-7 h-7" />
           </div>
-          <h4 className="text-base sm:text-lg font-black text-neutral-900 uppercase font-space">
+          <h4 className="text-base sm:text-lg font-black text-neutral-900 uppercase font-space mb-4">
             Ambil Akun Anda Sekarang
           </h4>
-          <p className="text-xs text-neutral-600 max-w-sm mt-1 mb-5">
-            Pembayaran telah berhasil diverifikasi. Silakan klik tombol di bawah untuk mengambil detail akun & panduan login via WhatsApp resmi kami.
-          </p>
 
           <a
             href={whatsappUrl}
@@ -79,9 +76,6 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
             <span>Ambil Akun</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
-          <span className="text-[11px] text-neutral-500 mt-2 font-mono">
-            WhatsApp: 085124935573
-          </span>
         </div>
 
         {/* Bottom Actions */}
