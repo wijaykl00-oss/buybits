@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ShoppingCart,
   Zap,
@@ -10,8 +10,11 @@ import {
   Globe,
   LogIn,
   Send,
+  Check,
+  ChevronDown,
 } from 'lucide-react';
 import { User } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
   activeTab: 'HOME' | 'PRODUK AKUN' | 'MENU' | 'FLASH SALE' | 'ABOUT';
@@ -46,8 +49,31 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenUploadProof,
   onOpenAdminDashboard,
 }) => {
+  const { language, setLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSelectLang = (lang: 'id' | 'en') => {
+    setLanguage(lang);
+    if (lang === 'id' && currencyMode !== 'IDR') {
+      onToggleCurrency();
+    } else if (lang === 'en' && currencyMode !== 'USD') {
+      onToggleCurrency();
+    }
+    setLangDropdownOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-[#F4F3EE]/95 backdrop-blur-md border-b border-neutral-300 shadow-2xs">
@@ -90,7 +116,7 @@ export const Header: React.FC<HeaderProps> = ({
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
-              <span>Home</span>
+              <span>{t('nav.home')}</span>
               {activeTab === 'HOME' && (
                 <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
@@ -104,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
-              <span>Produk Akun</span>
+              <span>{t('nav.account_products')}</span>
               <span className="bg-cyan-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs leading-none">
                 NEW
               </span>
@@ -121,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
-              <span>Store</span>
+              <span>{t('nav.store')}</span>
               {activeTab === 'MENU' && (
                 <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
@@ -135,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
-              <span>Flash Sale</span>
+              <span>{t('nav.flash_sale')}</span>
               <span className="bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs leading-none">
                 HOT
               </span>
@@ -152,7 +178,7 @@ export const Header: React.FC<HeaderProps> = ({
                   : 'text-neutral-700 hover:text-neutral-950'
               }`}
             >
-              <span>About</span>
+              <span>{t('nav.about')}</span>
               {activeTab === 'ABOUT' && (
                 <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-red-600 rounded-full" />
               )}
@@ -161,17 +187,61 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right Action Controls */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Currency / Language Toggle Pill (EN / ID) */}
-            <button
-              onClick={onToggleCurrency}
-              id="header-currency-btn"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition-colors shadow-2xs cursor-pointer"
-              title="Ganti mata uang / bahasa"
-            >
-              <Globe className="w-3.5 h-3.5 text-neutral-600" />
-              <span>{currencyMode === 'USD' ? 'EN ($)' : 'ID (Rp)'}</span>
-              <span className="text-[10px] text-neutral-400">▾</span>
-            </button>
+            {/* Header Language / Currency Dropdown Menu */}
+            <div className="relative hidden sm:block" ref={langDropdownRef}>
+              <button
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                id="header-currency-btn"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition-colors shadow-2xs cursor-pointer"
+                title={language === 'id' ? 'Ganti Bahasa / Mata Uang' : 'Change Language / Currency'}
+              >
+                <Globe className="w-3.5 h-3.5 text-neutral-600" />
+                <span className="flex items-center gap-1">
+                  <span>{language === 'id' ? '🇮🇩 ID' : '🇺🇸 EN'}</span>
+                  <span className="text-neutral-400">({currencyMode === 'USD' ? '$' : 'Rp'})</span>
+                </span>
+                <ChevronDown className="w-3 h-3 text-neutral-400" />
+              </button>
+
+              {langDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-neutral-200 p-1.5 z-50 animate-in fade-in slide-in-from-top-2">
+                  <div className="px-3 py-1.5 text-[10px] font-black uppercase text-neutral-400 border-b border-neutral-100 font-space">
+                    {t('topbar.select_language')}
+                  </div>
+                  <button
+                    onClick={() => handleSelectLang('id')}
+                    className={`w-full text-left px-3 py-2 text-xs rounded-xl flex items-center justify-between transition-colors mt-1 cursor-pointer ${
+                      language === 'id' ? 'bg-red-50 text-red-600 font-bold' : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span>🇮🇩</span>
+                      <div>
+                        <div>Bahasa Indonesia</div>
+                        <div className="text-[10px] text-neutral-400">IDR (Rp)</div>
+                      </div>
+                    </div>
+                    {language === 'id' && <Check className="w-4 h-4 text-red-600" />}
+                  </button>
+
+                  <button
+                    onClick={() => handleSelectLang('en')}
+                    className={`w-full text-left px-3 py-2 text-xs rounded-xl flex items-center justify-between transition-colors mt-1 cursor-pointer ${
+                      language === 'en' ? 'bg-red-50 text-red-600 font-bold' : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span>🇺🇸</span>
+                      <div>
+                        <div>English</div>
+                        <div className="text-[10px] text-neutral-400">USD ($)</div>
+                      </div>
+                    </div>
+                    {language === 'en' && <Check className="w-4 h-4 text-red-600" />}
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Cart Pill with Count Badge */}
             <button
@@ -181,7 +251,7 @@ export const Header: React.FC<HeaderProps> = ({
               title="Buka Keranjang"
             >
               <ShoppingCart className="w-3.5 h-3.5 text-neutral-700" />
-              <span>Cart</span>
+              <span>{t('nav.cart')}</span>
               <span className="bg-red-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
                 {cartCount}
               </span>
@@ -204,8 +274,6 @@ export const Header: React.FC<HeaderProps> = ({
                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
               </svg>
             </a>
-
-
 
             {/* User Login / Profile Button */}
             {currentUser ? (
@@ -237,7 +305,7 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                       className="w-full text-left px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors mt-1"
                     >
-                      Riwayat & Kredensial Saya
+                      {t('nav.my_orders')}
                     </button>
                     <a
                       href="https://t.me/buybitsofficial"
@@ -254,7 +322,7 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                       className="w-full text-left px-3 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-100 rounded-xl transition-colors"
                     >
-                      Keluar
+                      {t('nav.logout')}
                     </button>
                   </div>
                 )}
@@ -266,7 +334,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#141414] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
               >
                 <LogIn className="w-3.5 h-3.5 text-red-400" />
-                <span>Sign In</span>
+                <span>{t('nav.sign_in')}</span>
               </button>
             )}
 
@@ -283,6 +351,32 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-neutral-300 space-y-3">
+            {/* Mobile Language Switcher Card */}
+            <div className="bg-neutral-200/70 p-2.5 rounded-2xl flex items-center justify-between border border-neutral-300">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-neutral-800">
+                <Globe className="w-3.5 h-3.5 text-red-600" />
+                <span>Bahasa / Language:</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => handleSelectLang('id')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    language === 'id' ? 'bg-red-600 text-white shadow-xs' : 'bg-white text-neutral-700'
+                  }`}
+                >
+                  🇮🇩 ID
+                </button>
+                <button
+                  onClick={() => handleSelectLang('en')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    language === 'en' ? 'bg-red-600 text-white shadow-xs' : 'bg-white text-neutral-700'
+                  }`}
+                >
+                  🇺🇸 EN
+                </button>
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-2 font-space">
               <button
                 onClick={() => {
@@ -291,7 +385,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
               >
-                Home
+                {t('nav.home')}
               </button>
               <button
                 onClick={() => {
@@ -300,7 +394,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-cyan-400 text-cyan-900 flex items-center justify-between"
               >
-                <span>Produk Akun</span>
+                <span>{t('nav.account_products')}</span>
                 <span className="bg-cyan-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">
                   NEW
                 </span>
@@ -312,7 +406,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
               >
-                Store
+                {t('nav.store')}
               </button>
               <button
                 onClick={() => {
@@ -321,7 +415,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className="px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300 flex items-center justify-between"
               >
-                <span>Flash Sale</span>
+                <span>{t('nav.flash_sale')}</span>
                 <span className="bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">
                   HOT
                 </span>
@@ -333,7 +427,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className="col-span-2 px-4 py-2.5 rounded-xl bg-white text-xs font-bold text-left border border-neutral-300"
               >
-                About
+                {t('nav.about')}
               </button>
             </div>
 

@@ -30,8 +30,11 @@ import { OrderLookupModal } from './components/OrderLookupModal';
 import { UploadProofModal } from './components/UploadProofModal';
 import { AdminDashboardModal } from './components/AdminDashboardModal';
 import { AuthModal } from './components/AuthModal';
+import { TopBar } from './components/TopBar';
+import { useLanguage } from './context/LanguageContext';
 
 export default function App() {
+  const { language, t } = useLanguage();
   const [products, setProducts] = useState<Product[]>(() => {
     const saved = localStorage.getItem('aistore_products_v9');
     if (saved) {
@@ -247,6 +250,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F4F3EE] text-neutral-900 selection:bg-red-600 selection:text-white">
+      {/* Top Bar with Clickable Language Menu at the Very Top */}
+      <TopBar
+        currencyMode={currencyMode}
+        onSetCurrency={(curr) => setCurrencyMode(curr)}
+        onOpenOrderLookup={() => setIsOrderLookupOpen(true)}
+      />
+
       {/* Header with buybitsofficial branding, red star icon & Telegram button */}
       <Header
         activeTab={activeTab}
@@ -320,13 +330,13 @@ export default function App() {
                 <div>
                   <div className="flex items-center gap-2 text-red-600 text-xs font-black uppercase tracking-wider mb-1 font-space">
                     <TrendingUp className="w-4 h-4" />
-                    <span>Best Seller in Indonesia</span>
+                    <span>{t('home.bestseller_badge')}</span>
                   </div>
                   <h2 className="font-display text-2.5xl sm:text-4xl font-black text-[#111111] uppercase tracking-tight">
-                    PRODUK UNGGULAN & TERLARIS
+                    {t('home.bestseller_title')}
                   </h2>
                   <p className="text-xs sm:text-sm text-neutral-500 mt-1">
-                    Claude 3.7 Sonnet, ChatGPT Pro, Cursor Pro, Google AI Ultra & OpenAI API Keys.
+                    {t('home.bestseller_subtitle')}
                   </p>
                 </div>
 
@@ -335,9 +345,9 @@ export default function App() {
                     setActiveTab('MENU');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border-2 border-neutral-800 text-neutral-900 font-bold text-xs shadow-xs transition-colors cursor-pointer w-fit"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-neutral-100 border-2 border-neutral-800 text-neutral-900 font-bold text-xs shadow-xs transition-colors cursor-pointer w-fit font-space"
                 >
-                  <span>Lihat Semua Produk</span>
+                  <span>{t('home.view_all_products')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -364,11 +374,11 @@ export default function App() {
             <section className="py-12 bg-white border-t border-neutral-300">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-xl mx-auto mb-8">
-                  <span className="text-[10px] font-black text-red-700 bg-red-50 px-3 py-1 rounded-full uppercase tracking-wider border border-red-200">
-                    Ulasan Asli Pembeli Terverifikasi
+                  <span className="text-[10px] font-black text-red-700 bg-red-50 px-3 py-1 rounded-full uppercase tracking-wider border border-red-200 font-space">
+                    {t('home.reviews_badge')}
                   </span>
                   <h3 className="font-display text-xl sm:text-3xl font-black text-[#111111] uppercase tracking-tight mt-2">
-                    Dipercaya Lebih Dari 10.000+ Developer & Profesional
+                    {t('home.reviews_title')}
                   </h3>
                 </div>
 
@@ -397,7 +407,9 @@ export default function App() {
                       </div>
                     </div>
                     <p className="text-xs text-neutral-700 leading-relaxed font-medium">
-                      "Claude Pro nya beneran private legal, batas prompt luas banget buat bantu skripsi coding machine learning saya. Hubungi Telegram @buybitsofficial juga langsung dibalas cepat!"
+                      {language === 'id'
+                        ? '"Claude Pro nya beneran private legal, batas prompt luas banget buat bantu skripsi coding machine learning saya. Hubungi Telegram @buybitsofficial juga langsung dibalas cepat!"'
+                        : '"Claude Pro is completely legal and private, the generous prompt limit helps immensely with my ML coding thesis. Telegram support @buybitsofficial replied immediately!"'}
                     </p>
                   </div>
 
@@ -425,7 +437,9 @@ export default function App() {
                       </div>
                     </div>
                     <p className="text-xs text-neutral-700 leading-relaxed font-medium">
-                      "Cursor Pro & Claude Max nya mantul abis. Fitur tab completion jalan mulus, response time kencang dan gak pernah kena limit token. Hemat jutaan rupiah!"
+                      {language === 'id'
+                        ? '"Cursor Pro & Claude Max nya mantul abis. Fitur tab completion jalan mulus, response time kencang dan gak pernah kena limit token. Hemat jutaan rupiah!"'
+                        : '"Cursor Pro & Claude Max are outstanding. Tab completion runs silky smooth, response times are blazing fast with no token limits. Saved thousands!"'}
                     </p>
                   </div>
 
@@ -453,7 +467,9 @@ export default function App() {
                       </div>
                     </div>
                     <p className="text-xs text-neutral-700 leading-relaxed font-medium">
-                      "Sudah langganan ke-3 kali disini. Bayar QRIS langsung otomatis terverifikasi detik itu juga tanpa perlu konfirmasi manual ribet. Recommended seller!"
+                      {language === 'id'
+                        ? '"Sudah langganan ke-3 kali disini. Bayar QRIS langsung otomatis terverifikasi detik itu juga tanpa perlu konfirmasi manual ribet. Recommended seller!"'
+                        : '"My 3rd order here. Instant QRIS payment verification within seconds with zero manual hassle. Highly recommended seller!"'}
                     </p>
                   </div>
                 </div>
@@ -519,7 +535,7 @@ export default function App() {
                 </span>
               </div>
               <p className="text-xs text-neutral-400 leading-relaxed">
-                Platform penyedia akun AI resmi & software premium terpercaya di Indonesia dengan Dynamic QRIS instan dan bantuan Telegram 24/7.
+                {t('footer.description')}
               </p>
               <div className="pt-1">
                 <a
@@ -536,7 +552,7 @@ export default function App() {
 
             <div>
               <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3 font-space">
-                Menu Utama
+                {t('footer.quick_menu')}
               </h4>
               <ul className="space-y-2 text-xs text-neutral-400">
                 <li>
@@ -544,7 +560,7 @@ export default function App() {
                     onClick={() => setActiveTab('HOME')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    Home
+                    {t('nav.home')}
                   </button>
                 </li>
                 <li>
@@ -552,7 +568,7 @@ export default function App() {
                     onClick={() => setActiveTab('PRODUK AKUN')}
                     className="hover:text-white transition-colors cursor-pointer text-red-400 font-bold"
                   >
-                    Produk Akun (New)
+                    {t('nav.account_products')} (New)
                   </button>
                 </li>
                 <li>
@@ -560,7 +576,7 @@ export default function App() {
                     onClick={() => setActiveTab('MENU')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    Store (Semua Produk)
+                    {t('nav.store')}
                   </button>
                 </li>
                 <li>
@@ -568,7 +584,7 @@ export default function App() {
                     onClick={() => setActiveTab('FLASH SALE')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    Flash Sale (Diskon 80%)
+                    {t('nav.flash_sale')}
                   </button>
                 </li>
                 <li>
@@ -576,7 +592,7 @@ export default function App() {
                     onClick={() => setActiveTab('ABOUT')}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
-                    About (Tentang & Garansi)
+                    {t('nav.about')}
                   </button>
                 </li>
               </ul>
@@ -584,20 +600,20 @@ export default function App() {
 
             <div>
               <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3 font-space">
-                Jaminan Keamanan
+                {t('footer.security_guarantee')}
               </h4>
               <ul className="space-y-2 text-xs text-neutral-400">
                 <li className="flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-red-500" />
-                  <span>100% Full Warranty Replace</span>
+                  <span>{t('footer.warranty_badge')}</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-red-500" />
-                  <span>Instant Delivery via Web & Email</span>
+                  <span>{t('footer.delivery_badge')}</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-red-500" />
-                  <span>Legal & Private Accounts</span>
+                  <span>{t('footer.legal_badge')}</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <Lock className="w-3.5 h-3.5 text-red-500" />
@@ -608,10 +624,12 @@ export default function App() {
 
             <div>
               <h4 className="text-xs font-black uppercase tracking-wider text-neutral-300 mb-3 font-space">
-                Layanan Pelanggan & Support
+                {language === 'id' ? 'Layanan Pelanggan & Support' : 'Customer Care & Support'}
               </h4>
               <p className="text-xs text-neutral-400 mb-3">
-                Hubungi kami kapan saja untuk konsultasi atau klaim garansi.
+                {language === 'id'
+                  ? 'Hubungi kami kapan saja untuk konsultasi atau klaim garansi.'
+                  : 'Contact us anytime for assistance or warranty replacement.'}
               </p>
               <div className="flex flex-col gap-2">
                 <a
@@ -627,16 +645,16 @@ export default function App() {
                   onClick={() => setIsOrderLookupOpen(true)}
                   className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors cursor-pointer"
                 >
-                  <span>Cek Status Pesanan</span>
+                  <span>{language === 'id' ? 'Cek Status Pesanan' : 'Check Order Status'}</span>
                 </button>
               </div>
             </div>
           </div>
 
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3 font-space">
-            <p>© {new Date().getFullYear()} buybitsofficial. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} buybitsofficial. {t('footer.copyright')}</p>
             <p>
-              Telegram Resmi: @buybitsofficial • Dynamic QRIS Bank Indonesia
+              Telegram: @buybitsofficial • Dynamic QRIS Bank Indonesia
             </p>
           </div>
         </div>

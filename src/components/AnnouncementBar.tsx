@@ -1,18 +1,35 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const AnnouncementBar: React.FC = () => {
-  const items = [
-    'FULL WARRANTY',
-    'INSTANT DELIVERY',
-    'LEGAL ACCOUNTS',
-    'SUPPORT 24/7',
-    'BEST PRICE',
-    'SECURE PAYMENT',
-    'FULL WARRANTY',
-    'INSTANT DELIVERY',
-    'LEGAL ACCOUNTS',
-    'SUPPORT 24/7',
-  ];
+  const { language } = useLanguage();
+
+  const items =
+    language === 'id'
+      ? [
+          'GARANSI PENUH 100%',
+          'PENGIRIMAN INSTAN',
+          'AKUN LEGAL & RESMI',
+          'BANTUAN 24/7',
+          'HARGA TERBAIK',
+          'PEMBAYARAN AMAN QRIS',
+          'GARANSI PENUH 100%',
+          'PENGIRIMAN INSTAN',
+          'AKUN LEGAL & RESMI',
+          'BANTUAN 24/7',
+        ]
+      : [
+          'FULL WARRANTY 100%',
+          'INSTANT DELIVERY',
+          'LEGAL & PRIVATE ACCOUNTS',
+          '24/7 FAST SUPPORT',
+          'BEST PRICE GUARANTEE',
+          'SECURE AUTOMATED PAYMENT',
+          'FULL WARRANTY 100%',
+          'INSTANT DELIVERY',
+          'LEGAL & PRIVATE ACCOUNTS',
+          '24/7 FAST SUPPORT',
+        ];
 
   return (
     <div className="w-full bg-[#111111] text-white py-3.5 border-b border-neutral-800 overflow-hidden relative select-none">

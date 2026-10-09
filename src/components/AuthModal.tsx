@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, ShieldCheck, Mail, Lock, User as UserIcon, Phone, Sparkles } from 'lucide-react';
 import { User } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onClose,
   onLoginSuccess,
 }) => {
+  const { language, t } = useLanguage();
   const [isRegister, setIsRegister] = useState(false);
   const [showGooglePicker, setShowGooglePicker] = useState(false);
   const [name, setName] = useState('');
@@ -78,10 +80,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <ShieldCheck className="w-6 h-6" />
           </div>
           <h3 className="text-xl font-black text-neutral-900 uppercase tracking-tight">
-            {isRegister ? 'Daftar Akun Terverifikasi' : 'Masuk Akun Buybits'}
+            {isRegister ? t('auth.register_title') : t('auth.signin_title')}
           </h3>
           <p className="text-xs text-neutral-500 mt-1 max-w-xs mx-auto">
-            Masuk dengan akun terverifikasi untuk kemudahan transaksi, riwayat akun, dan lencana <span className="font-bold text-emerald-600">Verified Buyer</span>.
+            {isRegister ? t('auth.register_subtitle') : t('auth.signin_subtitle')}
           </p>
         </div>
 
@@ -107,10 +109,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 />
               </svg>
               <h4 className="text-base font-black text-neutral-900">
-                Pilih Akun Google
+                {language === 'id' ? 'Pilih Akun Google' : 'Select Google Account'}
               </h4>
               <p className="text-xs text-neutral-500 mt-0.5">
-                untuk melanjutkan ke <span className="font-bold text-neutral-800">BUYBITS.ID</span>
+                {language === 'id' ? 'untuk melanjutkan ke' : 'to continue to'}{' '}
+                <span className="font-bold text-neutral-800">BUYBITS.ID</span>
               </p>
             </div>
 
@@ -140,7 +143,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </p>
                 </div>
                 <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                  Terverifikasi
+                  {language === 'id' ? 'Terverifikasi' : 'Verified'}
                 </span>
               </button>
 
@@ -169,7 +172,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </p>
                 </div>
                 <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                  Terverifikasi
+                  {language === 'id' ? 'Terverifikasi' : 'Verified'}
                 </span>
               </button>
             </div>
@@ -180,7 +183,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 onClick={() => setShowGooglePicker(false)}
                 className="text-xs font-bold text-neutral-500 hover:text-neutral-800 transition-colors cursor-pointer"
               >
-                ← Kembali ke Form
+                ← {language === 'id' ? 'Kembali ke Form' : 'Back to Form'}
               </button>
               <button
                 type="button"
@@ -193,7 +196,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 }
                 className="text-xs font-bold text-indigo-600 hover:underline cursor-pointer"
               >
-                Gunakan Akun Google Lain
+                {language === 'id' ? 'Gunakan Akun Google Lain' : 'Use Another Google Account'}
               </button>
             </div>
           </div>
@@ -224,13 +227,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                 />
               </svg>
-              <span>Masuk dengan Google (1-Klik)</span>
+              <span>{t('auth.google_login')}</span>
             </button>
 
             <div className="flex items-center my-4">
               <div className="flex-1 border-t border-neutral-200" />
               <span className="px-3 text-[10px] font-bold text-neutral-400 uppercase">
-                atau gunakan email
+                {t('auth.or')}
               </span>
               <div className="flex-1 border-t border-neutral-200" />
             </div>
@@ -242,7 +245,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {isRegister && (
             <div>
               <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
-                Nama Lengkap
+                {t('auth.name_label')}
               </label>
               <div className="relative">
                 <UserIcon className="w-4 h-4 text-neutral-400 absolute left-3 top-3" />
@@ -260,7 +263,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           <div>
             <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
-              Alamat Email
+              {t('auth.email_label')}
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-neutral-400 absolute left-3 top-3" />
@@ -278,7 +281,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {isRegister && (
             <div>
               <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
-                No. WhatsApp (Pengiriman Akun)
+                {t('auth.phone_label')}
               </label>
               <div className="relative">
                 <Phone className="w-4 h-4 text-neutral-400 absolute left-3 top-3" />
@@ -295,7 +298,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           <div>
             <label className="block text-[11px] font-bold text-neutral-700 uppercase mb-1">
-              Kata Sandi
+              {t('auth.password_label')}
             </label>
             <div className="relative">
               <Lock className="w-4 h-4 text-neutral-400 absolute left-3 top-3" />
@@ -320,7 +323,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-yellow-400" />
-                <span>{isRegister ? 'Buat Akun & Verifikasi' : 'Masuk Akun'}</span>
+                <span>{isRegister ? t('auth.register_btn') : t('auth.signin_btn')}</span>
               </>
             )}
           </button>
@@ -330,24 +333,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         <div className="text-center mt-5 pt-4 border-t border-neutral-100 text-xs text-neutral-600">
           {isRegister ? (
             <p>
-              Sudah punya akun?{' '}
+              {language === 'id' ? 'Sudah punya akun? ' : 'Already have an account? '}
               <button
                 type="button"
                 onClick={() => setIsRegister(false)}
                 className="font-bold text-indigo-600 hover:underline cursor-pointer"
               >
-                Masuk disini
+                {language === 'id' ? 'Masuk disini' : 'Sign in here'}
               </button>
             </p>
           ) : (
             <p>
-              Belum punya akun?{' '}
+              {language === 'id' ? 'Belum punya akun? ' : "Don't have an account? "}
               <button
                 type="button"
                 onClick={() => setIsRegister(true)}
                 className="font-bold text-indigo-600 hover:underline cursor-pointer"
               >
-                Daftar sekarang
+                {language === 'id' ? 'Daftar sekarang' : 'Register now'}
               </button>
             </p>
           )}

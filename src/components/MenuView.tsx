@@ -3,6 +3,7 @@ import { Search, Filter, Sparkles, SlidersHorizontal, ArrowUpDown } from 'lucide
 import { CategoryType, Product, BrandType } from '../types';
 import { ProductCard } from './ProductCard';
 import { BrandLogo } from './BrandLogo';
+import { useLanguage } from '../context/LanguageContext';
 
 interface MenuViewProps {
   products: Product[];
@@ -25,6 +26,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
   onSearchChange,
   currentFlashSaleBatch,
 }) => {
+  const { language, t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>('ALL');
   const [selectedBrand, setSelectedBrand] = useState<BrandType | 'ALL'>('ALL');
   const [sortBy, setSortBy] = useState<'recommended' | 'price_low' | 'price_high' | 'sold' | 'rating'>('recommended');
@@ -40,7 +42,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
   ];
 
   const brands: { id: BrandType | 'ALL'; name: string }[] = [
-    { id: 'ALL', name: 'Semua Brand' },
+    { id: 'ALL', name: language === 'id' ? 'Semua Brand' : 'All Brands' },
     { id: 'netflix', name: 'Netflix' },
     { id: 'capcut', name: 'CapCut' },
     { id: 'spotify', name: 'Spotify' },
@@ -97,13 +99,15 @@ export const MenuView: React.FC<MenuViewProps> = ({
       <div className="mb-8">
         <div className="flex items-center gap-2 text-indigo-600 text-xs font-black uppercase tracking-wider mb-1">
           <Sparkles className="w-4 h-4" />
-          <span>Katalog Lengkap 56 Akun AI</span>
+          <span>{language === 'id' ? 'Katalog Lengkap 56 Akun AI' : 'Complete Catalog of 56 AI Tools'}</span>
         </div>
         <h1 className="text-2xl sm:text-4xl font-black text-neutral-900 uppercase tracking-tight">
-          MENU PRODUK & LAYANAN AI
+          {language === 'id' ? 'MENU PRODUK & LAYANAN AI' : 'PRODUCT CATALOG & AI SERVICES'}
         </h1>
         <p className="text-xs sm:text-sm text-neutral-500 mt-1 max-w-2xl leading-relaxed">
-          Pilih akun AI resmi personal private untuk kebutuhan coding, riset skripsi, copywriting, image generator, hingga token API backend.
+          {language === 'id'
+            ? 'Pilih akun AI resmi personal private untuk kebutuhan coding, riset skripsi, copywriting, image generator, hingga token API backend.'
+            : 'Explore official personal private AI accounts for coding, research, copywriting, image generation, and API tokens.'}
         </p>
       </div>
 
@@ -112,11 +116,12 @@ export const MenuView: React.FC<MenuViewProps> = ({
         {/* Category Buttons */}
         <div>
           <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block mb-2">
-            Kategori Produk
+            {language === 'id' ? 'Kategori Produk' : 'Product Categories'}
           </span>
           <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat;
+              const displayLabel = cat === 'ALL' ? (language === 'id' ? 'Semua' : 'All') : cat;
               return (
                 <button
                   key={cat}
@@ -127,7 +132,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
                       : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
                   }`}
                 >
-                  {cat}
+                  {displayLabel}
                 </button>
               );
             })}
@@ -161,11 +166,11 @@ export const MenuView: React.FC<MenuViewProps> = ({
               onChange={(e) => setSortBy(e.target.value as any)}
               className="text-xs bg-neutral-100 border border-neutral-200 rounded-xl px-3 py-1.5 font-bold text-neutral-800 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 cursor-pointer"
             >
-              <option value="recommended">Rekomendasi Teratas</option>
-              <option value="sold">Terlaris (Paling Banyak Dijual)</option>
-              <option value="rating">Rating Tertinggi (★ 5.0)</option>
-              <option value="price_low">Harga: Termurah ke Termahal</option>
-              <option value="price_high">Harga: Termahal ke Termurah</option>
+              <option value="recommended">{language === 'id' ? 'Rekomendasi Teratas' : 'Top Recommended'}</option>
+              <option value="sold">{language === 'id' ? 'Terlaris (Paling Banyak Dijual)' : 'Best Selling'}</option>
+              <option value="rating">{language === 'id' ? 'Rating Tertinggi (★ 5.0)' : 'Highest Rating (★ 5.0)'}</option>
+              <option value="price_low">{language === 'id' ? 'Harga: Termurah ke Termahal' : 'Price: Low to High'}</option>
+              <option value="price_high">{language === 'id' ? 'Harga: Termahal ke Termurah' : 'Price: High to Low'}</option>
             </select>
           </div>
         </div>
@@ -173,25 +178,31 @@ export const MenuView: React.FC<MenuViewProps> = ({
 
       {/* Result Stats */}
       <div className="flex items-center justify-between text-xs text-neutral-500 font-semibold mb-4 px-1">
-        <span>Menampilkan {filteredProducts.length} dari {products.length} produk AI</span>
+        <span>
+          {language === 'id'
+            ? `Menampilkan ${filteredProducts.length} dari ${products.length} produk AI`
+            : `Showing ${filteredProducts.length} of ${products.length} AI products`}
+        </span>
         {searchQuery && (
           <span>
-            Filter pencarian: <b>"{searchQuery}"</b>
+            {language === 'id' ? 'Filter pencarian:' : 'Search filter:'} <b>"{searchQuery}"</b>
           </span>
         )}
       </div>
 
-      {/* Products Grid (All 56 products exact match!) */}
+      {/* Products Grid */}
       {filteredProducts.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-neutral-200 space-y-3">
           <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mx-auto text-neutral-400">
             <Search className="w-8 h-8" />
           </div>
           <h3 className="text-base font-bold text-neutral-800">
-            Produk Tidak Ditemukan
+            {language === 'id' ? 'Produk Tidak Ditemukan' : 'No Products Found'}
           </h3>
           <p className="text-xs text-neutral-500 max-w-sm mx-auto">
-            Tidak ada produk yang cocok dengan pencarian "{searchQuery}". Silakan coba kata kunci lain seperti Claude, ChatGPT, Cursor, atau OpenAI.
+            {language === 'id'
+              ? `Tidak ada produk yang cocok dengan pencarian "${searchQuery}". Silakan coba kata kunci lain seperti Claude, ChatGPT, Cursor, atau OpenAI.`
+              : `No products matched "${searchQuery}". Please try keywords like Claude, ChatGPT, Cursor, or OpenAI.`}
           </p>
           <button
             onClick={() => {
@@ -201,7 +212,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
             }}
             className="px-5 py-2 bg-neutral-900 text-white text-xs font-bold rounded-full cursor-pointer"
           >
-            Reset Semua Filter
+            {language === 'id' ? 'Reset Semua Filter' : 'Reset All Filters'}
           </button>
         </div>
       ) : (

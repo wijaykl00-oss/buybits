@@ -3,6 +3,7 @@ import { Zap, Clock, Sparkles, Flame, ChevronRight } from 'lucide-react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { getFlashSaleCycleInfo } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FlashSaleSectionProps {
   products: Product[];
@@ -23,6 +24,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
   currencyMode,
   compactMode = false,
 }) => {
+  const { language, t } = useLanguage();
   const [cycleInfo, setCycleInfo] = useState(getFlashSaleCycleInfo());
   const [timeLeft, setTimeLeft] = useState(cycleInfo.secondsRemaining);
   const [selectedBatchTab, setSelectedBatchTab] = useState<1 | 2>(cycleInfo.currentBatch);
@@ -72,10 +74,10 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
             <div className="space-y-2 max-w-xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-yellow-300 text-xs font-black uppercase tracking-wider">
                 <Flame className="w-4 h-4 fill-yellow-400 text-yellow-400 animate-bounce" />
-                <span>ROTASI 12 JAM SEKALI • DISKON FLAT 80%</span>
+                <span>{t('flash.badge')}</span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-black tracking-tight uppercase leading-none">
-                MEGA FLASH SALE 80% OFF
+                {t('flash.title')}
               </h2>
             </div>
 
@@ -83,7 +85,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
             <div className="bg-black/40 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/20 flex flex-col items-center flex-shrink-0 w-full lg:w-auto">
               <div className="flex items-center gap-1.5 text-xs font-bold text-rose-200 mb-2 uppercase tracking-wider">
                 <Clock className="w-4 h-4 text-yellow-300 animate-spin" />
-                <span>Sisa Waktu Batch Saat Ini:</span>
+                <span>{t('flash.time_remaining')}</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -92,7 +94,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
                     {format2Digit(hours)}
                   </span>
                   <span className="text-[10px] font-bold text-neutral-300 uppercase mt-1">
-                    Jam
+                    {t('flash.hours')}
                   </span>
                 </div>
                 <span className="text-2xl font-black text-white/60 -mt-3">:</span>
@@ -101,7 +103,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
                     {format2Digit(minutes)}
                   </span>
                   <span className="text-[10px] font-bold text-neutral-300 uppercase mt-1">
-                    Menit
+                    {t('flash.minutes')}
                   </span>
                 </div>
                 <span className="text-2xl font-black text-white/60 -mt-3">:</span>
@@ -110,7 +112,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
                     {format2Digit(seconds)}
                   </span>
                   <span className="text-[10px] font-bold text-neutral-300 uppercase mt-1">
-                    Detik
+                    {t('flash.seconds')}
                   </span>
                 </div>
               </div>
@@ -128,17 +130,17 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
                     : 'bg-black/30 hover:bg-black/40 text-white'
                 }`}
               >
-                <span>Batch 1 (26 Produk)</span>
+                <span>{t('flash.batch1_title')}</span>
                 {cycleInfo.currentBatch === 1 && (
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 )}
                 {cycleInfo.currentBatch === 1 ? (
                   <span className="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-1.5 py-0.2 rounded">
-                    LIVE
+                    {t('flash.active_now')}
                   </span>
                 ) : (
                   <span className="text-[10px] bg-neutral-700 text-neutral-200 px-1.5 py-0.2 rounded">
-                    Next
+                    {t('flash.upcoming')}
                   </span>
                 )}
               </button>
@@ -151,17 +153,17 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
                     : 'bg-black/30 hover:bg-black/40 text-white'
                 }`}
               >
-                <span>Batch 2 (26 Produk)</span>
+                <span>{t('flash.batch2_title')}</span>
                 {cycleInfo.currentBatch === 2 && (
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 )}
                 {cycleInfo.currentBatch === 2 ? (
                   <span className="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-1.5 py-0.2 rounded">
-                    LIVE
+                    {t('flash.active_now')}
                   </span>
                 ) : (
                   <span className="text-[10px] bg-neutral-700 text-neutral-200 px-1.5 py-0.2 rounded">
-                    Next
+                    {t('flash.upcoming')}
                   </span>
                 )}
               </button>
@@ -169,7 +171,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
           </div>
         </div>
 
-        {/* Product Cards Grid (Matching screenshot layout: 4 columns on lg, 2 on sm) */}
+        {/* Product Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {(compactMode ? displayedProducts.slice(0, 8) : displayedProducts).map(
             (product) => (
@@ -192,7 +194,7 @@ export const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
               onClick={onViewAllFlashSale}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold text-sm shadow-md transition-all hover:scale-105 cursor-pointer"
             >
-              <span>Lihat Semua 56 Produk Flash Sale (Batch 1 & 2)</span>
+              <span>{language === 'id' ? 'Lihat Semua 56 Produk Flash Sale (Batch 1 & 2)' : 'View All 56 Flash Sale Products (Batch 1 & 2)'}</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>

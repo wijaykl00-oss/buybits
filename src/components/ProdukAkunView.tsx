@@ -17,6 +17,7 @@ import {
 import { Product } from '../types';
 import { BrandLogo } from './BrandLogo';
 import { formatIdr, formatUsd } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProdukAkunViewProps {
   products: Product[];
@@ -40,6 +41,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
   onAddToCart,
   currencyMode,
 }) => {
+  const { language, t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'ALL' | 'STREAMING' | 'SOSMED'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -103,15 +105,21 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
         <div className="mb-8 sm:mb-10 text-left">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-black tracking-wider uppercase mb-3 font-space">
             <Sparkles className="w-3.5 h-3.5 text-red-600" />
-            <span>Katalog Resmi Produk Akun</span>
+            <span>{language === 'id' ? 'Katalog Resmi Produk Akun' : 'Official Accounts Catalog'}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[#111111] uppercase font-display">
-            PRODUK <span className="text-red-600">AKUN</span>
+            {language === 'id' ? (
+              <>PRODUK <span className="text-red-600">AKUN</span></>
+            ) : (
+              <>ACCOUNT <span className="text-red-600">PRODUCTS</span></>
+            )}
           </h1>
 
           <p className="text-neutral-600 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
-            Daftar harga akun streaming premium dan media sosial aktif dengan followers riil berkualitas dengan garansi penuh.
+            {language === 'id'
+              ? 'Daftar harga akun streaming premium dan media sosial aktif dengan followers riil berkualitas dengan garansi penuh.'
+              : 'Premium streaming and active verified social media accounts with real followers and full warranty.'}
           </p>
 
           {/* Quick Trust Badges */}
@@ -122,11 +130,11 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
             </div>
             <div className="flex items-center gap-1.5 text-emerald-600 font-bold">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>Garansi Penuh Full Replace</span>
+              <span>{language === 'id' ? 'Garansi Penuh Full Replace' : '100% Full Replacement Warranty'}</span>
             </div>
             <div className="flex items-center gap-1.5 text-amber-600 font-bold">
               <Zap className="w-4 h-4 text-amber-500" />
-              <span>Pengiriman Instan 1-3 Menit</span>
+              <span>{language === 'id' ? 'Pengiriman Instan 1-3 Menit' : 'Instant Delivery 1-3 Mins'}</span>
             </div>
           </div>
         </div>
@@ -143,7 +151,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
                   : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
               }`}
             >
-              Semua Akun
+              {language === 'id' ? 'Semua Akun' : 'All Accounts'}
             </button>
 
             <button
@@ -165,7 +173,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
                   : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
               }`}
             >
-              Sosmed (IG, TikTok)
+              {language === 'id' ? 'Sosmed (IG, TikTok)' : 'Social Media (IG, TikTok)'}
             </button>
           </div>
 
@@ -176,7 +184,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari akun..."
+              placeholder={language === 'id' ? 'Cari akun...' : 'Search accounts...'}
               className="w-full bg-neutral-50 border border-neutral-300 rounded-xl pl-9 pr-3.5 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-hidden focus:border-red-500 focus:bg-white font-medium transition-colors"
             />
           </div>
@@ -186,9 +194,13 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
         {groupedProducts.length === 0 ? (
           <div className="bg-white rounded-2xl p-12 text-center border border-neutral-300 space-y-3 shadow-xs">
             <Search className="w-10 h-10 text-neutral-400 mx-auto" />
-            <h3 className="text-base font-bold text-neutral-900">Produk Akun Tidak Ditemukan</h3>
+            <h3 className="text-base font-bold text-neutral-900">
+              {language === 'id' ? 'Produk Akun Tidak Ditemukan' : 'No Account Products Found'}
+            </h3>
             <p className="text-xs text-neutral-500">
-              Tidak ada produk yang cocok dengan pencarian "{searchQuery}".
+              {language === 'id'
+                ? `Tidak ada produk yang cocok dengan pencarian "${searchQuery}".`
+                : `No products matched "${searchQuery}".`}
             </p>
             <button
               onClick={() => {
@@ -197,7 +209,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
               }}
               className="px-4 py-2 bg-red-600 text-white text-xs font-black rounded-full hover:bg-red-700 transition-colors cursor-pointer"
             >
-              Reset Filter
+              {language === 'id' ? 'Reset Filter' : 'Reset Filter'}
             </button>
           </div>
         ) : (
@@ -237,7 +249,7 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
                             <button
                               onClick={() => onQuickView(product)}
                               className="p-1.5 rounded-lg bg-neutral-100 hover:bg-red-50 hover:text-red-600 text-neutral-500 transition-colors cursor-pointer"
-                              title="Lihat Detail Produk"
+                              title={t('product.view_details')}
                             >
                               <Info className="w-3.5 h-3.5" />
                             </button>
@@ -273,14 +285,14 @@ export const ProdukAkunView: React.FC<ProdukAkunViewProps> = ({
                             className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer font-space shadow-xs active:scale-95"
                           >
                             <ShoppingCart className="w-3.5 h-3.5" />
-                            <span>Beli Sekarang</span>
+                            <span>{language === 'id' ? 'Beli Sekarang' : 'Buy Now'}</span>
                           </button>
 
                           <button
                             type="button"
                             onClick={() => onAddToCart(product)}
                             className="p-2.5 rounded-xl bg-neutral-100 hover:bg-red-50 border border-neutral-300 hover:border-red-300 text-neutral-700 hover:text-red-600 transition-colors cursor-pointer"
-                            title="Tambah ke Keranjang"
+                            title={t('product.add_cart')}
                           >
                             <ShoppingCart className="w-4 h-4" />
                           </button>

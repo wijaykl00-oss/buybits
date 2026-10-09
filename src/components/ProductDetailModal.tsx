@@ -15,6 +15,7 @@ import {
 import { Product, Review, User } from '../types';
 import { BrandLogo } from './BrandLogo';
 import { formatUsd, formatIdr, convertUsdToIdr } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -41,6 +42,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   currencyMode,
   isFlashSaleActive = false,
 }) => {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details');
   const [userRating, setUserRating] = useState(5);
   const [reviewComment, setReviewComment] = useState('');
@@ -134,23 +136,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             onClick={() => setActiveTab('details')}
             className={`py-3 px-4 text-xs font-black uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
               activeTab === 'details'
-                ? 'border-indigo-600 text-indigo-600'
+                ? 'border-red-600 text-red-600'
                 : 'border-transparent text-neutral-500 hover:text-neutral-800'
             }`}
           >
-            Spesifikasi & Garansi
+            {language === 'id' ? 'Spesifikasi & Garansi' : 'Specs & Warranty'}
           </button>
 
           <button
             onClick={() => setActiveTab('reviews')}
             className={`py-3 px-4 text-xs font-black uppercase tracking-wider border-b-2 transition-all flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'reviews'
-                ? 'border-indigo-600 text-indigo-600'
+                ? 'border-red-600 text-red-600'
                 : 'border-transparent text-neutral-500 hover:text-neutral-800'
             }`}
           >
             <MessageSquare className="w-3.5 h-3.5" />
-            <span>Ulasan Pembeli ({product.reviews.length})</span>
+            <span>{language === 'id' ? `Ulasan Pembeli (${product.reviews.length})` : `Customer Reviews (${product.reviews.length})`}</span>
             <span className="bg-amber-100 text-amber-900 text-[10px] px-1.5 py-0.2 rounded-full font-bold">
               ★ {product.rating}
             </span>
@@ -162,34 +164,39 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {activeTab === 'details' ? (
             <>
               {/* Highlight Guarantee Box */}
-              <div className="bg-[#f8f9ff] border border-indigo-100 rounded-2xl p-4 flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+              <div className="bg-[#f8f9ff] border border-red-100 rounded-2xl p-4 flex items-start gap-3.5">
+                <div className="w-9 h-9 rounded-xl bg-red-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black text-indigo-950 uppercase tracking-tight">
-                    Jaminan Akun Private & Legal 100%
+                  <h4 className="text-xs font-black text-neutral-900 uppercase tracking-tight">
+                    {language === 'id' ? 'Jaminan Akun Private & Legal 100%' : '100% Legal & Private Account Guarantee'}
                   </h4>
-                  <p className="text-xs text-indigo-800/80 mt-0.5 leading-relaxed">
-                    Akun personal langsung dari kami dengan email dan password eksklusif milik Anda. Tanpa sharing, tanpa limit gangguan dari pengguna lain, dan bergaransi penuh penggantian akun baru selama periode aktif.
+                  <p className="text-xs text-neutral-600 mt-0.5 leading-relaxed">
+                    {language === 'id'
+                      ? 'Akun personal langsung dari kami dengan email dan password eksklusif milik Anda. Tanpa sharing, tanpa limit gangguan dari pengguna lain, dan bergaransi penuh penggantian akun baru selama periode aktif.'
+                      : 'Direct personal account with exclusive credentials. No shared usage, no disruption limits, and protected by full replacement warranty throughout the active period.'}
                   </p>
                 </div>
               </div>
 
               {/* Description */}
               <div>
-                <h4 className="text-xs font-black text-neutral-900 uppercase tracking-wider mb-2">
-                  Deskripsi Layanan
+                <h4 className="text-xs font-black text-neutral-900 uppercase tracking-wider mb-2 font-space">
+                  {language === 'id' ? 'Deskripsi Layanan' : 'Service Description'}
                 </h4>
                 <p className="text-xs text-neutral-600 leading-relaxed">
-                  {product.description} Langganan ini mencakup akses langsung ke antarmuka web, API, atau IDE sesuai paket yang Anda pilih. Nikmati kecepatan komputasi server prioritas tertinggi tanpa antre.
+                  {product.description}{' '}
+                  {language === 'id'
+                    ? 'Langganan ini mencakup akses langsung ke antarmuka web, API, atau IDE sesuai paket yang Anda pilih. Nikmati kecepatan komputasi server prioritas tertinggi tanpa antre.'
+                    : 'This subscription includes direct access to web, API, or IDE environments. Experience top priority high-speed server computing without queue delays.'}
                 </p>
               </div>
 
               {/* Key Features List */}
               <div>
-                <h4 className="text-xs font-black text-neutral-900 uppercase tracking-wider mb-2.5">
-                  Fitur Unggulan
+                <h4 className="text-xs font-black text-neutral-900 uppercase tracking-wider mb-2.5 font-space">
+                  {language === 'id' ? 'Fitur Unggulan' : 'Key Features & Benefits'}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {product.features.map((feat, idx) => (
@@ -206,8 +213,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Specifications Table */}
               <div>
-                <h4 className="text-xs font-black text-neutral-900 uppercase tracking-wider mb-2.5">
-                  Spesifikasi Teknis
+                <h4 className="text-xs font-black text-neutral-900 uppercase tracking-wider mb-2.5 font-space">
+                  {language === 'id' ? 'Spesifikasi Teknis' : 'Technical Specifications'}
                 </h4>
                 <div className="bg-neutral-50 rounded-2xl p-3 border border-neutral-200 divide-y divide-neutral-200/60">
                   {Object.entries(product.specs).map(([k, v]) => (
@@ -221,9 +228,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   ))}
                   <div className="py-2 px-1 flex items-center justify-between text-xs">
                     <span className="font-semibold text-neutral-500">
-                      Metode Pengiriman
+                      {language === 'id' ? 'Metode Pengiriman' : 'Delivery Method'}
                     </span>
-                    <span className="font-bold text-indigo-600 flex items-center gap-1">
+                    <span className="font-bold text-red-600 flex items-center gap-1">
                       <Zap className="w-3.5 h-3.5" /> {product.deliveryTime}
                     </span>
                   </div>
@@ -361,24 +368,26 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       <button
                         type="submit"
                         disabled={isSubmittingReview || !reviewComment.trim()}
-                        className="px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                        className="px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer font-space"
                       >
                         <Send className="w-3.5 h-3.5" />
-                        <span>Kirim Ulasan</span>
+                        <span>{isSubmittingReview ? (language === 'id' ? 'Mengirim...' : 'Sending...') : (language === 'id' ? 'Kirim Ulasan' : 'Submit Review')}</span>
                       </button>
                     </div>
                   </form>
                 ) : (
                   <div className="text-center py-4 space-y-2">
                     <p className="text-xs text-neutral-600">
-                      Anda harus login terlebih dahulu agar ulasan Anda dapat diverifikasi sebagai pembeli asli.
+                      {language === 'id'
+                        ? 'Anda harus login terlebih dahulu agar ulasan Anda dapat diverifikasi sebagai pembeli asli.'
+                        : 'Please sign in to have your review verified as an authentic buyer.'}
                     </p>
                     <button
                       type="button"
                       onClick={onOpenAuthModal}
-                      className="px-5 py-2 rounded-full bg-[#1c1d22] hover:bg-neutral-900 text-white text-xs font-black uppercase tracking-wider shadow-sm cursor-pointer"
+                      className="px-5 py-2 rounded-full bg-[#1c1d22] hover:bg-neutral-900 text-white text-xs font-black uppercase tracking-wider shadow-sm cursor-pointer font-space"
                     >
-                      Masuk untuk Tulis Ulasan
+                      {language === 'id' ? 'Masuk untuk Tulis Ulasan' : 'Sign In to Write Review'}
                     </button>
                   </div>
                 )}
@@ -391,10 +400,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         <div className="p-4 sm:p-5 border-t border-neutral-200 bg-white flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-baseline gap-2">
             <div>
-              <span className="text-[10px] block font-bold text-neutral-400 uppercase tracking-wider">
-                Total Harga
+              <span className="text-[10px] block font-bold text-neutral-400 uppercase tracking-wider font-space">
+                {language === 'id' ? 'Total Harga' : 'Total Price'}
               </span>
-              <div className="flex items-baseline gap-1.5">
+              <div className="flex items-baseline gap-1.5 font-space">
                 <span className="text-2xl font-black text-neutral-900">
                   {displayPrice}
                 </span>
@@ -417,10 +426,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 onAddToCart(product);
                 onClose();
               }}
-              className="flex-1 sm:flex-none px-4 py-3 rounded-full border border-neutral-300 hover:bg-neutral-50 text-neutral-800 text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              className="flex-1 sm:flex-none px-4 py-3 rounded-full border border-neutral-300 hover:bg-neutral-50 text-neutral-800 text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer font-space"
             >
-              <ShoppingCart className="w-4 h-4 text-indigo-600" />
-              <span>+ Keranjang</span>
+              <ShoppingCart className="w-4 h-4 text-red-600" />
+              <span>{language === 'id' ? '+ Keranjang' : '+ Add to Cart'}</span>
             </button>
 
             <button
@@ -429,10 +438,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 onBuyNow(product);
                 onClose();
               }}
-              className="flex-1 sm:flex-none px-6 py-3 rounded-full bg-[#1c1d22] hover:bg-neutral-900 active:scale-95 text-white text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
+              className="flex-1 sm:flex-none px-6 py-3 rounded-full bg-[#111111] hover:bg-black active:scale-95 text-white text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer font-space"
             >
-              <Lock className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Beli Sekarang</span>
+              <Zap className="w-3.5 h-3.5 text-red-500 fill-current" />
+              <span>{language === 'id' ? 'Beli Sekarang' : 'Buy Now'}</span>
             </button>
           </div>
         </div>

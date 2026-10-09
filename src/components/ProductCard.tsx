@@ -3,6 +3,7 @@ import { ArrowUpRight, ShoppingCart, Star, ShieldCheck, Zap } from 'lucide-react
 import { Product } from '../types';
 import { BrandLogo } from './BrandLogo';
 import { formatUsd, convertUsdToIdr, formatIdr } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProductCardProps {
   product: Product;
@@ -21,6 +22,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   currencyMode = 'USD',
 }) => {
+  const { t } = useLanguage();
+
   // Use explicit flash sale price if defined, otherwise 80% off if batch active, or normal price
   const isFlashSaleEligible = isFlashSaleActive && product.category !== 'PRODUK AKUN';
   const effectivePriceUsd =
@@ -81,7 +84,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             id={`btn-view-${product.id}`}
             onClick={() => onQuickView(product)}
             className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center transition-transform hover:scale-105 active:scale-95 shadow-sm cursor-pointer ml-auto"
-            title="Lihat Detail Produk"
+            title={t('product.view_details')}
           >
             <ArrowUpRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
           </button>
@@ -111,10 +114,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className="mt-3 space-y-1">
           <div className="flex justify-between text-[10px] sm:text-[11px] font-bold">
             <span className="text-neutral-500">
-              Terjual: <span className="text-neutral-800">{product.soldCount}</span>
+              {t('product.sold')} <span className="text-neutral-800">{product.soldCount}</span>
             </span>
             <span className="text-emerald-700">
-              Ready Stock
+              {t('product.ready_stock')}
             </span>
           </div>
           <div className="w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden">
@@ -136,14 +139,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           className="flex-1 py-2.5 sm:py-3 rounded-full bg-[#111111] hover:bg-black active:scale-95 text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer font-space"
         >
           <Zap className="w-3.5 h-3.5 text-red-500 fill-current" />
-          <span>Beli</span>
+          <span>{t('product.buy')}</span>
         </button>
 
         <button
           type="button"
           onClick={() => onAddToCart(product)}
           className="p-2.5 sm:p-3 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 transition-colors shadow-2xs cursor-pointer flex-shrink-0"
-          title="Tambah ke Keranjang"
+          title={t('product.add_cart')}
         >
           <ShoppingCart className="w-4 h-4 text-red-600" />
         </button>

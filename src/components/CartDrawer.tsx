@@ -3,6 +3,7 @@ import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Plus, Minus } from 'lu
 import { CartItem } from '../types';
 import { BrandLogo } from './BrandLogo';
 import { formatUsd, formatIdr, formatUsdAsIdr, convertUsdToIdr } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onProceedToCheckout,
   currencyMode,
 }) => {
+  const { language, t } = useLanguage();
+
   if (!isOpen) return null;
 
   const totalUsd = items.reduce(
@@ -43,21 +46,21 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           {/* Cart Header */}
           <div className="p-5 border-b border-neutral-200 flex items-center justify-between bg-neutral-50">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center">
                 <ShoppingBag className="w-4 h-4" />
               </div>
               <div>
                 <h3 className="text-base font-black text-neutral-900 uppercase tracking-tight">
-                  Keranjang Belanja
+                  {t('cart.title')}
                 </h3>
                 <p className="text-[11px] text-neutral-500 font-medium">
-                  {items.length} item dipilih
+                  {t('cart.selected_items', { count: items.length })}
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200/60"
+              className="p-1.5 rounded-full text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200/60 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -71,16 +74,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <ShoppingBag className="w-8 h-8" />
                 </div>
                 <h4 className="text-sm font-bold text-neutral-800">
-                  Keranjang Masih Kosong
+                  {t('cart.empty_title')}
                 </h4>
                 <p className="text-xs text-neutral-500 max-w-xs">
-                  Pilih produk akun AI favorit Anda dan dapatkan diskon flash sale hingga 80%.
+                  {t('cart.empty_desc')}
                 </p>
                 <button
                   onClick={onClose}
-                  className="px-5 py-2.5 rounded-full bg-[#1c1d22] text-white text-xs font-bold uppercase tracking-wider shadow-sm mt-2"
+                  className="px-5 py-2.5 rounded-full bg-[#1c1d22] text-white text-xs font-bold uppercase tracking-wider shadow-sm mt-2 cursor-pointer"
                 >
-                  Mulai Belanja
+                  {t('cart.start_shopping')}
                 </button>
               </div>
             ) : (
@@ -165,12 +168,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <span className="font-bold">{formatUsd(totalUsd)}</span>
                 </div>
                 <div className="flex justify-between text-neutral-600">
-                  <span>Kurs Konversi ($1 = Rp 13.948):</span>
-                  <span className="font-bold text-emerald-600">Otomatis QRIS</span>
+                  <span>{language === 'id' ? 'Kurs Konversi ($1 = Rp 13.948):' : 'Exchange Rate ($1 = Rp 13,948):'}</span>
+                  <span className="font-bold text-emerald-600">{language === 'id' ? 'Otomatis QRIS' : 'Auto QRIS'}</span>
                 </div>
                 <div className="flex justify-between text-neutral-900 text-sm font-black pt-2 border-t border-neutral-200">
-                  <span>Total Bayar (IDR):</span>
-                  <span className="text-base text-indigo-600">
+                  <span>{language === 'id' ? 'Total Bayar (IDR):' : 'Total Amount (IDR):'}</span>
+                  <span className="text-base text-red-600 font-mono font-black">
                     {formatIdr(totalIdr)}
                   </span>
                 </div>
@@ -178,7 +181,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center gap-2 text-[11px] text-emerald-800 font-semibold">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                <span>Instant Delivery ke Email & WhatsApp setelah bayar.</span>
+                <span>
+                  {language === 'id'
+                    ? 'Instant Delivery ke Email & WhatsApp setelah bayar.'
+                    : 'Instant automated delivery to Email & WhatsApp.'}
+                </span>
               </div>
 
               <button
@@ -188,7 +195,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 }}
                 className="w-full py-3.5 rounded-full bg-[#1c1d22] hover:bg-neutral-900 text-white text-xs font-black uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-transform active:scale-98"
               >
-                <span>Lanjut ke Pembayaran</span>
+                <span>{language === 'id' ? 'Lanjut ke Pembayaran' : 'Proceed to Checkout'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

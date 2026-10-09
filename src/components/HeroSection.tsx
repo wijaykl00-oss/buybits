@@ -6,7 +6,7 @@ import {
   Star,
 } from 'lucide-react';
 import { Product } from '../types';
-
+import { useLanguage } from '../context/LanguageContext';
 import { ZeroGravityHeroCard, ZeroGravityHeroCardData } from './ZeroGravityHeroCard';
 
 interface HeroSectionProps {
@@ -22,6 +22,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onHowToOrder,
   products,
 }) => {
+  const { language, t } = useLanguage();
+
   // Find Claude products or fallback
   const claudePro = products.find((p) => p.name.toLowerCase().includes('claude pro')) || products[0];
   const claudeMax5x = products.find((p) => p.name.toLowerCase().includes('claude max 5x')) || products[1];
@@ -31,7 +33,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const heroCards: ZeroGravityHeroCardData[] = [
     {
       title: 'CLAUDE PRO',
-      badge: '1 MONTH',
+      badge: language === 'id' ? '1 BULAN' : '1 MONTH',
       isRed: true,
       product: claudePro,
       boySprite: '/foto/boy1.png',
@@ -40,7 +42,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     },
     {
       title: 'CLAUDE PRO',
-      badge: '3 MONTHS',
+      badge: language === 'id' ? '3 BULAN' : '3 MONTHS',
       isRed: false,
       product: claudePro,
       boySprite: '/foto/boy2.png',
@@ -99,7 +101,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </svg>
             </div>
             <span className="text-[10px] xs:text-xs sm:text-sm font-black text-neutral-700 tracking-[0.15em] sm:tracking-[0.2em] uppercase font-space truncate">
-              TRUSTED DIGITAL PRODUCT MARKETPLACE
+              {t('hero.trusted_marketplace')}
             </span>
           </div>
 
@@ -118,13 +120,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Main Responsive Distinctive Headline */}
         <div className="max-w-5xl">
           <h1 className="font-display text-[26px] xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[#111111] tracking-tight leading-[1.08] sm:leading-[1.03] uppercase break-words">
-            ACCESS AI{' '}
+            {t('hero.title_part1')}{' '}
             <span className="inline-flex items-center justify-center align-middle mx-1 px-2.5 py-0.5 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full border border-neutral-900 sm:border-2 shadow-sm transform hover:rotate-6 transition-transform">
               <ArrowRight className="w-3.5 h-3.5 sm:w-6 sm:h-6 stroke-[3]" />
             </span>{' '}
-            & PREMIUM <br className="hidden xs:inline" />
-            SOFTWARE AT THE BEST <br className="hidden xs:inline" />
-            PRICE
+            {t('hero.title_part2')}
           </h1>
         </div>
 
@@ -136,14 +136,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="text-xl xs:text-2xl sm:text-3xl font-black text-neutral-900 font-space leading-none">
                 3K+
               </div>
-              <div className="text-[10px] sm:text-xs text-neutral-500 font-semibold uppercase tracking-wider mt-1">Customers</div>
+              <div className="text-[10px] sm:text-xs text-neutral-500 font-semibold uppercase tracking-wider mt-1">
+                {t('hero.customers')}
+              </div>
             </div>
 
             <div className="text-center sm:text-left pl-2 xs:pl-4 sm:pl-8">
               <div className="text-xl xs:text-2xl sm:text-3xl font-black text-neutral-900 font-space leading-none">
                 2K+
               </div>
-              <div className="text-[10px] sm:text-xs text-neutral-500 font-semibold uppercase tracking-wider mt-1">Orders</div>
+              <div className="text-[10px] sm:text-xs text-neutral-500 font-semibold uppercase tracking-wider mt-1">
+                {t('hero.orders')}
+              </div>
             </div>
 
             <div className="text-center sm:text-left pl-2 xs:pl-4 sm:pl-8">
@@ -151,7 +155,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <span>4.9</span>
                 <span className="text-red-600 text-xs sm:text-sm">★</span>
               </div>
-              <div className="text-[10px] sm:text-xs text-neutral-500 font-semibold uppercase tracking-wider mt-1">Rating</div>
+              <div className="text-[10px] sm:text-xs text-neutral-500 font-semibold uppercase tracking-wider mt-1">
+                {t('hero.rating')}
+              </div>
             </div>
           </div>
 
@@ -162,7 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               id="hero-btn-shop-now"
               className="flex-1 md:flex-none px-5 sm:px-8 py-3 sm:py-3.5 rounded-full bg-red-600 hover:bg-red-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg shadow-red-600/30 active:scale-98 transition-all cursor-pointer"
             >
-              <span>Shop Now</span>
+              <span>{t('hero.shop_now')}</span>
               <ArrowUpRight className="w-4 h-4 stroke-[3]" />
             </button>
 
@@ -171,7 +177,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               id="hero-btn-how-to-order"
               className="flex-1 md:flex-none px-4 sm:px-6 py-3 sm:py-3.5 rounded-full bg-white hover:bg-neutral-100 border-2 border-neutral-800 text-neutral-900 font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center transition-all cursor-pointer shadow-xs"
             >
-              <span>How to Order</span>
+              <span>{t('hero.how_to_order')}</span>
             </button>
           </div>
         </div>
